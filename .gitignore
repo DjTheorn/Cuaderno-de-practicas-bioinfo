@@ -1,6 +1,4 @@
 .gitignore
-data/**/*
-!data/**/ .gitkeep
+data/**/* !data/**/ .gitkeep
 *.bam
-
 .Rproj.user
