@@ -211,9 +211,5 @@ BrowseSeqs(PF00009, htmlFile = 'PF00009.html', openURL = FALSE)
 includeHTML('./PF00009.html')
 ```
 
-```{bash}
-mv PF00009.fa ~/PBioinformatica/data/29-01-2026
-```
-
 
 # Bibliografía
