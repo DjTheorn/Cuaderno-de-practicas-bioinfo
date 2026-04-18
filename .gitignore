@@ -1,4 +1,5 @@
+.gitignore
+data/
+*.bam
+
 .Rproj.user
-.Rhistory
-.RData
-.Ruserdata
