@@ -6,7 +6,7 @@ execute:
   output: true
   error: true
 engine: knitr
-bibliography: ../../references.bib
+bibliography: ../../doc/references.bib
 language:
    title-block-published: "Última actualización:"
    section-title-references: "Bibliografía"
@@ -15,7 +15,7 @@ format:
       embed-resources: true
 ---
 
-#ANTES DE COMENZAR
+# ANTES DE COMENZAR
 Todo este programa lo he modificado ligeramente para que funcione cuando el wd sea PBioinformática, es decir, el lugar dónde está el proyecto de R. Cualquier cambio del wd conllevará que los bloques no funcionen correctamente.
 
 # Preparación
@@ -24,7 +24,7 @@ el programa [`exonerate`](https://www.animalgenome.org/bioinfo/resources/manuals
 [@Slater2005], y el programa [`muscle`](https://www.drive5.com/muscle5/)[@Edgar2022].
 Para la descarga automática de secuencias usaremos el programa `wget`. En sistemas operativos basados en Debian como bash, seguramente se pueden instalar los cinco programas así (con privilegios administrativos):
 
-```
+```{bash}
 sudo apt install emboss exonerate wget muscle
 ```
 
@@ -119,10 +119,10 @@ if [ ! -e ./results/29-01-2026/aln1.txt ]; then
    
 ```
 
-#Apuntes sobre los comandos:
+# Apuntes sobre los comandos:
 1. if [ -e /x] nos indica hacer algo si un archivo existe. ! significa no, por    lo que poner if [! -e /x] nos indica hacer algo si el archivo no existe.
-2. En wget, -O nos permite nombrar el archivo que queremos guardar y decirle     dónde queremos guardarlo
-3. Con el carácter \ podemos hacer que bash ignore el salto de linea y así       hacer el código más bonito
+2. En wget, -O nos permite nombrar el archivo que queremos guardar y decirle     dónde queremos guardarlo.
+3. Con el carácter \ podemos hacer que bash ignore el salto de linea y así       hacer el código más bonito.
 4. este código: "cd "$(git rev-parse --show-toplevel)" " nos establece el wd     en el lugar dónde tenemos nuestra carpeta git, de forma que siempre estemos    mirando dónde toda y no ocurran problemas.
 
 
@@ -167,7 +167,8 @@ En este caso, el alineamiento resultante no se ha enviado a un archivo, sino al*
 ¿Cómo puedes enviar el resultado de `exonerate` a un archivo?
 :::
 
-#Solución
+:::{.callout-note icon=false}
+# Solución
 Como nos interesa tener el alineamineto en txt y yo he decidio poner los archivos fasta originales en la carpeta data para tenerlo todo bien ordenado, usamos este código para crear nuestro archivo:
 ```{bash}
 cd "$(git rev-parse --show-toplevel)"
@@ -176,6 +177,7 @@ if [ ! -e results/29-01-2026/alineamiento_exonerate.txt ]; then
 exonerate --model est2genome data/29-01-2026/HumanSMARCD2.fa data/29-01-2026/HumanChr17.fa > results/29-01-2026/alineamiento_exonerate.txt
  fi
 ```
+:::
 
 # Apéndice. Alineamientos múltiples
 Un programa muy popular para alineamiento de múltiples secuencias es
@@ -199,6 +201,7 @@ fi
 Para visualizar el alineamiento, podemos usar la función `BrowseSeqs()`,
 del paquete `DECIPHER` en el entorno de R. Esta función nos permite enviar el
 alineamiento a un archivo HTML, que puede abrirse en una ventana nueva. Si estamos compilando un documento HTML, podemos incorporar el alineamiento en el mismo documento mediante la función `includeHTML()` del paquete `htmltools`, al precio de aumentar considerablemente su tamaño.
+
 
 ```{r}
 #| messages: false
