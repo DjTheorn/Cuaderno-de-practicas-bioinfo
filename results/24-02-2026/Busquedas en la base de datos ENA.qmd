@@ -50,13 +50,11 @@ Para extraer directamente las secuencias y su información asociada, ENA
 nos ofrece otro portal, con una API muy parecida: el ENA Browser Portal,
 cuya documentación deberíamos poder descargar de aquí: [https://www.ebi.ac.uk/ena/browser/api/doc](https://www.ebi.ac.uk/ena/browser/api/doc).
 
-Como ejemplo, el enlace siguiente te permite descargar la secuencia del cromosoma
-mitocondrial de un neandertal.
+Como ejemplo, el enlace siguiente te permite descargar la secuencia del cromosoma mitocondrial de un neandertal.
 
 `https://www.ebi.ac.uk/ena/browser/api/fasta/KJ533544`
 
-Como ves, para poder descargar una secuencia (o más) necesitas conocer su número
-de acceso; KJ533544 en el ejemplo.
+Como ves, para poder descargar una secuencia (o más) necesitas conocer su número de acceso; KJ533544 en el ejemplo.
 
 # La API del portal de ENA
 
@@ -121,27 +119,45 @@ dificultades identificas en cada uno.
 
 
 ```{r}
+PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
+
+setwd(PBioinfo)
+
+#Este bloque no funciona y me daba error porque no reconocía que la URL estaba
+#bien escrita. Para ello, sería sido necesario añadir el prefijo URLencode.
+
 curl_download('https://www.ebi.ac.uk/ena/portal/api/search?result=assembly&query=tax_tree(6157) AND genome_representation="full"&fields=version,tax_id,scientific_name,last_updated,base_count&limit=0',
-              destfile = 'z1.txt')
+              destfile = './data/24-02-2026/z1.txt')
 ```
 
 ```{r}
+PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
+
+setwd(PBioinfo)
+
 curl_download(
   URLencode('https://www.ebi.ac.uk/ena/portal/api/search?result=assembly&query=tax_tree(6157) AND genome_representation="full"&fields=version,tax_id,scientific_name,last_updated,base_count&limit=0'),
-  destfile = 'z1.txt')
+  destfile = './data/24-02-2026/z1.txt')
+
+#Esta no me ha dado ningún problema
 ```
 
 ```{r}
+PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
+
+setwd(PBioinfo)
+
 portal <- 'https://www.ebi.ac.uk/ena/portal/api/search?'
 result <- 'result=assembly&'
 query  <- 'query=tax_tree(6157) AND genome_representation="full"&'
 fields <- 'fields=version,tax_id,scientific_name,last_updated,base_count&'
 limit  <- 'limit=0'
 URL <- paste0(portal, result, query, fields, limit)
-curl_download(URLencode(URL), destfile = 'z2.txt')
+curl_download(URLencode(URL), destfile = './data/24-02-2026/z2.txt')
+#Esta tampoco ha dado ningún problema
 ```
-
 :::
+
 
 :::{.callout-note icon=false}
 ## Ejercicio 2
@@ -155,12 +171,28 @@ preguntas siguientes. Consulta el apéndice de este guión, si lo necesitas.
 4. ¿Cuándo se publicaron las más recientes?
 :::
 
+:::{.callout-note icon=false}
+## Solución
+Para poder elaborar dicha URL; lo primero que queremos es identidifar el ID de *Drosophila*. Para ello, nos metemos en el NCBI taxonomy browser y encontramos que el ID es 7215. Por otro lado, tenemos que tener en cuenta que estamos buscando exclusivamente la enzima alcohol deshidorgenasa, es decir, una secuencia de una proteína. Por tanto, nuestra search será de una secuencia. 
+
+Además, como solo queremos las alcohol deshidorgenasas, vamos a ponerle otra quey adicional a el ID que será que aparezca el nombre alcohol deshidrogenasa. 
+Por último, tenemos que decirle que columnas queremos que nos aparezcan. Teniendo en cuenta las preguntas, tienen que ser las correspondientes a la longitud(`base_count`), al nombre científico(`scientific_name`) y a la fecha de publicación(`first_public`). *Para conocer los nombres de las tablas, primero pondré `fields=all`.*
+
+El resultado queda:
+
+```{r}
+PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
+
+setwd(PBioinfo)
+
+curl_download(
+  URLencode('https://www.ebi.ac.uk/ena/portal/api/search?result=sequence&query=tax_tree(7215) AND description="alcohol dehydrogenase"&fields=scientific_name,first_public,base_count&limit=0'), destfile = './results/24-02-2026/drosophila.txt')
+
+```
+:::
+
 # Trabajar con los resultados
-La función `read.table()` de R nos permite leer un archivo (o una URL) para crear
-una tabla. Necesita que todas las filas tengan el mismo número de campos o columnas,
-delimitadas por el carácter especificado con la opción `sep = "\t"`. Esta función
-nos permite también especificar el tipo de datos de cada columna. Podemos usar
-como ejemplo los genomas de platelmintos del ejercicio 1:
+La función `read.table()` de R nos permite leer un archivo (o una URL) para crear una tabla. Necesita que todas las filas tengan el mismo número de campos o columnas, delimitadas por el carácter especificado con la opción `sep = "\t"`. Esta función nos permite también especificar el tipo de datos de cada columna. Podemos usar como ejemplo los genomas de platelmintos del ejercicio 1:
 
 ```{r}
 # Si no has ejecutado el tercer bloque del ejercicio 1,
@@ -174,11 +206,7 @@ platelmintos <- read.table(URLencode(URL),
 
 El código siguiente crea una nueva columna en la tabla con el género al que
 pertenece cada secuencia. Se toma como género la primera palabra del nombre
-científico. Para ello, debemos separar las partes de cada nombre delimitadas por
-un espacio en blanco, con la función `strsplit()`. Y por último usamos la función
-`sapply()` para aplicar a cada nombre científico la función de selección
-de componentes, `[`, y la opción "1", para seleccionar sólo el primero de los
-componentes en que habíamos dividido cada nombre científico.
+científico. Para ello, debemos separar las partes de cada nombre delimitadas por un espacio en blanco, con la función `strsplit()`. Y por último usamos la función `sapply()` para aplicar a cada nombre científico la función de selección de componentes, `[`, y la opción "1", para seleccionar sólo el primero de los componentes en que habíamos dividido cada nombre científico.
 
 ```{r SepararGenero}
 platelmintos$genus <- sapply(
