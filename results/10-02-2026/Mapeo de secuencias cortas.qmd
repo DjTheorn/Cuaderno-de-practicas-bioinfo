@@ -220,7 +220,7 @@ auxiliares: primero, el índice del genoma de referencia, después los alineamie
 ```{bash}
 cd "$(git rev-parse --show-toplevel)"
 
-if [ ! -e ./data/10-02-2026/Tsu4-125.bam ]; then
+if [ ! -e ./results/10-02-2026/Tsu4-125.bam ]; then
    if [ ! -e ./data/10-02-2026/Tsu4-125_desordenado.bam ]; then
       if [ ! -e ./data/10-02-2026/Tsu4-125.sam ]; then
          if [ ! -e ./data/10-02-2026/referencia.fa.bwt ]; then
@@ -235,14 +235,14 @@ if [ ! -e ./data/10-02-2026/Tsu4-125.bam ]; then
                  ./data/10-02-2026/referencia.fa \
                  ./results/10-02-2026/Tsu4-125-1_clean.fastq \
                  ./results/10-02-2026/Tsu4-125-2_clean.fastq \
-         1> ./results/10-02-2026/bwa.log 2> ./results/10-02-2026/bwa.err
+         1> ./data/10-02-2026/bwa.log 2> ./data/10-02-2026/bwa.err
       fi
       samtools view -b -o ./data/10-02-2026/Tsu4-125_desordenado.bam \
       ./data/10-02-2026/Tsu4-125.sam
     fi
-    samtools sort -o ./data/10-02-2026/Tsu4-125.bam \
+    samtools sort -o ./results/10-02-2026/Tsu4-125.bam \
     ./data/10-02-2026/Tsu4-125_desordenado.bam
-    samtools index ./data/10-02-2026/Tsu4-125.bam
+    samtools index ./results/10-02-2026/Tsu4-125.bam
 fi
 ```
 
@@ -276,7 +276,7 @@ samtools sort - > DRR025089.bam
 ```{bash}
 cd "$(git rev-parse --show-toplevel)"
 
-if [ ! -e ./data/10-02-2026/Tsu4-125.bam ]; then
+if [ ! -e ./results/10-02-2026/Tsu4-125.bam ]; then
    if [ ! -e ./data/10-02-2026/Tsu4-125_desordenado.bam ]; then
       if [ ! -e ./data/10-02-2026/Tsu4-125_merged.sam ]; then
          if [ ! -e ./data/10-02-2026/referencia.fa.bwt ]; then
@@ -286,20 +286,20 @@ if [ ! -e ./data/10-02-2026/Tsu4-125.bam ]; then
             fi
             bwa index ./data/10-02-2026/referencia.fa
          fi
-         #Aquí debemos cambiar en el -o de dónde viene los datos: en lugar de          poner dos archivos, ponemos el merged.
+         #Aquí debemos cambiar en el -o de dónde viene los datos: en lugar de poner dos archivos, ponemos el merged.
          bwa mem -M -R '@RG\tID:DRR025089\tSM:SAMD00022947' \
                  -o ./data/10-02-2026/Tsu4-125_merged.sam \
                  ./data/10-02-2026/referencia.fa \
                  ./results/10-02-2026/Tsu4-125_m_clean.fastq \
-         1> ./results/10-02-2026/bwa_merged.log \
-         2> ./results/10-02-2026/bwa_merged.err
+         1> ./data/10-02-2026/bwa_merged.log \
+         2> ./data/10-02-2026/bwa_merged.err
       fi
       samtools view -b -o ./data/10-02-2026/Tsu4-125_merged_desordenado.bam \
       ./data/10-02-2026/Tsu4-125_merged.sam
     fi
-    samtools sort -o ./data/10-02-2026/Tsu4-125_merged.bam \
+    samtools sort -o ./results/10-02-2026/Tsu4-125_merged.bam \
     ./data/10-02-2026/Tsu4-125_merged_desordenado.bam
-    samtools index ./data/10-02-2026/Tsu4-125_merged.bam
+    samtools index ./results/10-02-2026/Tsu4-125_merged.bam
 fi
 ```
 Con este código, podemos alinear los pares de lecturas que fastp ya había combinado, ahorrandonos alinear secuencias que sabemos que son incorrectas.
