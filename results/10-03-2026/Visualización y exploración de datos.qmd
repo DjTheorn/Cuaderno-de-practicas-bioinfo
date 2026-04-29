@@ -281,9 +281,8 @@ ggplot(data = gwas, mapping = aes(x = ALLELES)) + geom_bar(stat = 'count')
 ```
 
 `geom_bar()` automáticamente representa el número de observaciones de cada tipo.
-Este geométrico usa el estético `fill` para el color de las barras. Podemos mapear
-una variable categórica a `fill`. Por ejemplo, ahora que tenemos clasificados los
-SNPs en 12 categorías, veamos cuántos hay de cada tipo en cada cromosoma:
+
+Este geométrico usa el estético `fill` para el color de las barras. Podemos mapear una variable categórica a `fill`. Por ejemplo, ahora que tenemos clasificados los SNPs en 12 categorías, veamos cuántos hay de cada tipo en cada cromosoma:
 
 ```{r}
 ggplot(data = gwas, mapping = aes(x= CHROM, fill = ALLELES)) +
@@ -297,6 +296,34 @@ transición (AG, GA, CT, TC) o una transversión (los otros) y comprueba con un
 diagrama de barras si las proporciones son comparables entre cromosomas.
 2. Mira también si existe relación entre el tipo de mutación y la frecuencia
 alélica.
+:::
+
+:::{.callout-note icon=false}
+## Solución
+# 1. 
+Para crear la nueva variable categórica, nos vamos a basa en la variable ALLELES:
+
+```{r}
+transiciones <- c("AG","GA","CT","TC")
+
+gwas$TRANSITION <- gwas$ALLELES %in% transiciones
+
+ggplot(data = gwas, mapping = aes(x= CHROM, color = TRANSITION)) +
+   geom_bar()
+```
+
+Como podemos ver, aproximadamente hay la misma cantidad de transiciones que transversiones en todos los cromosomas, así que si que tienen proporciones comparables.
+
+# 2. 
+Para ver si hay relación entre el tipo de mutación y la frecuencia alélica, hacemos lo mismo pero cambiando la característica del cromosoma: 
+
+```{r}
+
+ggplot(data = gwas, mapping = aes(x= A1_FREQ, color = TRANSITION)) +
+   geom_bar()
+```
+
+Como podemos ver, también aparece que son comparables las proporciones.
 :::
 
 # Gráficas de volcán
