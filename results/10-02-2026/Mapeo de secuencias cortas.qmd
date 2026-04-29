@@ -104,7 +104,7 @@ cd "$(git rev-parse --show-toplevel)"
 # Con la opción "-o /dev/null" nos deshacemos de los mensajes,
 # y con "-O referencia.fa" escogemos un nombre adecuado para el archivo.
 if [ ! -e ./data/10-02-2026/referencia.fa ]; then
-   wget -o /dev/null -O ./data/10-02-2026/referencia.fa \
+   wget -O ./data/10-02-2026/referencia.fa \
         https://www.ebi.ac.uk/ena/browser/api/fasta/GCA_042137995.2 
 fi
 ```
