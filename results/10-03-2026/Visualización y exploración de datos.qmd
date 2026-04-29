@@ -94,7 +94,7 @@ Comprueba gráficamente las suposiciones siguientes. Esfuérzate por imaginar qu
 
 :::{.callout-note icon=false}
 ## Comprobación gráfica
-# 1. 
+1. 
 Teniendo en cuenta que el valor p es un valor que proviene diréctamente del estadístico T, esperamos que en efecto solo dependa de los valores de dicho estadístico. Lo comprobamos:
 
 ```{r}
@@ -103,7 +103,7 @@ ggplot(data = gwas,
 ```
 Como podemos ver, se ajusta a nuestras espectativas: cuando el test t = 0; el p-valor = 1; y dependen el uno del otro sin infuir nada más. No hay puntos externos, existe una simetría perfecta, y tiene la forma de campana que debería tener.
 
-# 2. 
+2. 
 Teniendo en cuenta que nuestro alelo se compara en el estudio con otro alelo de referencia, no tiene por que ser el alelo minoritario, pero lo comprovamos de forma gráfica:
 
 ```{r}
@@ -112,7 +112,7 @@ ggplot(data = gwas,
 ```
 Como podemos ver, la frecuencia alélica de A1 nunca supera el 0,5; por lo que podemos afirmar que el alelo A1 siempre tiene por lo menos una frecuencia igual al otro, aunque de forma general tiene una frecuencia minoritaria. Esto suele ser habitual en estudios genéticos dónde se estudia el efecto de alelos no comunes en la población
 
-# 3.
+3.
 Esperamos que esto de forma general sea cierto, puesto que el error estándar depende de n (es decir, el número de muestras utilizadas) de forma inversamente proporcional (está en el denominador). Lo comprovamos graficamente:
 
 ```{r}
@@ -125,7 +125,7 @@ ggplot(data = gwas_tamaño,
 ```
 Como podemos ver, de forma general si existe una tendencia a que el SE disminuya cuanto mayor sea el tamaño muestral, pero no es algo para nada absoluto: al fin y al cabo, el segundo mayor SE es el valor con mayor tamaño muestral. Esto ocurre porque la SE depende de muchos otros valores a parte del tamaño muestral, por lo que no hay una correlación 100% directa y 100% fiable. Además, suele haber un sesgo que agranda el hecho de que con mayores tamaños muestrales haya mayor SE: cuando un investigador ve que su SE es muy alto, muchas veces decide aumentar el tamaño muestral para disminurlo, lo que al final acaba con que los estudios con mayores tamaños muestrales provengan de estudios previos con SE muy altos y por tanto también tengan SE muy altos.
 
-# 4.
+4.
 Cuando decimos que la distribución de p-valores se hace uniforme hacia la derecha, nos estamos refieriendo a que los p-valores obtenidos en cada uno de los ensayos se concentran sobretodo en el punto de significancia (o de rechazo a la hipótesis nula) mientras que al movernos hacia la derecha (aumentando el p-valor), existen menos ensayos. Para que esto ocurra, tienen que ocurrir dos cosas: que la hiptesis nula sea rechazada por la mayor parte de estudios (si no lo es, el gráfico saldria completamente uniforme) y que no haya ningún sesgo hacia un p-valor específico. Para descubrirlo, hacemos un gráfico:
 
 ```{r}
@@ -176,7 +176,7 @@ ggplot(data = gwas,
 
 :::{.callout-note icon=false}
 ## Solución
-# 1.
+1.
 Esto se puede hacer muy fácil:
 
 ```{r}
@@ -188,7 +188,7 @@ ggplot(data = gwas,
 
 Es un caos total, así que mejor usamos el gráfico anterior.
 
-# 2. 
+2. 
 También se puede hacer muy fácil añadiendo otra `geom_smooth`:
 
 ```{r, message=FALSE, warning=FALSE}
@@ -200,11 +200,11 @@ ggplot(data = gwas,
 
 La gráfica resultante es muy caótica porque hay demasiadas lineas de colores en puntos muy parecidos y es dificil distinguirlas, además de que al haber cerca de 40 cromosomas, no se puede distinguir bien unos de otros. Yo lo que haría es por lo menos eliminar el tamaño muestral de la ecuación,  o hacer clusteres de cromosomas para que se vea mejor.
 
-# 3. 
+3. 
 Los mensajes se pueden eliminar añadiendo al inicio del código:
 `{r, message=FALSE, warning=FALSE}`
 
-#4. 
+4. 
 Sirve para que cada una de nuestras facetas pueda tener su propia escala, sin que el programa fuerce a que todas compartan la misma. De esta forma, podemos ver mejor cada uno de nuestraos gráficos: por ejemplo, el último cromosoma se centra en valores de frecuencia entre 0,2 y 0,4; por lo que el espacio entre 0 y 0,1 y entre 0,4 y 0,5 no nos son útiles y solo empeorarian la visualización de nuestra gráfica. Con este comando, tenemos ese problema resuelto.
 :::
 
@@ -255,18 +255,18 @@ en un mismo gráfico, sin usar `stat_summary()`? ¿Qué método te gusta más?
 
 :::{.callout-note icon=false}
 ## Respuestas
-# 1. 
+1. 
 La función de `position = 'jitter'` nos sirve para distribuir los puntos que tenemos situados en un punto concreto en un espacio más grande. Para entenderlo mejor, nos fijamos en el gráfico anterior: en cada uno de nuestros tamaños muestrales, tenemos una dispersión de datos independiente de las otras, pero toda la X que está encima de cada tamaño muestral significa lo mismo, no importa que el punto esté más a la derecha o más a la izquieda. 
 
 Si no puesieramos esta función, no seríamos capaces de ver la cantidad de puntos que hay en un punto, y no se nos haría obvio que hay menos muestras con un tamaño muestral de 189 que con uno de 195 (como si se ve claramente con el jitter)
 
-# 2. 
+2. 
 Porque en la gráfica de violines estamos especificando que tiene que tratar el tamaño muestral como una variable categorica; mientras que en el segundo gráfico la tratamos como una variable numérica. 
 
-# 3. 
+3. 
 Como hemos visto anteriormente, la función factor nos sirve para convertir variables numéricas en categóricas, o dicho de otra forma, fuerza a R a que trate de forma independiente cada una de las variaciones de esa variable (en nuestro caso, cada uno de los números del tamaño muestral).
 
-# 4. 
+4. 
 Si, de hecho en el ejercicio anterior he utilziado otro método que me ha recomendado gemini: usar el comando `summarize()`. Personalmente, prefiero el opción de `stat_summary` ya que no tengo que crear nuevos tokens en el gloval enviroment, pero para proyectos más largos no se si importaría mucho.
 
 :::
@@ -300,7 +300,7 @@ alélica.
 
 :::{.callout-note icon=false}
 ## Solución
-# 1. 
+1. 
 Para crear la nueva variable categórica, nos vamos a basa en la variable ALLELES:
 
 ```{r}
@@ -314,7 +314,7 @@ ggplot(data = gwas, mapping = aes(x= CHROM, color = TRANSITION)) +
 
 Como podemos ver, aproximadamente hay la misma cantidad de transiciones que transversiones en todos los cromosomas, así que si que tienen proporciones comparables.
 
-# 2. 
+2. 
 Para ver si hay relación entre el tipo de mutación y la frecuencia alélica, hacemos lo mismo pero cambiando la característica del cromosoma: 
 
 ```{r}
