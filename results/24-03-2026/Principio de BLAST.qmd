@@ -15,5 +15,188 @@ format:
       embed-resources: true
 ---
 
+# Preparación
+Necesitamos tener instalado el paquete `ncbi-blast+`, que en Linux y en WSL2 se puede instalar mediante `sudo apt install ncbi-blast+`. Este método no instalará la versión más reciente, pero será suficiente. También podemos seguir las instrucciones de instalación en: https://www.ncbi.nlm.nih.gov/books/NBK569861/.
+
+En el ejercicio 3 necesitaremos también los programas `datasets` y `dataformat`, que podéis descargar desde este enlace: https://www.ncbi.nlm.nih.gov/datasets/docs/v2/command-line-tools/download-and-install/. (los instalamos ya en la práctica de tablas y marcos, 17-02-2026)
+
+Es recomendable guardar los ejecutables en una carpeta del PATH, como /usr/local/bin/. Además, usaremos el paquete de R Biostrings, que en caso de no tener instalado, podéis instalar con BiocManager (no con install.packages()!):
+
+```{r}
+BiocManager::install('Biostrings')
+```
+
+# Objetivos
+BLAST ejecuta alineamientos locales entre una secuencia “problema” o query, generalmente no muy larga, y un conjunto grande de secuencias (la base de datos) entre las que esperamos encontrar alguna secuencia homóloga a la query. Cada secuencia de la base de datos que pueda alinearse con la query se la llama subject en el alineamiento. Los objetivos de esta práctica son:
+
+1. Identificar proteínas ortólogas entre dos especies con BLASTP.
+2. Realizar un PSI-BLAST contra la base de datos Swissprot.
+3. Determinar el origen de las lecturas que no pudieron ser mapeadas a su genoma de referencia, usando BLASTN remoto.
+
+### Datos
+## Datos del primer ejercicio
+En el primer ejercicio, usaremos los proteomas de dos especies bacterianas endosimbiontes, con genomas reducidos (para facilitar las búsquedas): *Buchnera aphidicola* (107806) y *Blochmannia ocreatus* (251538). Los proteomas se pueden descargar desde uniprot (pones el ID, entras en la Entry ¡NO DESCARGAS!, y descargas el gene count). Los descargamos comprimidos en la carpeta de data.
+
+Te dan el archivo comprimido, pero hay que descomprimirlo (o lo podemos leer comprimido también, pero es más incómodo). Para descomprimirlo, usamos:
+
+```{bash}
+cd "$(git rev-parse --show-toplevel)"
+
+if [ ! -e ./data/24-03-2026/buchnera.fa ]; then
+gunzip -c ./data/24-03-2026/UP000001806_107806.fasta.gz > ./data/24-03-2026/buchnera.fa
+fi
+if [ ! -e ./data/24-03-2026/blochmannia.fa ]; then
+gunzip -c ./data/24-03-2026/UP001056834_251538.fasta.gz > ./data/24-03-2026/blochmannia.fa
+fi
+```
+
+## Datos del segundo ejercicio
+Para el segundo ejercicio, necesitamos descargar la base de datos de Swissprot para BLAST. Podemos hacerlo de dos maneras. En cualquier caso, los archivos descargados y descomprimidos deben guardarse en la carpeta `data`. Por tanto, los comandos siguientes deberan de ejecutarse desde esa carpeta. Lo hacemos siguiendo el siguiente comando:
+
+```{bash}
+cd "$(git rev-parse --show-toplevel)"
+
+if [ ! -e ./data/24-03-2026/swissprot.tar.gz ]; then
+(cd ./data/24-03-2026/ && update_blastdb --decompress swissprot)
+fi
+```
+
+Me costó un par de intentos, pero al final conseguí descargarlo.
+
+## Datos del tercer ejercicio
+Pinchando aquí (https://aulavirtual.uv.es/pluginfile.php/5994243/mod_resource/content/3/contaminacion.fa.gz) podéis descargar el archivo comprimido contaminacion.fa.gz. No lo abráis ni lo descomprimáis. Sólo guardadlo en la carpeta de datos tal como está. En adelante supondré que podéis acceder al archivo mediante ../../data/contaminacion.fa.gz desde la carpeta de la práctica.
+
+### Ejercicio 1. Identificación aproximada de ortólogos
+Una estrategia habitual para identificar genes ortólogos es comprobar si cada uno es, respecto del otro, su mejor resultado de BLAST. Lo que en inglés llaman reciprocal best hits. Aunque se trata de un método heurístico, los resultados son bastante fiables. Vamos a practicarlo entre dos proteomas que debes haber descargado, y que primero debemos enmascarar e indexar para BLAST.
+
+## Enmascarar e indexar los proteomas
+
+Lo primero que vamos a hacer es procesar nuestros proteomas para que BLAST los pueda leer, enmascarandolos e indexandolos:
+
+```{bash}
+cd "$(git rev-parse --show-toplevel)"
+
+
+if [ ! -e ./data/24-03-2026/buchnera.paa ]; then
+   # Creamos un archivo para enmascarar zonas de baja complejidad:
+   if [ ! -e ./data/24-03-2026/buchnera_seg.asnb ]; then
+      segmasker -in ./data/24-03-2026/buchnera.fa \
+                -infmt fasta \
+                -parse_seqids \
+                -outfmt maskinfo_asn1_bin \
+                -out ./data/24-03-2026/buchnera_seg.asnb
+   fi
+   # Y indexamos el archivo FASTA para BLAST:
+   makeblastdb  -in ./data/24-03-2026/buchnera.fa \
+                -input_type fasta \
+                -dbtype prot \
+                -parse_seqids \
+                -mask_data ./data/24-03-2026/buchnera_seg.asnb \
+                -out ./data/24-03-2026/buchnera \
+                -title "Proteoma de Buchnera"
+fi
+
+if [ ! -e ./data/24-03-2026/blochmannia.paa ]; then
+   # Creamos un archivo para enmascarar zonas de baja complejidad:
+   if [ ! -e ./data/24-03-2026/blochmannia_seg.asnb ]; then
+      segmasker -in ./data/24-03-2026/blochmannia.fa \
+                -infmt fasta \
+                -parse_seqids \
+                -outfmt maskinfo_asn1_bin \
+                -out ./data/24-03-2026/blochmannia_seg.asnb
+   fi
+   # Y indexamos el archivo FASTA para BLAST:
+   makeblastdb  -in ./data/24-03-2026/blochmannia.fa \
+                -input_type fasta \
+                -dbtype prot \
+                -parse_seqids \
+                -mask_data ./data/24-03-2026/blochmannia_seg.asnb \
+                -out ./data/24-03-2026/blochmannia \
+                -title "Proteoma de Buchnera"
+fi
+```
+## Realizar las búsquedas de BLASTP
+El objetivo es encontrar la proteína de *Blochmannia ocreatus* que más se parece a cada una de las proteínas de *Buchnera aphidicola*, y viceversa. Entonces, seleccionaremos las parejas de proteínas que sean recíprocamente las más similares una de otra, por ser más probablemente ortólogas. Otras relaciones de semejanza no recíprocas pueden ser debidas a la paralogía.
+
+# De Buchnera aphidicola hacia Blochmannia ocreatus
+
+```{bash}
+cd "$(git rev-parse --show-toplevel)"
+
+blastp -query ./data/24-03-2026/buchnera.fa \
+       -db ./data/24-03-2026/blochmannia \
+       -out ./results/24-03-2026/buc2blo.txt \
+       -outfmt '6 qseqid sseqid qlen slen length evalue bitscore' \
+       -evalue 0.001 \
+       -max_target_seqs 1
+```
+
+```{bash}
+cd "$(git rev-parse --show-toplevel)"
+
+blastp -query ./data/24-03-2026/blochmannia.fa \
+       -db ./data/24-03-2026/buchnera \
+       -out ./results/24-03-2026/blo2buc.txt \
+       -outfmt '6 qseqid sseqid qlen slen length evalue bitscore' \
+       -evalue 0.001 \
+       -max_target_seqs 1
+```
+
+Una vez tenemos los resultados, podemos analizarlos de forma específica con R:
+```{r}
+PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
+
+setwd(PBioinfo)
+
+buc2blo <- read.table(
+   './results/24-03-2026/buc2blo.txt',
+   col.names = c('query', 'subject', 'qlen', 'slen',
+                 'length', 'evalue', 'bitscore')
+)
+
+blo2buc <- read.table(
+   './results/24-03-2026/blo2buc.txt',
+   col.names = c('query', 'subject', 'qlen', 'slen',
+                 'length', 'evalue', 'bitscore')
+)
+
+
+```
+
+:::{.callout-note icon=false}
+## Desafío
+1. Echa un vistazo a estas tablas de resultados. ¿Sabrías identificar las parejas de proteínas que son recíprocamente la que más se parece una a la otra?
+2. ¿Qué datos te gustaría representar gráficamente para ganar confianza en que los resultados son correctos y tienen sentido?
+
+:::
+
+### Ejercicio 2. PSI-BLAST
+El PSI-BLAST nos permite identificar semejanzas sutiles, como las que existen entre miembros alejados de una superfamilia proteica. Para comprobarlo vamos a realizar una búsqueda a partir de cualquiera de las proteínas siguientes: Q9CC91, P39615, B1AJI8, P47343, Q5UPT2, Q6UDG6, A1AFY9, O59825 y P30314. Todas ellas están en Swissprot y pertenecen a una misma superfamilia. Sin embargo, un simple BLASTP con cualquiera de ellas no encuentra ninguna de las otras1. Comprobemos si con un PSI-BLAST lo conseguimos. A continuación lo intento a partir de P39615. Repite los pasos usando otra proteína de la lista como query y compara los resultados.
+
+```{bash}
+cd "$(git rev-parse --show-toplevel)"
+
+# Como Swissprot debería estar ya descargada en `../../data`, podemos sacar
+# de ahí la secuencia de la proteína escogida:
+blastdbcmd -db ./data/24-03-2026/swissprot -entry P39615 -out ./results/24-03-2026/P39615.fa
+
+# Y ahora la usamos como query en psi-blast:
+psiblast -db ./data/24-03-2026/swissprot \
+         -query ./results/24-03-2026/P39615.fa \
+         -out ./results/24-03-2026/P39615.blastout.txt \
+         -evalue 0.1 \
+         -outfmt 7 \
+         -inclusion_ethresh 0.001 \
+         -num_iterations 7 \
+         -matrix BLOSUM62
+```
+
+:::{.callout-note icon=false}
+## Desafío
+Consulta la ayuda de psiblast y asegúrate de entender para qué sirven los argumentos que hemos usado. Por ejemplo, 
+1. ¿Cuál es la diferencia entre -evalue y -inclusion_ethresh?
+2. ¿Cómo harías que la búsqueda fuera más sensible todavía?
+
+:::
 
 
