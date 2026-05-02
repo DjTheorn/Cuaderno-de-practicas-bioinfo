@@ -1,0 +1,176 @@
+---
+title: "Ensamblaje genómico"
+lang: es
+date: today
+execute: 
+  eval: true
+  error: true
+engine: knitr
+bibliography: ../../doc/references.bib
+language:
+   title-block-published: "Última actualización:"
+   section-title-references: "Bibliografía"
+format:
+   html:
+      embed-resources: true
+---
+
+# Objetivo
+Ensamblar el genoma de un eucariota diploide con lecturas de PacBio de alta fidelidad.
+
+# Preparación
+Para poder hacer la prácticas necesitamos el programa hifiasm, y lo vamos a instalar siguiendo los pasos siguientes en el terminal de Bash:
+
+```{bash}
+if [ ! -d ~/Downloads ]; then mkdir ~/Downloads; fi
+
+cd ~/Downloads
+git clone https://github.com/chhylp123/hifiasm
+cd hifiasm
+make
+```
+
+Una vez compilado, el ejecutable ~/bin/hifiasm/hifiasm estará disponible, pero no en el PATH (donde Bash pueda encontrarlo). Para que hifiasm esté en el PATH, podemos copiar el ejecutable a una carpeta ya existente del PATH, como es: `/usr/local/bin/`. Para ello, usamos:
+
+```{bash}
+cd ~/Downloads/hifiasm
+
+sudo cp hifiasm /usr/local/bin
+```
+
+(da error porque no hay privilegios de sudo en quarto)
+
+A partir de ahora, cada vez que inicies el terminal, hifiasm estará en el PATH. 
+# Datos
+Vamos a usar lecturas HiFi generadas por Rabanal et al. (2022) de un único individuo de la planta Arabidopsis thaliana, ecotipo Columbia (Col-0), con la tecnología SMRT de PacBio (proyecto PRJEB50694). Los datos seleccionados son solo una parte de los originales y se encuentran en el archivo At4.10.fa.gz (46 Mb), disponible en el aula virtual. También está en el espacio de disco compartido de la Universidad de Valencia, dentro del grupo de bioinformática. Lo descargamos y lo guardamos en el PATH: ./data/14-04-2026/At4.10.fa.gz.
+
+# Revisión de los datos
+Los datos están en formato FASTA porque contienen sólo lecturas de alta calidad, y hifiasm no utiliza la información de las calidades de cada base. El archivo está comprimido. Antes de empezar el ensamblaje deberíamos tener una idea de la cantidad de datos que tenemos. Para ello, debemos constestar a las siguientes preguntas:
+
+:::{.callout-note icon=false}
+## Ejercicio 1
+1. Cuántas secuencias contiene el archivo?
+2. ¿Qué longitudes mínima, media y máxima tienen las secuencias?
+3. ¿Cuál es el número total de bases?
+4. Si se estimara que el genoma a ensamblar fuera de sólo 19 millones de bases, ¿cuál sería la cobertura esperada?
+:::
+
+:::{.callout-note icon=false}
+## Respuestas
+1. Como ya vimos en la práctica 2, los archivos tipo .fa comienzan las secuencias con un >. Por tanto, podemos ver la cantidad de secuencias ejecutando el comando:
+
+```{bash}
+cd "$(git rev-parse --show-toplevel)"
+
+gunzip -c ./data/14-04-2026/At4.10.fa.gz | grep -c "^>" 
+```
+Obtenemos que hay un total de 13812 secuencias diferentes.
+
+2. Esta petición es un poco más compleja, pero se puede hacer de esta forma:
+
+```{bash}
+cd "$(git rev-parse --show-toplevel)"
+
+LC_ALL=C zcat ./data/14-04-2026/At4.10.fa.gz | awk '
+/^>/ {
+    if (seqlen) {
+        sum += seqlen; count++;
+        if (seqlen > max) max = seqlen;
+        if (seqlen < min || min == 0) min = seqlen;
+    }
+    seqlen = 0; next;
+}
+{ seqlen += length($0) }
+END {
+    if (seqlen) {
+        sum += seqlen; count++;
+        if (seqlen > max) max = seqlen;
+        if (seqlen < min || min == 0) min = seqlen;
+    }
+    if (count > 0) printf "Mínima: %d\nMedia: %.2f\nMáxima: %d\n", min, sum/count, max
+}' 
+```
+
+Y obtenemos que la mínima tiene 2942 pb; la máxima 59075pb; y que la media de todas las secuencias es de 18143,61 pb.
+
+3. Esta tarea es más sencilla. Hay dos formas de hacerlo: teniendo la media exacta de bases y la cantidad de secuencias, podemos multiplicarlas:
+
+```{r}
+18143.61 * 13812
+```
+
+o también podemos hacer un comando:
+
+```{bash}
+cd "$(git rev-parse --show-toplevel)"
+
+LC_ALL=C zcat ./data/14-04-2026/At4.10.fa.gz | awk '!/^>/ {total += length($0)} END {print "Total de bases:", total}'
+```
+
+Esta última respuesta (250599484) es la más adecuada porque cuenta todo, mientra que la multiplicación no porque le faltan números decimales.
+
+4. La coberutra representa el promedio de las veces que hemos leido cada base del genoma, y se calcula dividiendo el total de bases secuenciadas entre el tamaño del genoma. Por tanto, calcularla es muy fácil:
+
+```{r}
+250599484 / 19000000 
+```
+Tendremos una cobertura de 13,18945.
+
+:::
+
+# Ensamblaje
+El programa hifiasm produce varios archivos de salida. Para tener la carpeta de trabajo ordenada, es recomendable crear un subcarpeta donde poder guardarlos. Si fuéramos a probar más de una estrategia de ensamblado, guardaríamos los resultados de cada intento en una carpeta diferente, que podríamos nombrar asm1, asm2, etc. Aunque sólo realicemos un ensamblaje, crearemos la carpeta asm1 para guardar los resultados en ella.
+
+El ensamblaje de estas lecturas puede durar unos minutos. No queremos tener que ejecutarlo cada vez que compilamos el documento de Quarto. Tenemos dos opciones: o bien usamos la directriz `#| cache: true` al principio del bloque de código o bien controlamos directamente la ejecución condicional con Bash. Si usamos el método que ofrece Quarto, aparecerá una nueva carpeta que guarda resultados previos y que estaría bien incluir en el repositorio de Git. Yo prefiero usar Bash:
+
+```{bash}
+cd "$(git rev-parse --show-toplevel)"
+
+if [ ! -e ./results/14-04-2026/asm1/At4.bp.p_ctg.gfa ]; then
+   hifiasm -o ./results/14-04-2026/asm1/At4 -t 2 -f 0 ./data/14-04-2026/At4.10.fa.gz 2> ./results/14-04-2026/asm1/hifiasm.log
+fi
+```
+
+Las opciones significan lo siguiente:
+
+- -o asm1/At4: usa el prefijo asm1/At4 para los archivos de salida.
+- -t 2: usa dos procesadores. Por defecto usaría uno.
+- -f 0: inhabilita el uso de un filtro de Bloom (Melsted and Pritchard 2011) durante la corrección de errores, que ocuparía 16 Gb de memoria.
+- ../../data/At4.10.fa.gz: archivo con los datos de partida.
+- 2> asm1/hifiasm.log: guarda los numerosos mensajes que hifiasm envía al error estándar en un archivo asm1/hifiasm.log. Esto evita que esos mensajes se acumulen en el informe HTML.
+
+:::{.callout-note icon=false}
+# Ejercicio 2
+Consulta la ayuda de hifiasm (hifiasm -h) y contesta las preguntas siguientes:
+
+1. ¿Los parámetros corresponden al ensamblaje de un genoma haploide o diploide?
+2. ¿Qué nivel de eliminación de duplicaciones hemos aplicado? (El paso de eliminar duplicaciones sirve para que las zonas de alta heterocigosidad no sean ensambladas como contigs diferentes).
+3. Si tuvieramos lecturas ultra-largas, ¿con qué opción o argumento añadiríamos esa información?
+:::
+
+:::{.callout-note icon=false}
+# Respuestas
+1. Los parámetros corresponden a un ensamblaje diploide, puesto que los archivos respuesta se han separado en `At4.bp.hap1` y `At4.bp.hap2`, lo que quiere decir que los datos han sido extraidos de organismos diploides y que habían sido preparados para ello. Esto también se puede ver en el log; dónde el threshold de lectura de cobertura de homocigosidad es similar a nuestra supuesta cobertura aproximada.
+
+2. Como no especificamos el nivel de eliminación de duplicaciones (comando `-l`), el programa aplica el nivel máximo de eliminación; así que hemos aplicado el nivel 3, que es el máximo.
+
+3. Para dejar claro que tenemos secuencias ultra-largas, usaremos el argumento `--ul` para que el programa tenga claro lo que son; y después podemos seguir con algunas opciones adicionales como `--ul-rate` o `--ul-tip` si queremos información adicional.
+:::
+
+# Evaluación del resultado
+
+:::{.callout-note icon=false}
+# Ejercicio 3
+Consulta la descripción de los archivos de salida que encontrarás en este enlace (https://hifiasm.readthedocs.io/en/latest/interpreting-output.html) y contesta las preguntas siguientes:
+
+1. ¿Dónde están las secuencias que componen el ensamblaje?
+2. En los archivos .gfa, ¿qué son las líneas que empiezan por ‘A’?
+3. ¿Qué información tiene los archivos .bed?
+4. ¿Cuál es la cobertura media estimada de las secuencias homocigotas?
+¿Y la de las heterocigotas?
+:::
+
+
+
+
+
