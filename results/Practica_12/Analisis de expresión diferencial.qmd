@@ -1,0 +1,252 @@
+---
+title: "Analisis de expresión diferencial"
+lang: es
+date: today
+execute: 
+  eval: true
+  error: true
+engine: knitr
+bibliography: ../../doc/references.bib
+language:
+   title-block-published: "Última actualización:"
+   section-title-references: "Bibliografía"
+format:
+   html:
+      embed-resources: true
+---
+
+# Preparación
+Sólo necesitas instalar el paquete DESeq2 de Bioconductor:
+
+```{r}
+#| eval: false
+BiocManager::install("DESeq2")
+```
+
+# Datos
+Utilizaremos las medidas de expresión génica del archivo salmon.merged.gene_counts.tsv que podéis descargar en el aula virtual. Los datos proceden de 12 genotecas de RNA-seq de lecturas emparejadas, de muestras de Drosophila melanogaster de dos orígenes geográficos (Panamá y Maine) y dos tratamientos de temperatura (low y high) [@Zhao2015]. Hay 3 réplicas biológicas para cada combinación de región y temperatura. Si tenéis curiosidad sobre cómo se han obtenido los recuentos de lecturas por gen a partir de los archivos FASTQ, podéis consultarlo en este enlace (https://informatics.fas.harvard.edu/resources/tutorials/differential-expression-analysis/).
+
+Además, necesitáis el archivo dme_elev_samples.tsv, una tabla que indica a qué región y tratamiento pertenece cada muestra. Lo podéis descargar también del aula virtual.
+
+Los dos archivos deben estar guardados en la carpeta de datos.
+
+# Exploración de los datos
+Comenzaremos haciendo una exploración básica de nuestros datos a partir de este comando: 
+```{r}
+PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
+
+setwd(PBioinfo)
+
+muestras <- read.table('./data/Practica_12/dme_elev_samples.tsv', header = TRUE)
+genex <- read.table('./data/Practica_12/salmon.merged.gene_counts.tsv',
+                    header = TRUE)
+```
+
+:::{.callout-note icon=false}
+# Ejercicio 1
+Recuerda dejar constancia en un bloque de código de cómo obtienes las respuestas.
+
+1. Usa la función paste() para añadir una columna a muestras que contenga la población y la temperatura unidas por _.
+2. ¿Cuál es el número total de lecturas por muestra?
+3. ¿Los recuentos tienen distribuciones parecidas entre muestras?
+4. ¿Cuántos genes no se expresan en absoluto en ninguna de las muestras?
+:::
+
+:::{.callout-note icon=false}
+# Soluciones 1
+1. Para ello, solo tenemos que sobreescribir muestras un poco usando el símbolo del dollar:
+
+```{r}
+muestras$condicion <- paste(muestras$population, muestras$temp, sep = "_")
+```
+
+2. Para saber esto, sumar los números de cada muestra presente en nuestra tabla genex; teniendo en cuenta que las dos primeras columnas son el ID y el nombre. Usamos la función colSums, pero antes debemos asegurarnos de que solo cuente los datos numéricos (si no da error). Lo podemos hacer identificando las columnas no numéricas de forma manual:
+
+```{r}
+colSums(genex[,-c(1,2)])
+```
+
+o utilizar sapply para generalizar la regla y que solo seleccione columnas con valores numéricos: 
+
+```{r}
+colSums(genex[, sapply(genex, is.numeric)])
+```
+
+3. La forma más fácil de observar las distribuciones de las muestras es a partir de un Boxplot:
+
+```{r}
+#| eval: false
+boxplot(genex[,-c(1,2)]) 
+#No pongo la gráfica porque la gráfica buena se ve más adelante, y para no saturar el documento
+```
+
+Como en este comando los datos aparecen completamente aplastados por culpa de los genes con expresión muy alta, vamos a hacer un preprocesado típico en la industria: usar el logaritmo de 2.
+
+```{r}
+boxplot(log2(genex[,-c(1,2)])) 
+```
+
+como podemos ver, las distribuciones entre las muestras son muy parecidas.
+
+4. Para hacer esto, lo que vamos a hacer es buscar las filas dónde la suma de todos los genes sea igual a 0. Para ello, hacemos:
+
+```{r}
+#Primero creamos un nuevo vector dónde nos indique la suma de las columnas:
+suma_filas <- rowSums(genex[,-c(1,2)])
+
+#Y ahora contamos:
+sum(suma_filas <= 0)
+```
+
+A partir de esto, descubrimos que hay 4722 genes con 0 expresión en nuestras muestras, de un total de 24254 genes.
+
+:::
+
+
+# Crear el objeto de clase DESeqDataSet
+Para crear un objeto de clase `DESeqDataSet` necesitamos que las filas de la tabla muestras estén en el mismo orden que las columnas en genex. La función `DESeqDataSetFromMatrix()` necesita que los recuentos sean una matriz, no un marco de datos. Y en muestras debe haber factores. Para solucionarlo, debemos aplicar estos códigos:
+
+```{r}
+suppressMessages(library('DESeq2'))
+all(names(genex)[3:14] == muestras$sample)
+```
+
+```{r}
+# Pasamos la columna "sample" a nombres de fila:
+row.names(muestras) <- muestras$sample
+# Eliminamos la columna "sample":
+muestras$sample <- NULL
+# Y convertimos "population" y "temp" en factores:
+muestras$population <- factor(muestras$population,
+                              levels = c('maine', 'panama'))
+muestras$temp       <- factor(muestras$temp,
+                              levels = c('low', 'high'))
+muestras
+```
+
+Aunque no hacía falta definir los niveles de los factores, lo indico porque es un buen momento para definir manualmente su orden (por defecto se ordenan alfabéticamente). El orden de los niveles determina qué nivel actúa como referencia en los contrastes estadísticos (el primero). Esto resultaría importante, por ejemplo, al comparar tratamientos respecto de un control.
+
+Los datos de recuento deben ser números enteros y en forma de matriz:
+
+```{r}
+row.names(genex) <- genex$gene_name
+genex$gene_name <- NULL
+genex$gene_id   <- NULL
+genex <- round(as.matrix(genex))
+
+dds1 <- DESeqDataSetFromMatrix(
+   countData = genex,
+   colData = muestras,
+   design = ~ population + temp
+)
+dds1
+```
+
+:::{.callout-note icon=true}
+Los objetos DESeqDataSet pueden contener información sobre las coordenadas cromosómicas de los genes o tránscritos, si se construyen a partir de otro tipo de datos.
+:::
+
+# Pre-filtrado
+Una fracción de los genes no se están expresando en ningúna muestra. Aunque el filtrado no es necesario, ayuda a reducir la memoria ocupada por dds1:
+
+```{r}
+keep <- rowSums(counts(dds1)) > 0
+dds1 <- dds1[keep, ]
+```
+
+# Expresión diferencial
+Observa que la función DESeq() produce un objeto también de clase DESeqDataSet, pero con resultados añadidos:
+
+```{r}
+dds1 <- DESeq(dds1)
+res <- results(dds1)
+res
+```
+
+Por defecto, la función results() produce la tabla de resultados para el contraste entre el nivel último y el de referencia del último factor en la tabla que describe las muestras. En este caso, el factor es temp, el nivel de referencia es low y el otro nivel es high. Por tanto, los valores de log2FoldChange representan el logaritmo en base 2 de la relación entre niveles de expresión en muestras high respecto de muestras low.
+
+:::{.callout-note icon=false}
+# Ejercicio 2
+1. Mira la ayuda de results() y genera también la tabla de resultados para el contraste entre las dos regiones de procedencia de las moscas.
+2. Usa summary() sobre los resultados para ver el número de genes diferencialmente expresados entre cada par de condiciones.
+3. ¿Cuál es la tasa de falsos positivos (FDR)?
+:::
+
+:::{.callout-note icon=false}
+# Soluciones 2
+1. Solo tenemos que modificar un poco el código: lo que queremos es cambiar el factor al que se aplica, así que tendremos que añadirle un contrast. Quedaría tal que:
+
+```{r}
+res_region <- results(dds1, contrast = c("population", "maine", "panama"))
+res_region
+```
+
+2. Lo aplicamos tal cual nos dicen:
+
+```{r}
+summary(res_region)
+```
+
+Para facilitar un poco el resúmen, lo que nos dice este estadístico es que 634 genes tuvieron una expresión superior a la de referencia y 623 una expresión menor; teniendo en cuenta que nuestro p-valor de referencia es 0,1. Además, se detectaron 90 outliers y 3018 genes que tenían conteos demasiado bajos como para ser fiables, y fueron eliminados para no interferir en el p-valor. Podemos hacer lo mismo con la comparación de temperaturas:
+
+```{r}
+summary(res)
+```
+
+En este caso, hay más genes con expresiones superiores e inferiores; cosa que tiene sentido porque la temperatura suele se más influyente en la expresión génica que el lugar de procedencia del organismo.
+
+3. La tasa de falsos positivos se ajustará a la restricción de p-valor que nosotros le pongamos, que en este caso es de 0,1 pero que podríamos modificar en el análisis si quisieramos.
+:::
+
+# Gráficas
+
+```{r}
+plotMA(res)
+```
+
+Los genes con niveles de expresión más bajos producen resultados más ruidosos (la varianza es mayor). La función lfcShrink() contrae (shrink) las estimaciones de los efectos (log fold change) para reducir el ruido y hacer el resultado más realista:
+
+```{r}
+resShrink <- lfcShrink(dds1, coef = 'temp_high_vs_low',
+                       type = 'normal')
+plotMA(resShrink)
+```
+
+
+:::{.callout-note icon=false}
+# Ejercicio 3
+¿Sabrías hacer una gráfica volcán?
+:::
+
+:::{.callout-note icon=false}
+# Solución 3
+Esencialmente, voy a copiarme de la gráfica de volcan que pusimos de ejemplo en la práctica 7 y voy a modificarla para que aplique a esta práctica. Pero primero, debemos de convertir los datos que tenemos en un dataframe, o que al menos R los detecte como tal: 
+
+```{r}
+resShrink_data <- as.data.frame(resShrink)
+resShrink_clean <- resShrink_data[!is.na(resShrink_data$pvalue), ]
+
+
+library('qvalue')
+library('ggplot2')
+qobj <- qvalue(resShrink_clean$pvalue)
+resShrink_clean$q <- qobj$qvalues
+
+resShrink_clean$q <- qvalue(resShrink_clean$pvalue)$qvalues
+ggplot(data = resShrink_clean,
+       mapping = aes(x = log2FoldChange, y = -log10(pvalue), color = q)) +
+   geom_point() +
+   scale_color_gradient(name = 'FDR', trans = 'log',
+                        breaks = c(0.001, 0.01, 0.1),
+                        low= 'red', high='gray') +
+   geom_abline(intercept = -log10(max(resShrink_clean[resShrink_clean$q <= 0.1, 'pvalue'])),
+               slope = 0, linewidth = 0.2, linetype = 2, color = 'black') +
+   theme_minimal()
+```
+
+Algunos cambios que he hecho frente a el gráfico de la práctica 7: he convertido lo que teníamos en un dataframe, y le he eliminados posibles valores inexistentes porque me daba error. También he cambiado las categorías de P y BETA a sus correspondientes categorías pvalue y log2foldchange que nos da DESeq. Por último, he pasado de ln a log10; aunque no ha sido muy relevante.
+:::
+
+
+
+
