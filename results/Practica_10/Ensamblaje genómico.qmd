@@ -22,6 +22,7 @@ Ensamblar el genoma de un eucariota diploide con lecturas de PacBio de alta fide
 Para poder hacer la prácticas necesitamos el programa hifiasm, y lo vamos a instalar siguiendo los pasos siguientes en el terminal de Bash:
 
 ```{bash}
+#| eval: false
 if [ ! -d ~/Downloads ]; then mkdir ~/Downloads; fi
 
 cd ~/Downloads
@@ -33,16 +34,15 @@ make
 Una vez compilado, el ejecutable ~/bin/hifiasm/hifiasm estará disponible, pero no en el PATH (donde Bash pueda encontrarlo). Para que hifiasm esté en el PATH, podemos copiar el ejecutable a una carpeta ya existente del PATH, como es: `/usr/local/bin/`. Para ello, usamos:
 
 ```{bash}
+#| eval: false
 cd ~/Downloads/hifiasm
 
 sudo cp hifiasm /usr/local/bin
 ```
 
-(da error porque no hay privilegios de sudo en quarto)
-
 A partir de ahora, cada vez que inicies el terminal, hifiasm estará en el PATH. 
 # Datos
-Vamos a usar lecturas HiFi generadas por Rabanal et al. (2022) de un único individuo de la planta Arabidopsis thaliana, ecotipo Columbia (Col-0), con la tecnología SMRT de PacBio (proyecto PRJEB50694). Los datos seleccionados son solo una parte de los originales y se encuentran en el archivo At4.10.fa.gz (46 Mb), disponible en el aula virtual. También está en el espacio de disco compartido de la Universidad de Valencia, dentro del grupo de bioinformática. Lo descargamos y lo guardamos en el PATH: ./data/14-04-2026/At4.10.fa.gz.
+Vamos a usar lecturas HiFi generadas por (@Rabanal2022) de un único individuo de la planta Arabidopsis thaliana, ecotipo Columbia (Col-0), con la tecnología SMRT de PacBio (proyecto PRJEB50694). Los datos seleccionados son solo una parte de los originales y se encuentran en el archivo At4.10.fa.gz (46 Mb), disponible en el aula virtual. También está en el espacio de disco compartido de la Universidad de Valencia, dentro del grupo de bioinformática. Lo descargamos y lo guardamos en el PATH: ./data/14-04-2026/At4.10.fa.gz.
 
 # Revisión de los datos
 Los datos están en formato FASTA porque contienen sólo lecturas de alta calidad, y hifiasm no utiliza la información de las calidades de cada base. El archivo está comprimido. Antes de empezar el ensamblaje deberíamos tener una idea de la cantidad de datos que tenemos. Para ello, debemos constestar a las siguientes preguntas:
@@ -62,7 +62,7 @@ Los datos están en formato FASTA porque contienen sólo lecturas de alta calida
 ```{bash}
 cd "$(git rev-parse --show-toplevel)"
 
-gunzip -c ./data/14-04-2026/At4.10.fa.gz | grep -c "^>" 
+gunzip -c ./data/Practica_10/At4.10.fa.gz | grep -c "^>" 
 ```
 Obtenemos que hay un total de 13812 secuencias diferentes.
 
@@ -71,7 +71,7 @@ Obtenemos que hay un total de 13812 secuencias diferentes.
 ```{bash}
 cd "$(git rev-parse --show-toplevel)"
 
-LC_ALL=C zcat ./data/14-04-2026/At4.10.fa.gz | awk '
+LC_ALL=C zcat ./data/Practica_10/At4.10.fa.gz | awk '
 /^>/ {
     if (seqlen) {
         sum += seqlen; count++;
@@ -104,7 +104,7 @@ o también podemos hacer un comando:
 ```{bash}
 cd "$(git rev-parse --show-toplevel)"
 
-LC_ALL=C zcat ./data/14-04-2026/At4.10.fa.gz | awk '!/^>/ {total += length($0)} END {print "Total de bases:", total}'
+LC_ALL=C zcat ./data/Practica_10/At4.10.fa.gz | awk '!/^>/ {total += length($0)} END {print "Total de bases:", total}'
 ```
 
 Esta última respuesta (250599484) es la más adecuada porque cuenta todo, mientra que la multiplicación no porque le faltan números decimales.
@@ -126,8 +126,8 @@ El ensamblaje de estas lecturas puede durar unos minutos. No queremos tener que 
 ```{bash}
 cd "$(git rev-parse --show-toplevel)"
 
-if [ ! -e ./results/14-04-2026/asm1/At4.bp.p_ctg.gfa ]; then
-   hifiasm -o ./results/14-04-2026/asm1/At4 -t 2 -f 0 ./data/14-04-2026/At4.10.fa.gz 2> ./results/14-04-2026/asm1/hifiasm.log
+if [ ! -e ./results/Practica_10/asm1/At4.bp.p_ctg.gfa ]; then
+   hifiasm -o ./results/Practica_10/asm1/At4 -t 2 -f 0 ./data/Practica_10/At4.10.fa.gz 2> ./results/Practica_10/asm1/hifiasm.log
 fi
 ```
 
@@ -135,7 +135,7 @@ Las opciones significan lo siguiente:
 
 - -o asm1/At4: usa el prefijo asm1/At4 para los archivos de salida.
 - -t 2: usa dos procesadores. Por defecto usaría uno.
-- -f 0: inhabilita el uso de un filtro de Bloom (Melsted and Pritchard 2011) durante la corrección de errores, que ocuparía 16 Gb de memoria.
+- -f 0: inhabilita el uso de un filtro de Bloom (@Melsted2011) durante la corrección de errores, que ocuparía 16 Gb de memoria.
 - ../../data/At4.10.fa.gz: archivo con los datos de partida.
 - 2> asm1/hifiasm.log: guarda los numerosos mensajes que hifiasm envía al error estándar en un archivo asm1/hifiasm.log. Esto evita que esos mensajes se acumulen en el informe HTML.
 
@@ -170,7 +170,23 @@ Consulta la descripción de los archivos de salida que encontrarás en este enla
 ¿Y la de las heterocigotas?
 :::
 
+:::{.callout-note icon=false}
+# Solución 3:
+1. Las secuencias que componen el ensamblaje se encuentran en los archivos ocn extensión *.gfa* simple; es decir, que no tienen un .x.gfa. Gemini dice que especificamente, se encuentran en las líneas que comienzan por *S*.
 
+2. Las lineas que comienzan por *A* son lineas que incluyen la información de las lecturas que fueron usadas para crear cada contig/unitig. Son de texto plano, separadas por tabulador, y dan información general como la hebra o la posición inicio y fin de lectura.
 
+3. Los archivos .bed nos informan de las coordenadas de las regiones con baja calidad.
+
+4. Lo podemos mirar en el archivo ".log". En una linea nos encontramos: `peak_hom: 12; peak_het: -1`, que nos indica los picos de cobertura para homocigotos y heternozigotos. En este caso, no se ha identificado un pico para heterocigotos pero si para homocigotos, que será 12. Este también lo podemos encontrar en un linea posterior: `homozygous read coverage threshold: 12`
+
+:::
+
+Los ensamblajes primario y por haplotipos se presentan en formato GFA. Para extraer las secuencias en formato FASTA podemos usar el pequeño script siguiente, en lenguaje AWK, desde el terminal de Bash:
+
+```{bash}
+#| eval: false
+awk '(/^S/){print ">" $2 "\n" $3}' asm1/At4.bp.p_ctg.gfa > asm1/At4.fa
+```
 
 
