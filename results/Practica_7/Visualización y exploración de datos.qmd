@@ -328,18 +328,12 @@ Como podemos ver, también aparece que son comparables las proporciones.
 
 # Gráficas de volcán
 Las gráficas de volcán representan simultáneamente la significación de cada
-resultado (valor *p*) y la magnitud (y el signo) del efecto estimado. Los valores
-*p* se muestran en escala logarítmica y con el signo cambiado, para que los
-resultados más significativos destaquen como *mayores*. Podemos añadir algunas
-líneas que indiquen los umbrales arbitrarios que utilizamos para seleccionar los
-resultados creíbles, o bien añadir color a los puntos seleccionados como positivos.
-A la hora de decidir estos umbrales es fundamental conocer
-la tasa de falsos positivos esperada con cada umbral (FDR). Para ello, añadimos
-al marco de datos una columna con el valor *q* [^1], calculado con la función `qvalue()`
+resultado (valor *p*) y la magnitud (y el signo) del efecto estimado. Los valores *p* se muestran en escala logarítmica y con el signo cambiado, para que los resultados más significativos destaquen como *mayores*. Podemos añadir algunas líneas que indiquen los umbrales arbitrarios que utilizamos para seleccionar los resultados creíbles, o bien añadir color a los puntos seleccionados como positivos.
+
+A la hora de decidir estos umbrales es fundamental conocer la tasa de falsos positivos esperada con cada umbral (FDR). Para ello, añadimos al marco de datos una columna con el valor *q* [^1], calculado con la función `qvalue()`
 del paquete `qvalue` [@qvalue].
 
-[^1]: El valor *q* de un test es la proporción de falsos positivos que esperamos
-   entre todos los resultados con un valor *p* menor o igual al de ese test.
+[^1]: El valor *q* de un test es la proporción de falsos positivos que esperamos entre todos los resultados con un valor *p* menor o igual al de ese test.
 
 ```{r}
 library('qvalue')

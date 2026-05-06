@@ -24,7 +24,7 @@ Las secuencias que vamos a anotar son el ensamblaje obtenido en la práctica ant
 Las evidencias que usaremos para encontrar los genes són secuencias de proteínas que esperamos encontrar codificadas en los cóntigos. Normalmente usaríamos las proteínas conocidas de alguna especie próxima. Usaremos las 6023 proteínas que sabemos que codifica el cromosoma 4 de *Arabidopsis thaliana*. Las podéis descargar de Uniprot, y las meteremos en la carpeta data.
 
 # Programas
-Los programas que **NO** utilizaremos (porque no están instalados y son difíciles de instalar) son RepeatModeler (Flynn et al. 2020), RepeatMasker, y GALBA (Bruna et al. 2023). Cada uno de ellos, a su vez, utiliza otros.
+Los programas que **NO** utilizaremos (porque no están instalados y son difíciles de instalar) son RepeatModeler (@Flynn2020), RepeatMasker, y GALBA (@Bruna2023). Cada uno de ellos, a su vez, utiliza otros.
 
 ## RepeatModeler
 Utiliza como input sólo el ensamblaje, para identificar los elementos repetitivos que pueda haber. Genera, entre otras cosas, un archivo FASTA con las secuencias consenso de las familias de elementos transponibles identificadas. Este archivo FASTA se puede usar después para enmascarar el genoma.
@@ -33,7 +33,7 @@ Utiliza como input sólo el ensamblaje, para identificar los elementos repetitiv
 Su propósito es enmascarar del ensamblaje todas las instancias de elementos repetitivos que pueda identificar. Utiliza una librería de elementos repetitivos previamente conocidos. Existen bases de datos, como Dfam, que pueden usarse cuando queremos enmascarar el ensamblaje de un organismo parecido a aquellos de los que ya conocemos muchos elementos repetitivos. También podemos usar el archivo FASTA generado por RepeatModeler de novo.
 
 ## GALBA
-Utiliza miniprot (Li 2023) para alinear las proteínas al ensamblaje i encontrar genes homólogos a los que las condifican. A partir de estos resultados, entrena a Augustus para definir mejor los bordes de los genes y posiblemente encontrar otros genes adicionales. No es el programa más preciso, pero es relativamente sencillo de usar.
+Utiliza miniprot (@Li2023) para alinear las proteínas al ensamblaje i encontrar genes homólogos a los que las condifican. A partir de estos resultados, entrena a Augustus para definir mejor los bordes de los genes y posiblemente encontrar otros genes adicionales. No es el programa más preciso, pero es relativamente sencillo de usar.
 
 # Resultados
 ## Modificación de los nombres de las proteínas
