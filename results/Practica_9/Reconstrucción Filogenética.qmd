@@ -31,18 +31,18 @@ PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
 setwd(PBioinfo)
 
 library(phangorn)
-mtdna <- read.phyDat('data/31-03-2026/mtDNA.fasta', format = 'fasta')
+mtdna <- read.phyDat('data/Practica_09/mtDNA.fasta', format = 'fasta')
 ```
 
 Después de ejecutar el bloque anterior, habrás cargado los datos en el objeto de clase phyDat llamado mtdna. Puedes usar la consola de R para echarle un vistazo, por ejemplo con la función glance() o incluso para generar una imagen del alineamiento con image(). Si tienes instalado el paquete Biostrings (de Bioconductor), puedes crear un objeto de classe DNAStringSet con as.StringSet(mtDNA), al que se le pueden aplicar muchas otras funciones, pero no es lo que vamos a hacer ahora.
 
 :::{.callout-note icon=false}
-## Ejercicio
+## Ejercicio 1
 ¿Puedes confirmar el número de secuencias? ¿Qué longitud tiene el alineamiento? ¿Qué función usarías para extraer los nombres de las secuencias?
 :::
 
 :::{.callout-note icon=false}
-## Solución
+## Solución 1
 1. Para confirmar el número de secuencias, podemos usar
 
 ```{r}
@@ -82,7 +82,7 @@ mt_upgma <- upgma(distancias)
 ```
 
 :::{.callout-note icon=false}
-## Ejercicio
+## Ejercicio 2
 1. De qué clase son los objetos mt_nj y mt_upgma?
 2. Consulta la estructura de estos objetos (str(mt_nj)).
 3. Represéntalos gráficamente (plot(mt_nj)) y consulta la ayuda de la función plot.phylo() para saber qué opciones de representación gráfica tienes.
@@ -90,7 +90,7 @@ mt_upgma <- upgma(distancias)
 :::
 
 :::{.callout-note icon=false}
-## Solución
+## Solución 2
 1. Para averiguarlo, usamos la función class:
 
 ```{r}
@@ -156,10 +156,10 @@ fechas <- c(0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0)
 # Observa que hay que asignar el resultado de setNames() a "fechas"
 fechas <- setNames(fechas, mt_nj$tip.label)
-fechas
+#He ocnsiderado innecesario y que carga mucho el documento añadir todas las tablas, así que no he representado "fechas"
 ```
 
-A continuación se escoge la posición de la raíz que optimiza la regresión entre distancia de raíz a puntas y edades de las puntas (Rambaut et al. 2016):
+A continuación se escoge la posición de la raíz que optimiza la regresión entre distancia de raíz a puntas y edades de las puntas (@Rambaut2016):
 
 ```{r, fig.height=10}
 mt_nj_rtt <- rtt(mt_nj, tip.dates = fechas, objective = 'rms')
@@ -168,12 +168,40 @@ plot(mt_nj_rtt)
 
 
 :::{.callout-note icon=false}
-## Ejercicio
+## Ejercicio 3
 1. ¿Se corresponden bien las distancias evolutivas estimadas con las dataciones?
 2. ¿Qué secuencias crees que se ajustan menos a su supuesta edad?
 3. ¿Qué razones puede haber para que la edad de una secuencia no se corresponda con la cantidad de cambios que ha acumulado
 :::
 
+:::{.callout-note icon=false}
+## Solución 3
+1. Para poder contestar a eso, primero debemos de hacer un ajuste de regresión para ver si nuestras secuencias más recientes se corresponden o no a una mayor distancia génica a la raíz. 
+
+```{r}
+#Copiado de Gémini tal cual
+distancias_rtt <- node.depth.edgelength(mt_nj_rtt)[1:length(mt_nj_rtt$tip.label)]
+ajuste <- lm(distancias_rtt ~ fechas)
+summary(ajuste)
+
+plot(fechas, distancias_rtt, 
+     xlab = "Edad de las secuencias", 
+     ylab = "Distancia desde la raíz",
+     main = "Regresión Root-to-Tip",
+     pch = 19, col = "royalblue")
+
+abline(ajuste, col = "red", lwd = 2)
+```
+
+El gráfico que nos aparece está muy distorsionado y nos indica que no se representa bien, pero hay ciertas cosas que no tiene en cuenta: por un lado, estamos incluyendo a especies de simios que no tienen que ver con el homo sapiens recogidas en la actualidad; por lo que la gráfica se nos distorsiona al incluirlas (obviamente, no vamos a tener muchos parecidos con ellos aunque sean actuales). Por otro lado, los denisovanos tienen restos bastante recientes, pero también son más diferentes frente a nuestro parecido con los neandertales; por lo que están más cerca de la raíz. En general, no es buena idea utilizar este tipo de raices cuando se están mirando varias especies diferentes, puesto que si el punto de divergencia es muy anterior a la recogida de las muestras (como ocurre con los primates por ejemplo), la información obtenida no será especilamente consistente ni interesante. Para poder decir que si que se corresponden bien las distancias evolutivas obtenidas a las dataciones, tendríamos que obtener una recta de regresión con inclinación hacia arriba-derecha muy clara.
+
+2. Las secuencias que menos se ajustan son las de los primates actuales como ya he mencionado: la distancia evolutiva entre nosotros y los gorilas es enorme; mientras que la distancia de datación es 0 porque la muestra se ha reocgido el mismo año.
+
+3. Como he mencionado anteriormente, principalmente se basa en que los puntos de divergencia se encuentren antes o después a cuando lo estamos mirando. Por otro lado, si nos tomamos esta pregunta como una pregunta al aire, existen ciertas cualidades que pueden hacer que los individuos cambien poco, como presiones selectivas fuertes hacia gran parte de su genoma, o que las especies tengan pocos intrones y en general poco DNA no codificante. Ninguna de estas dos cosas aplican en este caso. 
+
+Dicho de otra forma, la coexistencia de dos especies o subespecies diferentes pero parecidas en el mismo momento temporal hace que al ponerlas en el mismo árbol sea inutil, puesto que serán considerablemente diferentes aún habiendose puesto en la misma fecha.
+
+:::
 
 # Distancias
 Como hemos creado el objeto distancias antes, lo vamos a usar para conocer la cantidad estimada de cambios entre los cromosomas mitocondriales humanos y de neandertales, por ejemplo. El objeto de clase dist es incómodo, pero podemos obtener una simple matriz fácilmente:
