@@ -127,7 +127,7 @@ setwd(PBioinfo)
 #bien escrita. Para ello, sería sido necesario añadir el prefijo URLencode.
 
 curl_download('https://www.ebi.ac.uk/ena/portal/api/search?result=assembly&query=tax_tree(6157) AND genome_representation="full"&fields=version,tax_id,scientific_name,last_updated,base_count&limit=0',
-              destfile = './data/24-02-2026/z1.txt')
+              destfile = './data/Practica_05/z1.txt')
 ```
 
 ```{r}
@@ -137,7 +137,7 @@ setwd(PBioinfo)
 
 curl_download(
   URLencode('https://www.ebi.ac.uk/ena/portal/api/search?result=assembly&query=tax_tree(6157) AND genome_representation="full"&fields=version,tax_id,scientific_name,last_updated,base_count&limit=0'),
-  destfile = './data/24-02-2026/z1.txt')
+  destfile = './data/Practica_05/z1.txt')
 
 #Esta no me ha dado ningún problema
 ```
@@ -153,7 +153,7 @@ query  <- 'query=tax_tree(6157) AND genome_representation="full"&'
 fields <- 'fields=version,tax_id,scientific_name,last_updated,base_count&'
 limit  <- 'limit=0'
 URL <- paste0(portal, result, query, fields, limit)
-curl_download(URLencode(URL), destfile = './data/24-02-2026/z2.txt')
+curl_download(URLencode(URL), destfile = './data/Practica_05/z2.txt')
 #Esta tampoco ha dado ningún problema
 ```
 :::
@@ -186,9 +186,12 @@ PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
 setwd(PBioinfo)
 
 curl_download(
-  URLencode('https://www.ebi.ac.uk/ena/portal/api/search?result=sequence&query=tax_tree(7215) AND description="alcohol dehydrogenase"&fields=scientific_name,first_public,base_count&limit=0'), destfile = './results/24-02-2026/drosophila.txt')
+  URLencode('https://www.ebi.ac.uk/ena/portal/api/search?result=sequence&query=tax_tree(7215) AND description="alcohol dehydrogenase"&fields=scientific_name,first_public,base_count&limit=0'), destfile = './results/Practica_5/drosophila.txt')
 
 ```
+
+Esto te crea un archivo .txt dónde puedes buscar todas las respuestas.
+
 :::
 
 # Trabajar con los resultados
