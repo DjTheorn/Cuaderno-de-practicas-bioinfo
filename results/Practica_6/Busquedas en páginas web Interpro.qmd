@@ -177,7 +177,7 @@ El paquete `jsonlite` nos ofrece la función `rbind_pages()` para juntar una lis
 ```{r}
 pfam <- rbind_pages(list(pfam01[['results']][['metadata']],
                          pfam02[['results']][['metadata']],
-                         pfam0[['results']][['metadata']]))
+                         pfam03[['results']][['metadata']]))
 ```
 
 Pero para leer y descargar todas las páginas, necesitaríamos alguna manera de
@@ -302,25 +302,22 @@ kable(flatten(pfam00019[['results']][['metadata']])) %>%
 
 :::{.callout-note icon=false}
 ## Ejercicio 5
-Intenta obtener una lista de los dominios de Pfam presentes en vertebrados
+1. Intenta obtener una lista de los dominios de Pfam presentes en vertebrados
 (taxon 7742). Al menos, los 20 primeros.
-
-## Ejercicio 6
-¿Cuántas proteínas de cocodrilos (taxon 8493) conocemos con el dominio
+2. ¿Cuántas proteínas de cocodrilos (taxon 8493) conocemos con el dominio
 *zinc finger, C2HC type* (Pfam PF01530)?
 :::
 
 :::{.callout-note icon=false}
 ## Solución 5:
-Usamos los filtros que hemos aprendido antes:
+1. Usamos los filtros que hemos aprendido antes:
 
 ```{r}
 vertebrates_pfam <- fromJSON(paste0(API, 'entry/pfam/taxonomy/uniprot/7742'))
 vertebrates_pfam[['results']][['metadata']][['name']]
 ```
 
-## Solución 6
-Hacemos exactamente lo mismo, pero siendo más específicos:
+2. Hacemos exactamente lo mismo, pero siendo más específicos:
 
 ```{r}
 cocodrilos_pfam <- fromJSON(paste0(API, 'entry/pfam/PF01530/protein/taxonomy/uniprot/8493'))
@@ -390,6 +387,7 @@ Por la diferencia en el número de dominios, sabemos que debe haber dominios en
 cordados que no aparecen en equinodermos. Pero podría haber también dominios en equinodermos que no aparecen en cordados. Vamos a comprobarlo con la función `setdiff()`, que devuelve los elementos del primer vector que no aparecen en el segundo:
 
 ```{r}
+#| eval: false
 SoloEquinodermos <- setdiff(equinodermata$accession, chordata$accession)
 # Del marco de datos "equinodermata" selecciono las filas que corresponden a los
 # dominios exclusivos de equinodermos, y las filas "accession" y "name":
