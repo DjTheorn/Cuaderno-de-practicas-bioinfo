@@ -16,13 +16,14 @@ format:
 ---
 
 # Preparación
-Necesitamos tener instalado el paquete `ncbi-blast+`, que en Linux y en WSL2 se puede instalar mediante `sudo apt install ncbi-blast+`. Este método no instalará la versión más reciente, pero será suficiente. También podemos seguir las instrucciones de instalación en: https://www.ncbi.nlm.nih.gov/books/NBK569861/.
+Necesitamos tener instalado el paquete `ncbi-blast+`, que en Linux y en WSL2 se puede instalar mediante `sudo apt install ncbi-blast+`. Este método no instalará la versión más reciente, pero será suficiente. También podemos seguir las instrucciones de instalación en:https://www.ncbi.nlm.nih.gov/books/NBK569861/.
 
-En el ejercicio 3 necesitaremos también los programas `datasets` y `dataformat`, que podéis descargar desde este enlace: https://www.ncbi.nlm.nih.gov/datasets/docs/v2/command-line-tools/download-and-install/. (los instalamos ya en la práctica de tablas y marcos, 17-02-2026)
+En el ejercicio 3 necesitaremos también los programas `datasets` y `dataformat`, que podéis descargar desde este enlace: https://www.ncbi.nlm.nih.gov/datasets/docs/v2/command-line-tools/download-and-install/. (los instalamos ya en la práctica 4)
 
-Es recomendable guardar los ejecutables en una carpeta del PATH, como /usr/local/bin/. Además, usaremos el paquete de R Biostrings, que en caso de no tener instalado, podéis instalar con BiocManager (no con install.packages()!):
+Es recomendable guardar los ejecutables en una carpeta del PATH, yo personalmente los guardo en /usr/local/bin/. Además, usaremos el paquete de R Biostrings, que en caso de no tener instalado, podéis instalar con BiocManager (no con install.packages()!):
 
 ```{r}
+#| eval: false
 BiocManager::install('Biostrings')
 ```
 
@@ -42,11 +43,11 @@ Te dan el archivo comprimido, pero hay que descomprimirlo (o lo podemos leer com
 ```{bash}
 cd "$(git rev-parse --show-toplevel)"
 
-if [ ! -e ./data/24-03-2026/buchnera.fa ]; then
-gunzip -c ./data/24-03-2026/UP000001806_107806.fasta.gz > ./data/24-03-2026/buchnera.fa
+if [ ! -e ./data/Practica_08/buchnera.fa ]; then
+gunzip -c ./data/Practica_08/UP000001806_107806.fasta.gz > ./data/Practica_08/buchnera.fa
 fi
-if [ ! -e ./data/24-03-2026/blochmannia.fa ]; then
-gunzip -c ./data/24-03-2026/UP001056834_251538.fasta.gz > ./data/24-03-2026/blochmannia.fa
+if [ ! -e ./data/Practica_08/blochmannia.fa ]; then
+gunzip -c ./data/Practica_08/UP001056834_251538.fasta.gz > ./data/Practica_08/blochmannia.fa
 fi
 ```
 
@@ -54,17 +55,19 @@ fi
 Para el segundo ejercicio, necesitamos descargar la base de datos de Swissprot para BLAST. Podemos hacerlo de dos maneras. En cualquier caso, los archivos descargados y descomprimidos deben guardarse en la carpeta `data`. Por tanto, los comandos siguientes deberan de ejecutarse desde esa carpeta. Lo hacemos siguiendo el siguiente comando:
 
 ```{bash}
+#| eval: false
 cd "$(git rev-parse --show-toplevel)"
 
-if [ ! -e ./data/24-03-2026/swissprot.tar.gz ]; then
-(cd ./data/24-03-2026/ && update_blastdb --decompress swissprot)
+if [ ! -e ./data/Practica_08/swissprot.tar.gz ]; then
+(cd ./data/Practica_08/ && update_blastdb --decompress swissprot)
 fi
 ```
 
 Me costó un par de intentos, pero al final conseguí descargarlo.
 
 ## Datos del tercer ejercicio
-Pinchando aquí (https://aulavirtual.uv.es/pluginfile.php/5994243/mod_resource/content/3/contaminacion.fa.gz) podéis descargar el archivo comprimido contaminacion.fa.gz. No lo abráis ni lo descomprimáis. Sólo guardadlo en la carpeta de datos tal como está. En adelante supondré que podéis acceder al archivo mediante ../../data/contaminacion.fa.gz desde la carpeta de la práctica.
+Pinchando aquí (https://aulavirtual.uv.es/pluginfile.php/5994243/mod_resource/content/3/contaminacion.fa.gz) podéis descargar el archivo comprimido contaminacion.fa.gz. No lo abráis ni lo descomprimáis. Sólo guardadlo en la carpeta de datos tal como está. En adelante supondré que podéis acceder al archivo mediante `./data/Practica_08` desde la carpeta general. 
+
 
 # Ejercicio 1. Identificación aproximada de ortólogos
 Una estrategia habitual para identificar genes ortólogos es comprobar si cada uno es, respecto del otro, su mejor resultado de BLAST. Lo que en inglés llaman reciprocal best hits. Aunque se trata de un método heurístico, los resultados son bastante fiables. Vamos a practicarlo entre dos proteomas que debes haber descargado, y que primero debemos enmascarar e indexar para BLAST.
@@ -77,41 +80,41 @@ Lo primero que vamos a hacer es procesar nuestros proteomas para que BLAST los p
 cd "$(git rev-parse --show-toplevel)"
 
 
-if [ ! -e ./data/24-03-2026/buchnera.paa ]; then
+if [ ! -e ./data/Practica_08/buchnera.paa ]; then
    # Creamos un archivo para enmascarar zonas de baja complejidad:
-   if [ ! -e ./data/24-03-2026/buchnera_seg.asnb ]; then
-      segmasker -in ./data/24-03-2026/buchnera.fa \
+   if [ ! -e ./data/Practica_08/buchnera_seg.asnb ]; then
+      segmasker -in ./data/Practica_08/buchnera.fa \
                 -infmt fasta \
                 -parse_seqids \
                 -outfmt maskinfo_asn1_bin \
-                -out ./data/24-03-2026/buchnera_seg.asnb
+                -out ./data/Practica_08/buchnera_seg.asnb
    fi
    # Y indexamos el archivo FASTA para BLAST:
-   makeblastdb  -in ./data/24-03-2026/buchnera.fa \
+   makeblastdb  -in ./data/Practica_08/buchnera.fa \
                 -input_type fasta \
                 -dbtype prot \
                 -parse_seqids \
-                -mask_data ./data/24-03-2026/buchnera_seg.asnb \
-                -out ./data/24-03-2026/buchnera \
+                -mask_data ./data/Practica_08/buchnera_seg.asnb \
+                -out ./data/Practica_08/buchnera \
                 -title "Proteoma de Buchnera"
 fi
 
-if [ ! -e ./data/24-03-2026/blochmannia.paa ]; then
+if [ ! -e ./data/Practica_08/blochmannia.paa ]; then
    # Creamos un archivo para enmascarar zonas de baja complejidad:
-   if [ ! -e ./data/24-03-2026/blochmannia_seg.asnb ]; then
-      segmasker -in ./data/24-03-2026/blochmannia.fa \
+   if [ ! -e ./data/Practica_08/blochmannia_seg.asnb ]; then
+      segmasker -in ./data/Practica_08/blochmannia.fa \
                 -infmt fasta \
                 -parse_seqids \
                 -outfmt maskinfo_asn1_bin \
-                -out ./data/24-03-2026/blochmannia_seg.asnb
+                -out ./data/Practica_08/blochmannia_seg.asnb
    fi
    # Y indexamos el archivo FASTA para BLAST:
-   makeblastdb  -in ./data/24-03-2026/blochmannia.fa \
+   makeblastdb  -in ./data/Practica_08/blochmannia.fa \
                 -input_type fasta \
                 -dbtype prot \
                 -parse_seqids \
-                -mask_data ./data/24-03-2026/blochmannia_seg.asnb \
-                -out ./data/24-03-2026/blochmannia \
+                -mask_data ./data/Practica_08/blochmannia_seg.asnb \
+                -out ./data/Practica_08/blochmannia \
                 -title "Proteoma de Buchnera"
 fi
 ```
@@ -121,11 +124,12 @@ El objetivo es encontrar la proteína de *Blochmannia ocreatus* que más se pare
 ### De Buchnera aphidicola hacia Blochmannia ocreatus
 
 ```{bash}
+#| eval: false
 cd "$(git rev-parse --show-toplevel)"
 
-blastp -query ./data/24-03-2026/buchnera.fa \
-       -db ./data/24-03-2026/blochmannia \
-       -out ./results/24-03-2026/buc2blo.txt \
+blastp -query ./data/Practica_08/buchnera.fa \
+       -db ./data/Practica_08/blochmannia \
+       -out ./results/Practica_8/buc2blo.txt \
        -outfmt '6 qseqid sseqid qlen slen length evalue bitscore' \
        -evalue 0.001 \
        -max_target_seqs 1
@@ -134,11 +138,12 @@ blastp -query ./data/24-03-2026/buchnera.fa \
 ### De Blochmannia ocreatus hacia Buchnera aphidicola 
 
 ```{bash}
+#| eval: false
 cd "$(git rev-parse --show-toplevel)"
 
-blastp -query ./data/24-03-2026/blochmannia.fa \
-       -db ./data/24-03-2026/buchnera \
-       -out ./results/24-03-2026/blo2buc.txt \
+blastp -query ./data/Practica_08/blochmannia.fa \
+       -db ./data/Practica_08/buchnera \
+       -out ./results/Practica_8/blo2buc.txt \
        -outfmt '6 qseqid sseqid qlen slen length evalue bitscore' \
        -evalue 0.001 \
        -max_target_seqs 1
@@ -151,13 +156,13 @@ PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
 setwd(PBioinfo)
 
 buc2blo <- read.table(
-   './results/24-03-2026/buc2blo.txt',
+   './results/Practica_8/buc2blo.txt',
    col.names = c('query', 'subject', 'qlen', 'slen',
                  'length', 'evalue', 'bitscore')
 )
 
 blo2buc <- read.table(
-   './results/24-03-2026/blo2buc.txt',
+   './results/Practica_8/blo2buc.txt',
    col.names = c('query', 'subject', 'qlen', 'slen',
                  'length', 'evalue', 'bitscore')
 )
@@ -166,26 +171,43 @@ blo2buc <- read.table(
 ```
 
 :::{.callout-note icon=false}
-## Desafío
+## Desafío 1
 1. Echa un vistazo a estas tablas de resultados. ¿Sabrías identificar las parejas de proteínas que son recíprocamente la que más se parece una a la otra?
 2. ¿Qué datos te gustaría representar gráficamente para ganar confianza en que los resultados son correctos y tienen sentido?
 
+:::
+
+:::{.callout-note icon=false}
+## Solución 1
+Las parejas de proteinas que se parecen más la una a la otra deberán de ser aquellas que se representan a la vez en la tabla de blo2buc y buc2blo (es decir, que en el emparejamiento de blo hacia buc, se ha elegido la misma proteina pareja que en buc hacia blo). Para saberlo, solo tenemos que hacer un merge:
+
+```{r}
+#| eval: false
+reciprocal_hits <- merge(buc2blo, blo2buc, 
+                         by.x = c("query", "subject"), 
+                         by.y = c("subject", "query"))
+```
+
+Y nos da una nueva tabla de las proteínas que son recíprocas.
+
+2. Según Gemini, habría que hacer un scatter plot de longitudes (qlen vs slen) para asegurarnos de que las longitudes concuerdan aproximadamente (si una proteína de 500 aa tiene su mejor hit con una de 25, probablemente tenga un dominio ortólogo, pero la proteína no tiene ortólogo como tal en el otro organismo). De forma adicional, también podríamos filtrar por p-valor con una gráfica o un scripta para asegurarnos de que no estamos forzando uniones.
 :::
 
 # Ejercicio 2. PSI-BLAST
 El PSI-BLAST nos permite identificar semejanzas sutiles, como las que existen entre miembros alejados de una superfamilia proteica. Para comprobarlo vamos a realizar una búsqueda a partir de cualquiera de las proteínas siguientes: Q9CC91, P39615, B1AJI8, P47343, Q5UPT2, Q6UDG6, A1AFY9, O59825 y P30314. Todas ellas están en Swissprot y pertenecen a una misma superfamilia. Sin embargo, un simple BLASTP con cualquiera de ellas no encuentra ninguna de las otras1. Comprobemos si con un PSI-BLAST lo conseguimos. A continuación lo intento a partir de P39615. Repite los pasos usando otra proteína de la lista como query y compara los resultados.
 
 ```{bash}
+#| eval: false
 cd "$(git rev-parse --show-toplevel)"
 
-# Como Swissprot debería estar ya descargada en `../../data`, podemos sacar
+# Como Swissprot debería estar ya descargada en `./data/Practica_08`, podemos sacar
 # de ahí la secuencia de la proteína escogida:
-blastdbcmd -db ./data/24-03-2026/swissprot -entry P39615 -out ./results/24-03-2026/P39615.fa
+blastdbcmd -db ./data/Practica_08/swissprot -entry P39615 -out ./results/Practica_8/P39615.fa
 
 # Y ahora la usamos como query en psi-blast:
-psiblast -db ./data/24-03-2026/swissprot \
-         -query ./results/24-03-2026/P39615.fa \
-         -out ./results/24-03-2026/P39615.blastout.txt \
+psiblast -db ./data/Practica_08/swissprot \
+         -query ./results/Practica_8/P39615.fa \
+         -out ./results/Practica_8/P39615.blastout.txt \
          -evalue 0.1 \
          -outfmt 7 \
          -inclusion_ethresh 0.001 \
@@ -201,4 +223,63 @@ Consulta la ayuda de psiblast y asegúrate de entender para qué sirven los argu
 
 :::
 
+:::{.callout-note icon=false}
+## Solución
+1. `Evalue` nos indica el threshold de los valores para los que hacemos los hits (Psi-Blast comienza haciendo un `blastp` estándar a base una matriz genérica, y con este valor le indicamos que secuencias resultantes de este paso queremos que pasen al paso siguiente: solo aquellas con un E-valor inferior al definido aquí pasarán al Psi-Blast). Posteriormente, se recogen aquellas secuencias que han pasado el test anterior y los alinea para ver que aminoácidos se conservan en cada posición. Es en este punto dónde entra el valor de `-inclusion_ethresh`: aquí seleccionamos el threshhold de E-valor para hacer el alinemaiento, es decir, solo aquellas secuencias con un E-valor inferior al designado aquí se usarán para hacer el segundo alineamiento y contruir la PSSM.
 
+2. Para hacerla más sensible, bajaría los valores valores principalmente de `-inclusion_ethresh`, de forma que solo utilizara las secuencias más robustas. Con esto corremos el riesgo de que no aparezcan muchas proteínas, pero tenemos la seguridad de que las que aaprecen serán útiles.
+
+(Obtenido a partir de Gemini)
+:::
+
+
+# Ejercicio 3. Origen de la contaminación en un archivo FASTQ
+El archivo `./data/Practica_08/contaminacion.fa.gz` contiene 33174 lecturas procedentes de un experimento de secuenciación del insecto Aphis aurantii, con Ion Torrent. (SRR13258790). Concretamente son las lecturas que no han podido mapearse al genoma de referencia (GCA_055615905) de este insecto. Hay dos motivos principales por los que muchos fragmentos no pueden mapearse al genoma de referencia: o bien el genoma de referencia es incompleto, o bien los fragmentos no pertenecen a esa especie. La secuenciación no distingue al individuo de interés de sus simbiontes, parásitos o presas. Los fragmentos de ADN secuenciados que no proceden del individuo diana se consideran contaminación. El objetivo de este ejercicio es determinar la procedencia de estos fragmentos mediante BLASTN remoto a la base de datos nr (no redundante). Lo que nos interesa es sólo el origen taxonómico de la secuencia más parecida a cada una de esas lecturas.
+
+## Selección aleatoria de 20 queries
+Si enviamos 33174 queries a los servidores del NCBI, o bien tardarán muchas horas en devolver los resultados o simplemente interrumpirán el servicio. Cada persona escogerá 20 secuencias al azar mediante las órdenes siguientes, y después compartiremos los resultados para tener una muestra más representativa.
+
+```{R}
+#| eval: false
+PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
+
+setwd(PBioinfo)
+
+library('Biostrings')
+unmapped <- readDNAStringSet('./data/Practica_08/contaminacion.fa.gz')
+n <- length(unmapped)
+muestra <- unmapped[sample(1:n, 20)]
+writeXStringSet(muestra, './results/Practica_8/muestra.fa')
+```
+
+## BLASTN remoto
+La orden siguiente pide una sola secuencia (la más parecida) y alguna información sobre el alineamiento, para poder garantizar la calidad del resultado.
+
+```{bash}
+#| eval: false
+cd "$(git rev-parse --show-toplevel)"
+
+if [ ! -e ./results/Practica_8/resultado.txt ]; then
+   blastn -query ./results/Practica_8/muestra.fa \
+          -db nr \
+          -out ./results/Practica_8/resultado.txt \
+          -outfmt '6 qaccver saccver length qlen qstart qend evalue bitscore staxid' \
+          -max_target_seqs 1 \
+          -evalue 0.001 \
+          -remote 2> /dev/null
+fi
+```
+
+*(no me funcionaba bien el código, así que no pude hacerlo. Se quedaba en un loop infinito y no iniciaba)*
+
+## Identificación taxonómica
+La única información taxonómica que podemos obtener de las secuencias encontradas cuando realizamos un BLAST remoto es el identificador taxonómico. Esta restricción tiene por objetivo agilizar el servicio remoto. Ahora es asunto nuestro saber a qué especies corresponden los identificadores, de manera automática. Hay varias opciones. Para no tener que descargar la base de datos taxonómica, intentaremos recuperar la información completa con una nueva consulta remota. Esta vez, con los programas datasets y dataformat de NCBI, que ya conocéis.
+
+```{bash}
+#| eval: false
+# Extraemos los identificadores taxonómicos (columna 9) de "resultado.txt":
+cut -f 9 ./results/Practica_8/resultado.txt | sort | uniq | paste -sd ',' > ./results/Practica_8/taxids.txt
+# Generamos una tabla con información taxonómica de esos identificadores:
+datasets summary taxonomy taxon $(cat ./results/Practica_8/taxids.txt) --as-json-lines | \
+dataformat tsv taxonomy --template tax-summary > ./results/Practica_8/taxreport.txt
+```

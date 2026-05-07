@@ -1,7 +1,7 @@
 # PSIBLAST 2.12.0+
 # Iteration: 1
 # Query: P39615.1 RecName: Full=Uracil-DNA glycosylase; Short=UDG [Bacillus subtilis subsp. subtilis str. 168]
-# Database: ./data/24-03-2026/swissprot
+# Database: ./data/Practica_08/swissprot
 # Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
 # 307 hits found
 P39615.1	P39615.1	100.000	225	0	0	1	225	1	225	2.39e-170	470
@@ -314,7 +314,7 @@ P39615.1	P21968.2	29.101	189	118	9	35	221	39	213	3.87e-07	52.4
 # PSIBLAST 2.12.0+
 # Iteration: 2
 # Query: P39615.1 RecName: Full=Uracil-DNA glycosylase; Short=UDG [Bacillus subtilis subsp. subtilis str. 168]
-# Database: ./data/24-03-2026/swissprot
+# Database: ./data/Practica_08/swissprot
 # Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
 # 314 hits found
 P39615.1	P39615.1	100.000	225	0	0	1	225	1	225	1.28e-153	427
@@ -634,7 +634,7 @@ P39615.1	P32941.1	19.907	216	153	9	6	220	16	212	5.91e-19	84.7
 # PSIBLAST 2.12.0+
 # Iteration: 3
 # Query: P39615.1 RecName: Full=Uracil-DNA glycosylase; Short=UDG [Bacillus subtilis subsp. subtilis str. 168]
-# Database: ./data/24-03-2026/swissprot
+# Database: ./data/Practica_08/swissprot
 # Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
 # 314 hits found
 P39615.1	Q836Z5.1	68.304	224	71	0	1	224	1	224	4.34e-149	416
