@@ -56,7 +56,7 @@ PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
 setwd(PBioinfo)
 
 library('ggplot2')
-gwas <- read.table('./data/10-03-2026/gwas.txt', header = TRUE)
+gwas <- read.table('./data/Practica_07/gwas.txt', header = TRUE)
 ```
 
 :::{.callout-note icon=false}
@@ -357,6 +357,10 @@ ggplot(data = gwas,
 1. Genera una gráfica de volcán para cada cromosoma.
 2. El número de SNPs cuyo genotipo está significativamente asociado al fenotipo, ¿te parece elevado o bajo?
 3. Escoge un umbral y clasifica los SNPs en "positivos" y "negativos", y explora la proporción de positivos por cromosoma. ¿Puedes hacerlo sin añadir una columna al marco de datos?
+:::
+
+:::{.callout-note icon=true}
+No me ha dado tiempo a acabarla en clase :(; pero en prácticas posteriores hago gráficas de volcán también.
 :::
 
 # Gráfica de Manhattan
