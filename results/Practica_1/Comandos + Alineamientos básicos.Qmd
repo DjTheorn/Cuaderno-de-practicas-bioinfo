@@ -25,6 +25,7 @@ el programa [`exonerate`](https://www.animalgenome.org/bioinfo/resources/manuals
 Para la descarga automática de secuencias usaremos el programa `wget`. En sistemas operativos basados en Debian como bash, seguramente se pueden instalar los cinco programas así (con privilegios administrativos):
 
 ```{bash}
+#| eval: false
 sudo apt install emboss exonerate wget muscle
 ```
 
@@ -103,18 +104,18 @@ debería guardarse en un archivo en formato de texto.
 ```{bash}
 cd "$(git rev-parse --show-toplevel)"
 
-if [ ! -e ./results/29-01-2026/aln1.txt ]; then 
-         if [ ! -e ./data/29-01-2026/HumanSMARCD2.fa ]; then wget -O ./data/29-01-2026/HumanSMARCD2.fa https://www.ebi.ac.uk/ena/browser/api/fasta/AAI36323.1
+if [ ! -e ./results/Practica_1/aln1.txt ]; then 
+         if [ ! -e ./data/Practica_01/HumanSMARCD2.fa ]; then wget -O ./data/Practica_01/HumanSMARCD2.fa https://www.ebi.ac.uk/ena/browser/api/fasta/AAI36323.1
    fi
-         if [ ! -e ./data/29-01-2026/HumanChr17.fa ]; then wget -O ./data/29-01-2026/HumanChr17.fa \
+         if [ ! -e ./data/Practica_01/HumanChr17.fa ]; then wget -O ./data/Practica_01/HumanChr17.fa \
          https://rest.ensembl.org/sequence/region/human/17:63832000..63843000:1?content-type=text/x-fasta
    fi
-   needle -asequence ./data/29-01-2026/HumanChr17.fa \
-          -bsequence ./data/29-01-2026/HumanSMARCD2.fa \
+   needle -asequence ./data/Practica_01/HumanChr17.fa \
+          -bsequence ./data/Practica_01/HumanSMARCD2.fa \
           -gapopen 15.0 \
           -gapextend 0.5 \
           -auto \
-          -outfile ./results/29-01-2026/alineamientosi.txt
+          -outfile ./results/Practica_1/alineamientosi.txt
   fi
    
 ```
@@ -144,20 +145,24 @@ Para alinear tránscritos o incluso proteínas a un genoma de referencia, es mej
 En el bloque siguiente repetimos el mismo alineamiento que antes, con `exonerate`.
 
 ```{bash}
-cd "$(git rev-parse --show-toplevel)"
 #| eval: true
-#| output: true
+#| output: false
 #| error: true
 
-if [ ! -e ./data/29-01-2026/HumanSMARCD2.fa ]; then
+cd "$(git rev-parse --show-toplevel)"
+
+
+if [ ! -e ./data/Practica_01/HumanSMARCD2.fa ]; then
    wget -O HumanSMARCD2.fa https://www.ebi.ac.uk/ena/browser/api/fasta/AAI36323.1
 fi
-if [ ! -e ./data/29-01-2026/HumanChr17.fa ]; then
+if [ ! -e ./data/Practica_01/HumanChr17.fa ]; then
    wget -O HumanChr17.fa \
       https://rest.ensembl.org/sequence/region/human/17:63832000..63843000:1?content-type=text/x-fasta
 fi
 
-exonerate --model est2genome data/29-01-2026/HumanSMARCD2.fa data/29-01-2026/HumanChr17.fa
+exonerate --model est2genome data/Practica_01/HumanSMARCD2.fa data/Practica_01/HumanChr17.fa
+
+#He eliminado el output porque me generaba problemas de visualización
 ```
 
 En este caso, el alineamiento resultante no se ha enviado a un archivo, sino al*standard output*, que Quarto recoge y presenta en este mismo documento. Por eso, no hemos condicionado la ejecución.
@@ -171,10 +176,11 @@ En este caso, el alineamiento resultante no se ha enviado a un archivo, sino al*
 # Solución
 Como nos interesa tener el alineamineto en txt y yo he decidio poner los archivos fasta originales en la carpeta data para tenerlo todo bien ordenado, usamos este código para crear nuestro archivo:
 ```{bash}
+
 cd "$(git rev-parse --show-toplevel)"
 
-if [ ! -e results/29-01-2026/alineamiento_exonerate.txt ]; then 
-exonerate --model est2genome data/29-01-2026/HumanSMARCD2.fa data/29-01-2026/HumanChr17.fa > results/29-01-2026/alineamiento_exonerate.txt
+if [ ! -e results/Practica_1/alineamiento_exonerate.txt ]; then 
+exonerate --model est2genome data/Practica_01/HumanSMARCD2.fa data/Practica_01/HumanChr17.fa > results/Practica_1/alineamiento_exonerate.txt
  fi
 ```
 :::
@@ -186,14 +192,15 @@ instalado, vamos a probarlo con una colección de secuencias que pertenecen
 a la familia [PF00009](https://www.ebi.ac.uk/interpro/entry/pfam/PF00009/):
 
 ```{bash}
+
 cd "$(git rev-parse --show-toplevel)"
 
-if [ ! -e ./data/29-01-2026/PF00009.fa ]; then
-   wget -O ./data/29-01-2026/PF00009.fa https://raw.githubusercontent.com/rcedgar/balifam/refs/heads/main/balifam100/in/PF00009.100
+if [ ! -e ./data/Practica_01/PF00009.fa ]; then
+   wget -O ./data/Practica_01/PF00009.fa https://raw.githubusercontent.com/rcedgar/balifam/refs/heads/main/balifam100/in/PF00009.100
 fi
 
-if [ ! -e ./results/29-01-2026/alineamientomultiple.afa ]; then
-   muscle -align ./data/29-01-2026/PF00009.fa -output results/29-01-2026/alineamientomultiple.afa
+if [ ! -e ./results/Practica_1/alineamientomultiple.afa ]; then
+   muscle -align ./data/Practica_01/PF00009.fa -output results/Practica_1/alineamientomultiple.afa
 fi
 ```
 
@@ -204,6 +211,7 @@ alineamiento a un archivo HTML, que puede abrirse en una ventana nueva. Si estam
 
 
 ```{r}
+#| eval: false
 #| messages: false
 #| warning: false
 
@@ -212,7 +220,9 @@ library('DECIPHER')
 PF00009 <- readAAStringSet('alineamientomultiple.afa')
 BrowseSeqs(PF00009, htmlFile = 'PF00009.html', openURL = FALSE)
 includeHTML('./PF00009.html')
+#El aumento de tamaño era tan grande que no me cargaba bien, por lo que lo he desactivado
 ```
+
 
 
 # Bibliografía
