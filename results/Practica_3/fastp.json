@@ -323,5 +323,5 @@
 		"overrepresented_sequences": {
 		}
 	},
-	"command": "fastp -i ./data/10-02-2026/Tsu4-125-1.fastq.gz -o ./results/10-02-2026/Tsu4-125-1_clean.fastq -I ./data/10-02-2026/Tsu4-125-2.fastq.gz -O ./results/10-02-2026/Tsu4-125-2.fastq --merge --merged_out ./results/10-02-2026/Tsu4-125_m_clean.fastq -h ./results/10-02-2026/fastp.html -j ./results/10-02-2026/fastp.json "
+	"command": "fastp -i ./data/Practica_03/Tsu4-125-1.fastq.gz -o ./data/Practica_03/Tsu4-125-1_clean.fastq -I ./data/Practica_03/Tsu4-125-2.fastq.gz -O ./data/Practica_03/Tsu4-125-2_clean.fastq --merge --merged_out ./data/Practica_03/Tsu4-125_m_clean.fastq -h ./results/Practica_3/fastp.html -j ./results/Practica_3/fastp.json "
 }

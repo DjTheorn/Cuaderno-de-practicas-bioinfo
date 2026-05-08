@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Práctica 2. Mapeo de secuencias cortas</title>
+<title>Práctica 3. Mapeo de secuencias cortas</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -2227,7 +2227,7 @@ vertical-align: -.125em;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Práctica 2. Mapeo de secuencias cortas</h1>
+<h1 class="title">Práctica 3. Mapeo de secuencias cortas</h1>
 </div>
 
 
@@ -2238,7 +2238,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Última actualización:</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">25 de abril de 2026</p>
+      <p class="date">8 de mayo de 2026</p>
     </div>
   </div>
   
@@ -2292,13 +2292,13 @@ make</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/10-02-2026/Tsu4-125-1.fastq.gz <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/Practica_03/Tsu4-125-1.fastq.gz <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Con la opción &quot;-o /dev/null&quot; nos deshacemos de los mensajes.</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">wget</span> <span class="at">-O</span> ./data/10-02-2026/Tsu4-125-1.fastq.gz <span class="at">-o</span> /dev/null <span class="dt">\</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">wget</span> <span class="at">-O</span> ./data/Practica_03/Tsu4-125-1.fastq.gz <span class="at">-o</span> /dev/null <span class="dt">\</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        ftp://ftp.sra.ebi.ac.uk/vol1/fastq/DRR025/DRR025089/DRR025089_1.fastq.gz</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/10-02-2026/Tsu4-125-2.fastq.gz <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">wget</span> <span class="at">-O</span> ./data/10-02-2026/Tsu4-125-2.fastq.gz <span class="at">-o</span> /dev/null <span class="dt">\</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/Practica_03/Tsu4-125-2.fastq.gz <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">wget</span> <span class="at">-O</span> ./data/Practica_03/Tsu4-125-2.fastq.gz <span class="at">-o</span> /dev/null <span class="dt">\</span></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        ftp://ftp.sra.ebi.ac.uk/vol1/fastq/DRR025/DRR025089/DRR025089_2.fastq.gz</span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -2329,9 +2329,9 @@ make</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">gunzip</span> <span class="at">-c</span> ./data/10-02-2026/Tsu4-125-1.fastq.gz <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">gunzip</span> <span class="at">-c</span> ./data/Practica_03/Tsu4-125-1.fastq.gz <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">gunzip</span> <span class="at">-c</span> ./data/10-02-2026/Tsu4-125-2.fastq.gz <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">gunzip</span> <span class="at">-c</span> ./data/Practica_03/Tsu4-125-2.fastq.gz <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>1646728
 1646728</code></pre>
@@ -2346,8 +2346,8 @@ make</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Con la opción &quot;-o /dev/null&quot; nos deshacemos de los mensajes,</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># y con &quot;-O referencia.fa&quot; escogemos un nombre adecuado para el archivo.</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/10-02-2026/referencia.fa <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">wget</span> <span class="at">-o</span> /dev/null <span class="at">-O</span> ./data/10-02-2026/referencia.fa <span class="dt">\</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/Practica_03/referencia.fa <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">wget</span> <span class="at">-O</span> ./data/Practica_03/referencia.fa <span class="dt">\</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        https://www.ebi.ac.uk/ena/browser/api/fasta/GCA_042137995.2 </span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -2386,16 +2386,16 @@ make</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> ./data/10-02-2026/referencia.fa</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> <span class="op">&lt;</span> ./data/Practica_03/referencia.fa</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>167052 ./data/10-02-2026/referencia.fa</code></pre>
+<pre><code>167052</code></pre>
 </div>
 </div>
 <p>y obtendremos que el archivo tiene un total de 167052 lineas. En caso de que queramos segurarnos de que son secuencias y que el archivo fasta no ha juntado varias secuencias en la misma linea, lo que podemos hacer es analizar la cantidad de veces en que una linea comienza con el símbolo &gt;; símbolo universal con el que comienzan las secuencias en los archivos FASTA. Para ello, utilizamos el código:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&quot;^&gt;&quot;</span> ./data/10-02-2026/referencia.fa</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&quot;^&gt;&quot;</span> ./data/Practica_03/referencia.fa</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>3</code></pre>
 </div>
@@ -2422,17 +2422,17 @@ Tip
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./results/10-02-2026/fastp.html <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./results/Practica_3/fastp.html <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Si &quot;fastp&quot; está en la carpeta actual y  no en el PATH, escribe &quot;./fastp&quot;</span></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>   <span class="co"># en lugar de &quot;fastp&quot;.</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>   <span class="ex">fastp</span> <span class="at">-i</span> ./data/10-02-2026/Tsu4-125-1.fastq.gz <span class="dt">\</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">-o</span> ./results/10-02-2026/Tsu4-125-1_clean.fastq <span class="dt">\</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">-I</span> ./data/10-02-2026/Tsu4-125-2.fastq.gz <span class="dt">\</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">-O</span> ./results/10-02-2026/Tsu4-125-2_clean.fastq <span class="dt">\</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>   <span class="ex">fastp</span> <span class="at">-i</span> ./data/Practica_03/Tsu4-125-1.fastq.gz <span class="dt">\</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">-o</span> ./data/Practica_03/Tsu4-125-1_clean.fastq <span class="dt">\</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">-I</span> ./data/Practica_03/Tsu4-125-2.fastq.gz <span class="dt">\</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">-O</span> ./data/Practica_03/Tsu4-125-2_clean.fastq <span class="dt">\</span></span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">--merge</span> <span class="dt">\</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">--merged_out</span> ./results/10-02-2026/Tsu4-125_m_clean.fastq <span class="dt">\</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">-h</span> ./results/10-02-2026/fastp.html <span class="dt">\</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">-j</span> ./results/10-02-2026/fastp.json </span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">--merged_out</span> ./data/Practica_03/Tsu4-125_m_clean.fastq <span class="dt">\</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">-h</span> ./results/Practica_3/fastp.html <span class="dt">\</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">-j</span> ./results/Practica_3/fastp.json </span>
 <span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -2470,7 +2470,7 @@ Tip
 <li>Que cada secuencia se leyó en 251 pb por cada extremo, por lo que como máximo podremos tener secuencias de 500 pb (de forma realista, entre 400 y 450). Para comprobarlo, podemos mirar el insert size peak, que nos informa que la media de las secuencias completas (el pico de una campana de Gauss formada por la longitud de todas las secuencias) es de 206 pb. Como 206 es menor que 251, podemos comrpender que nuestra lectura fw y nuestra lectura rv se superponen por completo. <em>Esta teoría también es apoyada por el hecho de que la tasa de lecturas que no han pasado el filtro por ser demasiado largas es del 0,13%</em>.</li>
 <li>Que la frencuencia de que haya dos secuencias iguales es del 0,02672%. Esto nos resulta muy últil porque nos informa que la PCR efectuada antes de la secuenciación no tuvo sesgos hacia ninguna secuencia en particular y estuvo muy optimizada.</li>
 <li>En lo relativo al filtering, la presentación de datos es curiosa, pero podemos saber que de las 823.364 secuencias leídas, 751.986 han pasado los filtros, correspondiendose al 91,33 % de las secuencias obtenidas. Dentro de estas 751.986 secuencias, 209.536 han requerido alguna corrección. Además, de las 71.378 que no han pasado los filtros, 70.324 han sido por falta de calidad en la lectura y 1.054 por ser demasiado largas.</li>
-<li>Por último, el filtrado ha dado lugar a 233.677 secuencias fiables producidas de una unión paired-end.<em>Si bien esperariamos que la cantidad de secuencias finales fueran exactamente la mitad de las que han pasado el filtro, esto no ocurre porque con tal de que 1 de las secuencias fw o rv que conforman la secuencia final se consideren incorrectas, fastp desecha esa secuencia final por completo</em>.</li>
+<li>Por último, el filtrado ha dado lugar a 233.677 secuencias fiables producidas de una unión paired-end. <em>Si bien esperariamos que la cantidad de secuencias finales fueran exactamente la mitad de las que han pasado el filtro, esto no ocurre porque con tal de que 1 de las secuencias fw o rv que conforman la secuencia final se consideren incorrectas, fastp desecha esa secuencia final por completo</em>.</li>
 </ul>
 <ol start="3" type="1">
 <li>Lo primero que hacemos es descargarnos las secuencias:</li>
@@ -2478,12 +2478,12 @@ Tip
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/10-02-2026/Tsu4-125-3.fastq.gz <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">wget</span> <span class="at">-O</span> ./data/10-02-2026/Tsu4-125-3.fastq.gz <span class="at">-o</span> /dev/null <span class="dt">\</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/Practica_03/Tsu4-125-3.fastq.gz <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">wget</span> <span class="at">-O</span> ./data/Practica_03/Tsu4-125-3.fastq.gz <span class="at">-o</span> /dev/null <span class="dt">\</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        ftp://ftp.sra.ebi.ac.uk/vol1/fastq/DRR025/DRR025087/DRR025087_1.fastq.gz</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/10-02-2026/Tsu4-125-4.fastq.gz <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">wget</span> <span class="at">-O</span> ./data/10-02-2026/Tsu4-125-4.fastq.gz <span class="at">-o</span> /dev/null <span class="dt">\</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/Practica_03/Tsu4-125-4.fastq.gz <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">wget</span> <span class="at">-O</span> ./data/Practica_03/Tsu4-125-4.fastq.gz <span class="at">-o</span> /dev/null <span class="dt">\</span></span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        ftp://ftp.sra.ebi.ac.uk/vol1/fastq/DRR025/DRR025087/DRR025087_2.fastq.gz</span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -2491,15 +2491,15 @@ Tip
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./results/10-02-2026/segundo_fastp.html <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>   <span class="ex">fastp</span> <span class="at">-i</span> ./data/10-02-2026/Tsu4-125-3.fastq.gz <span class="dt">\</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">-o</span> ./results/10-02-2026/Tsu4-125-3_clean.fastq <span class="dt">\</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">-I</span> ./data/10-02-2026/Tsu4-125-4.fastq.gz <span class="dt">\</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">-O</span> ./results/10-02-2026/Tsu4-125-4_clean.fastq <span class="dt">\</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./results/Practica_3/segundo_fastp.html <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>   <span class="ex">fastp</span> <span class="at">-i</span> ./data/Practica_03/Tsu4-125-3.fastq.gz <span class="dt">\</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">-o</span> ./results/Practica_3/Tsu4-125-3_clean.fastq <span class="dt">\</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">-I</span> ./data/Practica_03/Tsu4-125-4.fastq.gz <span class="dt">\</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">-O</span> ./results/Practica_3/Tsu4-125-4_clean.fastq <span class="dt">\</span></span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">--merge</span> <span class="dt">\</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">--merged_out</span> ./results/10-02-2026/Tsu4-125_m_2_clean.fastq <span class="dt">\</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">-h</span> ./results/10-02-2026/segundo_fastp.html <span class="dt">\</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">-j</span> ./results/10-02-2026/segundo_fastp.json </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">--merged_out</span> ./results/Practica_3/Tsu4-125_m_2_clean.fastq <span class="dt">\</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">-h</span> ./results/Practica_3/segundo_fastp.html <span class="dt">\</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">-j</span> ./results/Practica_3/segundo_fastp.json </span>
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Como podemos ver, este grupo de investigación tiene la secuenciación considerablemente optimizada y aproximadamente el 90% de sus secuencias pasan los filtros cada vez.</p>
@@ -2512,29 +2512,29 @@ Tip
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/10-02-2026/Tsu4-125.bam <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/10-02-2026/Tsu4-125_desordenado.bam <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/10-02-2026/Tsu4-125.sam <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>         <span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/10-02-2026/referencia.fa.bwt <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/10-02-2026/referencia.fa <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>               <span class="fu">wget</span> <span class="at">-o</span> /dev/null <span class="at">-O</span> ./data/10-02-2026/referencia.fa <span class="dt">\</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./results/Practica_3/Tsu4-125.bam <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/Practica_03/Tsu4-125_desordenado.bam <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/Practica_03/Tsu4-125.sam <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>         <span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/Practica_03/referencia.fa.bwt <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/Practica_03/referencia.fa <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>               <span class="fu">wget</span> <span class="at">-o</span> /dev/null <span class="at">-O</span> ./data/Practica_03/referencia.fa <span class="dt">\</span></span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>               https://www.ebi.ac.uk/ena/browser/api/fasta/GCA_042137995.2</span>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">fi</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>            <span class="ex">bwa</span> index ./data/10-02-2026/referencia.fa</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>            <span class="ex">bwa</span> index ./data/Practica_03/referencia.fa</span>
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>         <span class="cf">fi</span></span>
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>         <span class="ex">bwa</span> mem <span class="at">-M</span> <span class="at">-R</span> <span class="st">&#39;@RG\tID:DRR025089\tSM:SAMD00022947&#39;</span> <span class="dt">\</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">-o</span> ./data/10-02-2026/Tsu4-125.sam <span class="dt">\</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>                 ./data/10-02-2026/referencia.fa <span class="dt">\</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>                 ./results/10-02-2026/Tsu4-125-1_clean.fastq <span class="dt">\</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>                 ./results/10-02-2026/Tsu4-125-2_clean.fastq <span class="dt">\</span></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>         <span class="dv">1</span><span class="op">&gt;</span> ./results/10-02-2026/bwa.log <span class="dv">2</span><span class="op">&gt;</span> ./results/10-02-2026/bwa.err</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">-o</span> ./data/Practica_03/Tsu4-125.sam <span class="dt">\</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>                 ./data/Practica_03/referencia.fa <span class="dt">\</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>                 ./data/Practica_03/Tsu4-125-1_clean.fastq <span class="dt">\</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>                 ./data/Practica_03/Tsu4-125-2_clean.fastq <span class="dt">\</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>         <span class="dv">1</span><span class="op">&gt;</span> ./data/Practica_03/bwa.log <span class="dv">2</span><span class="op">&gt;</span> ./data/Practica_03/bwa.err</span>
 <span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>      <span class="cf">fi</span></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>      <span class="ex">samtools</span> view <span class="at">-b</span> <span class="at">-o</span> ./data/10-02-2026/Tsu4-125_desordenado.bam <span class="dt">\</span></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>      ./data/10-02-2026/Tsu4-125.sam</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>      <span class="ex">samtools</span> view <span class="at">-b</span> <span class="at">-o</span> ./data/Practica_03/Tsu4-125_desordenado.bam <span class="dt">\</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>      ./data/Practica_03/Tsu4-125.sam</span>
 <span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">fi</span></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    <span class="ex">samtools</span> sort <span class="at">-o</span> ./data/10-02-2026/Tsu4-125.bam <span class="dt">\</span></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    ./data/10-02-2026/Tsu4-125_desordenado.bam</span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    <span class="ex">samtools</span> index ./data/10-02-2026/Tsu4-125.bam</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    <span class="ex">samtools</span> sort <span class="at">-o</span> ./results/Practica_3/Tsu4-125.bam <span class="dt">\</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    ./data/Practica_03/Tsu4-125_desordenado.bam</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    <span class="ex">samtools</span> index ./results/Practica_3/Tsu4-125.bam</span>
 <span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -2578,30 +2578,30 @@ samtools sort - &gt; DRR025089.bam</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/10-02-2026/Tsu4-125.bam <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/10-02-2026/Tsu4-125_desordenado.bam <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/10-02-2026/Tsu4-125_merged.sam <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>         <span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/10-02-2026/referencia.fa.bwt <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/10-02-2026/referencia.fa <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>               <span class="fu">wget</span> <span class="at">-o</span> /dev/null <span class="at">-O</span> ./data/10-02-2026/referencia.fa <span class="dt">\</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./results/Practica_3/Tsu4-125.bam <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/Practica_03/Tsu4-125_desordenado.bam <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/Practica_03/Tsu4-125_merged.sam <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>         <span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/Practica_03/referencia.fa.bwt <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/Practica_03/referencia.fa <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>               <span class="fu">wget</span> <span class="at">-o</span> /dev/null <span class="at">-O</span> ./data/Practica_03/referencia.fa <span class="dt">\</span></span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>               https://www.ebi.ac.uk/ena/browser/api/fasta/GCA_042137995.2</span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">fi</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>            <span class="ex">bwa</span> index ./data/10-02-2026/referencia.fa</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>            <span class="ex">bwa</span> index ./data/Practica_03/referencia.fa</span>
 <span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>         <span class="cf">fi</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>         <span class="co">#Aquí debemos cambiar en el -o de dónde viene los datos: en lugar de          poner dos archivos, ponemos el merged.</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>         <span class="co">#Aquí debemos cambiar en el -o de dónde viene los datos: en lugar de poner dos archivos, ponemos el merged.</span></span>
 <span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>         <span class="ex">bwa</span> mem <span class="at">-M</span> <span class="at">-R</span> <span class="st">&#39;@RG\tID:DRR025089\tSM:SAMD00022947&#39;</span> <span class="dt">\</span></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">-o</span> ./data/10-02-2026/Tsu4-125_merged.sam <span class="dt">\</span></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>                 ./data/10-02-2026/referencia.fa <span class="dt">\</span></span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>                 ./results/10-02-2026/Tsu4-125_m_clean.fastq <span class="dt">\</span></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>         <span class="dv">1</span><span class="op">&gt;</span> ./results/10-02-2026/bwa_merged.log <span class="dt">\</span></span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>         <span class="dv">2</span><span class="op">&gt;</span> ./results/10-02-2026/bwa_merged.err</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">-o</span> ./data/Practica_03/Tsu4-125_merged.sam <span class="dt">\</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>                 ./data/Practica_03/referencia.fa <span class="dt">\</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>                 ./results/Practica_3/Tsu4-125_m_clean.fastq <span class="dt">\</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>         <span class="dv">1</span><span class="op">&gt;</span> ./data/Practica_03/bwa_merged.log <span class="dt">\</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>         <span class="dv">2</span><span class="op">&gt;</span> ./data/Practica_03/bwa_merged.err</span>
 <span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>      <span class="cf">fi</span></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>      <span class="ex">samtools</span> view <span class="at">-b</span> <span class="at">-o</span> ./data/10-02-2026/Tsu4-125_merged_desordenado.bam <span class="dt">\</span></span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>      ./data/10-02-2026/Tsu4-125_merged.sam</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>      <span class="ex">samtools</span> view <span class="at">-b</span> <span class="at">-o</span> ./data/Practica_03/Tsu4-125_merged_desordenado.bam <span class="dt">\</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>      ./data/Practica_03/Tsu4-125_merged.sam</span>
 <span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">fi</span></span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    <span class="ex">samtools</span> sort <span class="at">-o</span> ./data/10-02-2026/Tsu4-125_merged.bam <span class="dt">\</span></span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    ./data/10-02-2026/Tsu4-125_merged_desordenado.bam</span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    <span class="ex">samtools</span> index ./data/10-02-2026/Tsu4-125_merged.bam</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    <span class="ex">samtools</span> sort <span class="at">-o</span> ./results/Practica_3/Tsu4-125_merged.bam <span class="dt">\</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    ./data/Practica_03/Tsu4-125_merged_desordenado.bam</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    <span class="ex">samtools</span> index ./results/Practica_3/Tsu4-125_merged.bam</span>
 <span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Con este código, podemos alinear los pares de lecturas que fastp ya había combinado, ahorrandonos alinear secuencias que sabemos que son incorrectas.</p>
@@ -2616,14 +2616,14 @@ samtools sort - &gt; DRR025089.bam</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./results/10-02-2026/Tsu4-125.stats.txt <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>   <span class="ex">samtools</span> stats ./data/10-02-2026/Tsu4-125.bam <span class="op">&gt;</span> ./results/10-02-2026/Tsu4-125.stats.txt</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./results/Practica_3/Tsu4-125.stats.txt <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>   <span class="ex">samtools</span> stats ./data/Practica_03/Tsu4-125.bam <span class="op">&gt;</span> ./results/Practica_3/Tsu4-125.stats.txt</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraemos la sección sobre profundidad de cobertura</span></span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> stat.<span class="va">$i</span>.txt <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">grep</span> ^COV ./results/10-02-2026/Tsu4-125.stats.txt <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>   <span class="fu">cut</span> <span class="at">-f</span> 2- <span class="op">&gt;</span> ./results/10-02-2026/COV.txt</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">grep</span> ^COV ./results/Practica_3/Tsu4-125.stats.txt <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>   <span class="fu">cut</span> <span class="at">-f</span> 2- <span class="op">&gt;</span> ./results/Practica_3/COV.txt</span>
 <span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -2645,7 +2645,7 @@ Nota
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(PBioinfo)</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>COV <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&#39;./results/10-02-2026/COV.txt&#39;</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>COV <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&#39;./results/Practica_3/COV.txt&#39;</span>,</span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&#39;intervalo&#39;</span>, <span class="st">&#39;cobertura&#39;</span>, <span class="st">&#39;bases&#39;</span>))</span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(COV<span class="sc">$</span>cobertura, COV<span class="sc">$</span>bases, <span class="at">type =</span> <span class="st">&#39;l&#39;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -2693,7 +2693,7 @@ Nota
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(PBioinfo)</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>COV <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&#39;./results/10-02-2026/COV.txt&#39;</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>COV <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&#39;./results/Practica_3/COV.txt&#39;</span>,</span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&#39;intervalo&#39;</span>, <span class="st">&#39;cobertura&#39;</span>, <span class="st">&#39;bases&#39;</span>))</span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(COV<span class="sc">$</span>cobertura, COV<span class="sc">$</span>bases, <span class="at">type =</span> <span class="st">&#39;l&#39;</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -2712,7 +2712,7 @@ Nota
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> idxstats ./data/10-02-2026/Tsu4-125.bam</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> idxstats ./results/Practica_3/Tsu4-125.bam</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ENA|CP169752|CP169752.1 9460647 230509  2965
 ENA|CP169753|CP169753.1 440193  965 89
