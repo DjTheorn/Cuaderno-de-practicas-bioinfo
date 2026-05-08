@@ -3,7 +3,7 @@ title: "Trabajar con tablas o marcos de datos con R"
 lang: es
 date: today
 execute: 
-  output: false
+  output: true
   error: true
 engine: knitr
 bibliography: ../../doc/references.bib
@@ -14,6 +14,8 @@ format:
    html:
       embed-resources: true
 ---
+
+
 
 # Preparación
 
@@ -35,16 +37,17 @@ Veamos primero de qué opciones disponemos:
 ```{bash}
 cd "$(git rev-parse --show-toplevel)"
 
-if [ ! -e  ./data/17-02-2026/trypanosoma_annotated.txt ]; then
-   ./data/17-02-2026/datasets summary genome taxon Trypanosoma --annotated --as-json-lines | \
-   ./data/17-02-2026/dataformat tsv genome --fields \
-      accession,organism-name,assminfo-release-date,assminfo-level,assmstats-atgc-count,annotinfo-featcount-gene-total,assminfo-type,assminfo-status > ./data/17-02-2026/trypanosoma_annotated.txt
+if [ ! -e  ./data/Practica_04/trypanosoma_annotated.txt ]; then
+   ./data/Practica_04/datasets summary genome taxon Trypanosoma --annotated --as-json-lines | \
+   ./data/Practica_04/dataformat tsv genome --fields \
+      accession,organism-name,assminfo-release-date,assminfo-level,assmstats-atgc-count,annotinfo-featcount-gene-total,assminfo-type,assminfo-status > ./data/Practica_04/trypanosoma_annotated.txt
 fi
 ```
 
 La línea larga que sigue a `--fields` especifica qué información sobre los genomas queremos ver en la tabla. Para saber qué campos se pueden seleccionar, puedes ejecutar la orden `dataformat tsv genome --help`. Veamos esa tabla en el informe HTML en un formato adecuado.
 
 ```{r}
+#| output: false
 #| messages: false
 
 PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
@@ -52,7 +55,7 @@ PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
 setwd(PBioinfo)
 
 library('kableExtra')
-genomas <- read.table('./data/17-02-2026/trypanosoma_annotated.txt',
+genomas <- read.table('./data/Practica_04/trypanosoma_annotated.txt',
                       header = TRUE, sep = '\t')
 kable(genomas) %>% kable_styling()
 ```
@@ -72,11 +75,22 @@ esta_duplicado <- duplicated(genomas)
 print(esta_duplicado)
 ```
 
-Y si no solo queremos saber cuales están duplicadas si no que nos interesa que nos diga toda la información de las que están duplicadas:
+Esto sirve para líneas exactamente idénticas; pero de forma habitual no existen estas líneas porque tienen un identificador diferente. Por tanto, vamos a buscar lineas idénticas ignorando el identificador: 
+
 ```{r}
-datos_duplicados <- genomas[esta_duplicado,]
-print(datos_duplicados)
+esta_duplicado_sinID <- duplicated(genomas[, -1])
+print(esta_duplicado_sinID)
 ```
+
+Y si no solo queremos saber cuales están duplicadas si no que nos interesa que nos diga toda la información de las que están duplicadas:
+
+```{r}
+datos_duplicados_sinID <- genomas[esta_duplicado_sinID,]
+print(datos_duplicados_sinID)
+```
+
+Solo pone los GCA porque en la tabla siempre aparecen segundos; pero están copiados de un GCF correspondiente.
+
 Gemini me ha mencionado también un paquete llamado `janitor` que al parecer funciona muy bien, usando la función ````get_dupes(genomas,2)```.
 :::
 
@@ -86,6 +100,7 @@ La función `order()` produce los índices ordenados de los elementos de un vect
 Consulta su ayuda y experimenta con ella. Vamos a usar esta función para ordenar las filas del marco de datos `genomas` por fecha, que es la tercera columna, llamada `Assembly.Release.Date`.
 
 ```{r}
+#| output: false
 # Observa que asignamos el resultado del ordenamiento al mismo objeto que
 # estamos ordenando, para guardar el resultado sin tener que generar otro objeto.
 library(grDevices)
@@ -123,11 +138,11 @@ Habiendo visto las opciones, decidimos descargar el genoma y la anotación funci
 ```{bash}
 cd "$(git rev-parse --show-toplevel)"
 
-if [ ! -e ./data/17-02-2026/ncbi_dataset/data/GCA_022059095.1/genomic.gff ]; then
-   if [ ! -e ./data/17-02-2026/ncbi_dataset.zip ]; then
-      ./data/17-02-2026/datasets download genome accession GCA_022059095.1 --include genome,gff3 --filename ./data/17-02-2026/ncbi_dataset.zip
+if [ ! -e ./data/Practica_04/ncbi_dataset/data/GCA_022059095.1/genomic.gff ]; then
+   if [ ! -e ./data/Practica_04/ncbi_dataset.zip ]; then
+      ./data/17-02-2026/datasets download genome accession GCA_022059095.1 --include genome,gff3 --filename ./data/Practica_04/ncbi_dataset.zip
    fi
-   unzip ./data/17-02-2026/ncbi_dataset.zip -d ./data/17-02-2026/
+   unzip ./data/Practica_04/ncbi_dataset.zip -d ./data/Practica_04/
 fi
 ```
 
@@ -136,13 +151,14 @@ información sobre los datos descargados, y un archivo en formato "jsonlines".
 El formato "jsonlines" es una versión de JSON en la que cada registro ocupa una sola línea. Esto dificulta la visualización, pero agiliza el análisis de los datos en la línea de órdenes. Para ver mejor el contenido del archivo con la extensión `jsonl`, podríamos utilizar el programa [`jq`](https://jqlang.org/), o bien utilizar la función `prettify()` del paquete `jsonlite` de R:
 
 ```{r}
+#| eval: false
 #| message: false
 PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
 
 setwd(PBioinfo)
 
 library('jsonlite')
-prettify(readLines('./data/17-02-2026/ncbi_dataset/data/assembly_data_report.jsonl'))
+prettify(readLines('./data/Practica_04/ncbi_dataset/data/assembly_data_report.jsonl'))
 ```
 
 Volviendo a lo que nos interesa, vamos a cargar en un marco de datos de una
@@ -154,7 +170,7 @@ PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
 
 setwd(PBioinfo)
 
-gff <- read.table('./data/17-02-2026/ncbi_dataset/data/GCA_022059095.1/genomic.gff', sep = '\t',
+gff <- read.table('./data/Practica_04/ncbi_dataset/data/GCA_022059095.1/genomic.gff', sep = '\t',
                   col.names = c('seqid', 'source', 'type', 'start', 'end',
                                 'score', 'strand', 'phase', 'attributes'),
                   quote = '')
@@ -194,6 +210,7 @@ Identifica en cada uno de estos marcos de datos qué columnas son invariables. E
 ## Solución
 Para identificar que columnas son invariables, existen varios métodos, pero voy a usar uno que utiliza el paquete `dplyr`. Este paquete tiene una funnción de limpieza de tablas con un único comando:
 ```{r}
+#| output: false
 library(dplyr)
 
 exon_limpio <- exon %>%
@@ -427,6 +444,7 @@ f5 <- gff$seqid == 'JAJSEB010000033.1' & gff$start >= 123135 & gff$end <= 170687
 f <- f1 | f2 | f3 | f4 | f5
 
 interesantes <- gff[f, ]
+nrow(interesantes)
 ```
 
 :::{.callout-note icon=false}
@@ -448,6 +466,7 @@ f5 <- gff$seqid == 'JAJSEB010000033.1' & ! (gff$start <= 123135 & gff$end <= 123
 f <- f1 | f2 | f3 | f4 | f5
 
 interesantes <- gff[f, ]
+nrow(interesantes)
 ```
 
 Hemos pasado de 920 a 952 entidades (recordemos que no hemos filtrado genes a partir de este script)
