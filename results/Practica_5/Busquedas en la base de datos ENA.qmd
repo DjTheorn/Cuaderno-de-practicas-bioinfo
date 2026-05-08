@@ -123,11 +123,13 @@ PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
 
 setwd(PBioinfo)
 
-#Este bloque no funciona y me daba error porque no reconocía que la URL estaba
-#bien escrita. Para ello, sería sido necesario añadir el prefijo URLencode.
 
 curl_download('https://www.ebi.ac.uk/ena/portal/api/search?result=assembly&query=tax_tree(6157) AND genome_representation="full"&fields=version,tax_id,scientific_name,last_updated,base_count&limit=0',
               destfile = './data/Practica_05/z1.txt')
+
+#Este bloque no funciona y me daba error porque no reconocía que la URL estaba
+#bien escrita. Para ello, sería sido necesario añadir el prefijo URLencode.
+
 ```
 
 ```{r}
@@ -235,6 +237,32 @@ mtext('Base count', side = 2, line = 5)
 ¿De qué manera necesitarías transformar la tabla `platelmintos` para poder
 representar gráficamente la longitud acumulada de todas las secuencias
 disponibles a medida que se han ido publicando?
+:::
+
+:::{.callout-note icon=false}
+## Solución 3
+Vamos a ir por partes para solucionar este ejercicio. Lo primero que vamos a hacer es ordenar la tabla en función de las fechas:
+
+```{r}
+platelmintos <- platelmintos[order(platelmintos$last_updated), ]
+```
+
+Una vez ordenados, vamos a crear una nueva columna dentro de nuestra tabla de platelmintos que nos represente la longitud acumulada. Para ello, usaremos la función cumsum, que nos da un vector con la suma acumulada de un conjunto de valores:
+
+```{r}
+platelmintos$acumulado <- cumsum(platelmintos$base_count)
+```
+
+Por último, volvemos a representar la gráfica:
+
+```{r}
+#| fig.width: 10
+par(mar = c(8,7,1,1))
+boxplot(acumulado ~ last_updated, data = platelmintos,
+        las = 2, xlab = '', ylab = '', cex.axis = 0.8)
+mtext('Fecha', side = 1, line = 7)
+mtext('Longituda acumulada', side = 2, line = 5)
+```
 :::
 
 # La API del navegador (*browser*) de ENA
