@@ -1,5 +1,5 @@
 ---
-title: "Búsquedas programáticas en la base de datos ENA"
+title: "Practica 5: Búsquedas programáticas en la base de datos ENA"
 lang: es
 date: today
 execute: 
@@ -119,7 +119,7 @@ dificultades identificas en cada uno.
 
 
 ```{r}
-PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
+PBioinfo <- system("curr=$PWD; while [ \"$curr\" != \"/\" ] && [ -z \"$(ls \"$curr\"/*.Rproj 2>/dev/null)\" ]; do curr=$(dirname \"$curr\"); done; echo \"$curr\"", intern = TRUE)
 
 setwd(PBioinfo)
 
@@ -133,7 +133,7 @@ curl_download('https://www.ebi.ac.uk/ena/portal/api/search?result=assembly&query
 ```
 
 ```{r}
-PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
+PBioinfo <- system("curr=$PWD; while [ \"$curr\" != \"/\" ] && [ -z \"$(ls \"$curr\"/*.Rproj 2>/dev/null)\" ]; do curr=$(dirname \"$curr\"); done; echo \"$curr\"", intern = TRUE)
 
 setwd(PBioinfo)
 
@@ -145,7 +145,7 @@ curl_download(
 ```
 
 ```{r}
-PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
+PBioinfo <- system("curr=$PWD; while [ \"$curr\" != \"/\" ] && [ -z \"$(ls \"$curr\"/*.Rproj 2>/dev/null)\" ]; do curr=$(dirname \"$curr\"); done; echo \"$curr\"", intern = TRUE)
 
 setwd(PBioinfo)
 
@@ -175,15 +175,15 @@ preguntas siguientes. Consulta el apéndice de este guión, si lo necesitas.
 
 :::{.callout-note icon=false}
 ## Solución
-Para poder elaborar dicha URL; lo primero que queremos es identidifar el ID de *Drosophila*. Para ello, nos metemos en el NCBI taxonomy browser y encontramos que el ID es 7215. Por otro lado, tenemos que tener en cuenta que estamos buscando exclusivamente la enzima alcohol deshidorgenasa, es decir, una secuencia de una proteína. Por tanto, nuestra search será de una secuencia. 
+Para poder elaborar dicha URL; lo primero que queremos es identificar el ID de *Drosophila*. Para ello, nos metemos en el NCBI taxonomy browser y encontramos que el ID es 7215. Por otro lado, tenemos que tener en cuenta que estamos buscando exclusivamente la enzima alcohol deshidorgenasa, es decir, una secuencia de una proteína. Por tanto, nuestra search será de una secuencia. 
 
-Además, como solo queremos las alcohol deshidorgenasas, vamos a ponerle otra quey adicional a el ID que será que aparezca el nombre alcohol deshidrogenasa. 
+Además, como solo queremos las alcohol deshidorgenasas, vamos a ponerle otra query adicional al ID, que será que aparezca el nombre alcohol deshidrogenasa. 
 Por último, tenemos que decirle que columnas queremos que nos aparezcan. Teniendo en cuenta las preguntas, tienen que ser las correspondientes a la longitud(`base_count`), al nombre científico(`scientific_name`) y a la fecha de publicación(`first_public`). *Para conocer los nombres de las tablas, primero pondré `fields=all`.*
 
 El resultado queda:
 
 ```{r}
-PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
+PBioinfo <- system("curr=$PWD; while [ \"$curr\" != \"/\" ] && [ -z \"$(ls \"$curr\"/*.Rproj 2>/dev/null)\" ]; do curr=$(dirname \"$curr\"); done; echo \"$curr\"", intern = TRUE)
 
 setwd(PBioinfo)
 

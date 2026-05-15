@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Control de versiones con Git</title>
+<title>Practica 2: Control de versiones con Git</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -2207,7 +2207,7 @@ vertical-align: -.125em;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Control de versiones con Git</h1>
+<h1 class="title">Practica 2: Control de versiones con Git</h1>
 </div>
 
 
@@ -2218,7 +2218,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Última actualización:</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">20 de abril de 2026</p>
+      <p class="date">14 de mayo de 2026</p>
     </div>
   </div>
   
@@ -2290,17 +2290,17 @@ vertical-align: -.125em;
 <p>Git está diseñado para compartir archivos pequeños que van cambiando a lo largo de un proyecto. No es un sistema de copias de seguridad. La carpeta de datos debería ser excluida del seguimiento ofrecido por Git. El motivo es que allí pueden residir archivos muy grandes que además no deberían modificarse nunca. Además, en cualquier carpeta de resultados puede haber archivos de los que no queremos que Git observe: si son de más de 10 Mb, o si son archivos temporales sin importancia, por ejemplo.</p>
 <p>Para ignorar ciertos archivos, podemos crear el archivo <code>.gitignore</code>, directamente en la carpeta de trabajo. Es un archivo de texto, y su contenido es una lista de archivos a ignorar. En mi caso, como quería que en git apareciera la carpeta data para tener un pelín más ordenado todo, he modificado un poco el gitignore, que aparece tal que:</p>
 <pre><code>.gitignore
-data/**/* !data/**/.gitkeep
-*.fa
-*.afa
-*.bam
-*.fasta
+!data/**/
+!**/.gitkeep
+!**/*/.gitkeep
+.RData
+.Rhistory
 .Rproj.user</code></pre>
 <p>Estas líneas indican:</p>
 <ol type="1">
 <li>Ignora el archivo <code>.gitignore</code> (en general, recomendable).</li>
-<li>Ignora el contenido de la carpeta local <code>data</code> excepto en las subcarpetas que contengan el archivo .gitkeep.</li>
-<li>Ignora todos los archivos que terminen en <code>.bam</code>, <code>.fa</code>, <code>.afa</code> y <code>.fasta</code>, ya que pueden llegar a ser bastante grandes y no nos interesa que se suban a git. Observa el uso del asterisco, “*“, como comodín: representa cualquier cadena de caracteres.</li>
+<li>Ignora el contenido de la carpeta local <code>data</code>, excepto el archivo <code>.gitkeep</code> en la propia carpeta y en todas sus subcarpetas</li>
+<li>Ignora la carpeta <code>.RData</code> y <code>.Rhistory</code>, recomendación de gemini. El archivo <code>.RData</code> guarda información sobre archivos que se encuentra en mi memoria del ordenador pero que en muchos casos no están en git, siendo efectviamente inútiles. Por otro lado, <code>.Rhistory</code> guarda absolutamente todo lo que escribo en la consola, por lo que si en cualquier momento escribí algo de información confidencial, una contraseña, o algo similar, podría ser arriesgado ponerlo a la vista de todo el mundo. Este cambio fue impuesto al hacer esta práctica, por lo que no ha afectado a la práctica 1 que si tiene el <code>..Rhistory</code></li>
 <li>Ignora la carpeta <code>.Rproj.user</code>, que suele dar problemas cuando otra persona descarga tu git, además de que ensucia el regstro de commits.</li>
 </ol>
 </section>

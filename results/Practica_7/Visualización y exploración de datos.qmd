@@ -1,5 +1,5 @@
 ---
-title: "Visualización y exploración de datos"
+title: "Practica 7: Visualización y exploración de datos"
 lang: es
 date: today
 execute: 
@@ -51,11 +51,13 @@ Cargamos los datos en una sesión de R para empezar a explorarlos, y activamos
 el paquete `ggplot2`, que usaremos después.
 
 ```{r}
-PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
+#| output: false
+PBioinfo <- system("curr=$PWD; while [ \"$curr\" != \"/\" ] && [ -z \"$(ls \"$curr\"/*.Rproj 2>/dev/null)\" ]; do curr=$(dirname \"$curr\"); done; echo \"$curr\"", intern = TRUE)
 
 setwd(PBioinfo)
 
 library('ggplot2')
+library('dplyr')
 gwas <- read.table('./data/Practica_07/gwas.txt', header = TRUE)
 ```
 
@@ -75,7 +77,7 @@ Sabemos que el estadístico *T* es la relación entre la diferencia del valor
 estimado de un parámetro ($\beta$) respecto su valor asumido (0) y el error
 estándar de la estimación. Comprobémoslo con `ggplot()`:
 
-```{r}
+```{r, warning=FALSE}
 ggplot(data = gwas,
        mapping = aes(x = BETA / SE, y = T_STAT)) +
    geom_point() + 
@@ -97,7 +99,7 @@ Comprueba gráficamente las suposiciones siguientes. Esfuérzate por imaginar qu
 1. 
 Teniendo en cuenta que el valor p es un valor que proviene diréctamente del estadístico T, esperamos que en efecto solo dependa de los valores de dicho estadístico. Lo comprobamos:
 
-```{r}
+```{r, warning=FALSE}
 ggplot(data = gwas,
        mapping = aes(x = T_STAT, y = P)) + geom_point()
 ```
@@ -106,7 +108,7 @@ Como podemos ver, se ajusta a nuestras espectativas: cuando el test t = 0; el p-
 2. 
 Teniendo en cuenta que nuestro alelo se compara en el estudio con otro alelo de referencia, no tiene por que ser el alelo minoritario, pero lo comprovamos de forma gráfica:
 
-```{r}
+```{r, warning=FALSE}
 ggplot(data = gwas,
        mapping = aes(y = A1_FREQ, x = A1_FREQ)) + geom_point() + geom_abline(intercept = 0.5, slope = 0, color = 'red')
 ```
@@ -115,7 +117,7 @@ Como podemos ver, la frecuencia alélica de A1 nunca supera el 0,5; por lo que p
 3.
 Esperamos que esto de forma general sea cierto, puesto que el error estándar depende de n (es decir, el número de muestras utilizadas) de forma inversamente proporcional (está en el denominador). Lo comprovamos graficamente:
 
-```{r}
+```{r, warning=FALSE}
 gwas_tamaño <- gwas %>%
   group_by(OBS_CT) %>%
   summarise(media_SE = mean(SE, na.rm = TRUE))
@@ -128,7 +130,7 @@ Como podemos ver, de forma general si existe una tendencia a que el SE disminuya
 4.
 Cuando decimos que la distribución de p-valores se hace uniforme hacia la derecha, nos estamos refieriendo a que los p-valores obtenidos en cada uno de los ensayos se concentran sobretodo en el punto de significancia (o de rechazo a la hipótesis nula) mientras que al movernos hacia la derecha (aumentando el p-valor), existen menos ensayos. Para que esto ocurra, tienen que ocurrir dos cosas: que la hiptesis nula sea rechazada por la mayor parte de estudios (si no lo es, el gráfico saldria completamente uniforme) y que no haya ningún sesgo hacia un p-valor específico. Para descubrirlo, hacemos un gráfico:
 
-```{r}
+```{r, warning=FALSE}
 ggplot(data = gwas,
        mapping = aes(x = P)) + geom_histogram(breaks = seq(0, 1, by = 0.05))
 ```
@@ -144,7 +146,7 @@ diferentes categorías separadamente. A continuación usamos el
 color para resumir la relación entre frecuencia alélica y error
 estándar del estadístico, según el número de individuos utilizados.
 
-```{r}
+```{r, warning=FALSE}
 # OBS_CT no es categórica, pero la tratamos como tal con "factor()".
 # Observa que el color aquí se mapea sólo en la capa "geom_smooth()",
 # para que los puntos sean todos negros.
@@ -156,7 +158,7 @@ ggplot(data = gwas,
 
 Otra forma de agrupar los datos es mediante las *facetas*:
 
-```{r}
+```{r, warning=FALSE}
 #| fig.width: 10
 #| fig.height: 10
 
@@ -179,7 +181,7 @@ ggplot(data = gwas,
 1.
 Esto se puede hacer muy fácil:
 
-```{r}
+```{r, warning=FALSE}
 ggplot(data = gwas,
        mapping = aes(x = A1_FREQ, y = SE, color = factor(OBS_CT))) +
    geom_point() +
@@ -214,7 +216,7 @@ Sirve para que cada una de nuestras facetas pueda tener su propia escala, sin qu
 Al examinar la relación entre el error estándar y el tamaño muestral, podemos
 tratar el tamaño muestral como variable categórica, porque tiene sólo 7 valores diferentes. Observa cómo en el bloque siguiente añadimos información sobre la media de cada categoría sin modificar el marco de datos, aprovechando la función `stat_summary()`:
 
-```{r}
+```{r, warning=FALSE}
 ggplot(data = gwas,
        mapping = aes(x = factor(OBS_CT),
                      y = SE)) +
@@ -235,7 +237,7 @@ ggplot(data = gwas,
 
 Otra forma de representarlo:
 
-```{r}
+```{r, warning=FALSE}
 ggplot(data = gwas, aes(x = OBS_CT, y = SE)) +
    stat_summary(geom = 'line', fun = 'mean', linewidth = 7, color = 'gray') +
    geom_point(position = 'jitter', size = 0.1) + 
@@ -275,7 +277,7 @@ Si, de hecho en el ejercicio anterior he utilziado otro método que me ha recome
 # Barras
 Si combinamos el alelo A1 con el OMITTED, clasificamos cada SNP en una de las 12 posibles combinaciones de dos nucleótidos diferentes. Podemos representar las frecuencias de los 12 tipos de SNPs con un gráfico de barras. Obsérvalo e intenta explicar el patrón.
 
-```{r}
+```{r, warning=FALSE}
 gwas$ALLELES <- paste0(gwas$A1, gwas$OMITTED)
 ggplot(data = gwas, mapping = aes(x = ALLELES)) + geom_bar(stat = 'count')
 ```
@@ -284,7 +286,7 @@ ggplot(data = gwas, mapping = aes(x = ALLELES)) + geom_bar(stat = 'count')
 
 Este geométrico usa el estético `fill` para el color de las barras. Podemos mapear una variable categórica a `fill`. Por ejemplo, ahora que tenemos clasificados los SNPs en 12 categorías, veamos cuántos hay de cada tipo en cada cromosoma:
 
-```{r}
+```{r, warning=FALSE}
 ggplot(data = gwas, mapping = aes(x= CHROM, fill = ALLELES)) +
    geom_bar()
 ```
@@ -303,7 +305,7 @@ alélica.
 1. 
 Para crear la nueva variable categórica, nos vamos a basa en la variable ALLELES:
 
-```{r}
+```{r, warning=FALSE}
 transiciones <- c("AG","GA","CT","TC")
 
 gwas$TRANSITION <- gwas$ALLELES %in% transiciones
@@ -317,7 +319,7 @@ Como podemos ver, aproximadamente hay la misma cantidad de transiciones que tran
 2. 
 Para ver si hay relación entre el tipo de mutación y la frecuencia alélica, hacemos lo mismo pero cambiando la característica del cromosoma: 
 
-```{r}
+```{r, warning=FALSE}
 
 ggplot(data = gwas, mapping = aes(x= A1_FREQ, color = TRANSITION)) +
    geom_bar()
@@ -366,7 +368,7 @@ No me ha dado tiempo a acabarla en clase :(; pero en prácticas posteriores hago
 # Gráfica de Manhattan
 Las gráficas más características de los estudios de asociación genómica son las de Manhattan, donde la posición de los puntos a lo largo del eje horizontal se corresponde con la posición en el cromosoma, y la altura del punto es proporcional a su significación. Lo difícil es poner los cromosomas unos detrás de otros y alternar el color de los puntos en cada cromosoma. Para ello, no tenemos más remedio que añadir algunas columnas al marco de datos (o bien usar algún paquete de R específico, pero no hace falta).
 
-```{r}
+```{r, warning=FALSE}
 #| fig.width: 10
 
 # Como no tenemos a mano la longitud de cada cromosoma, usaremos su posición máxima.

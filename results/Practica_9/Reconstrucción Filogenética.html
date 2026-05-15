@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Reconstrucción Filogenética</title>
+<title>Practica 9: Reconstrucción Filogenética</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -2227,7 +2227,7 @@ vertical-align: -.125em;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Reconstrucción Filogenética</h1>
+<h1 class="title">Practica 9: Reconstrucción Filogenética</h1>
 </div>
 
 
@@ -2238,7 +2238,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Última actualización:</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">6 de mayo de 2026</p>
+      <p class="date">15 de mayo de 2026</p>
     </div>
   </div>
   
@@ -2263,7 +2263,7 @@ vertical-align: -.125em;
 <p>Pinchando aquí: https://aulavirtual.uv.es/pluginfile.php/6009204/mod_resource/content/3/mtDNA.fasta; descargaréis un alineamiento en formato FASTA de 42 cromosomas mitocondriales completos de: un gorila, cuatro chimpancés, cuatro bonobos, un Homo heidelbergensis (de hace unos 400000 años), 4 humanos denisovanos (de hace entre 30000 y 110000 años), 19 humanos neandertales (de hace entre 30000 y 180000 años) y 9 humanos anatómicamente modernos (actuales). Encontréis también el archivo en el aula virtual, con el nombre mtDNA.fasta, por si el enlace no funciona. Antes de analizarlos, debemos instalar el paquete phangorn con el comando <code>install.packages(&quot;phangorn&quot;)</code> en nuestra consola de R.</p>
 <p>Guardamos el archivo mtDNA.fasta en la carpeta de datos. Una vez hecho, la analizamos con la librería phangorn:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>PBioinfo <span class="ot">&lt;-</span> <span class="fu">system</span>(<span class="st">&quot;git rev-parse --show-toplevel&quot;</span>, <span class="at">intern =</span> <span class="cn">TRUE</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>PBioinfo <span class="ot">&lt;-</span> <span class="fu">system</span>(<span class="st">&quot;curr=$PWD; while [ </span><span class="sc">\&quot;</span><span class="st">$curr</span><span class="sc">\&quot;</span><span class="st"> != </span><span class="sc">\&quot;</span><span class="st">/</span><span class="sc">\&quot;</span><span class="st"> ] &amp;&amp; [ -z </span><span class="sc">\&quot;</span><span class="st">$(ls </span><span class="sc">\&quot;</span><span class="st">$curr</span><span class="sc">\&quot;</span><span class="st">/*.Rproj 2&gt;/dev/null)</span><span class="sc">\&quot;</span><span class="st"> ]; do curr=$(dirname </span><span class="sc">\&quot;</span><span class="st">$curr</span><span class="sc">\&quot;</span><span class="st">); done; echo </span><span class="sc">\&quot;</span><span class="st">$curr</span><span class="sc">\&quot;</span><span class="st">&quot;</span>, <span class="at">intern =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(PBioinfo)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>

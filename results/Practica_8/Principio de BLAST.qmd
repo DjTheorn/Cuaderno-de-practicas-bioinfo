@@ -1,5 +1,5 @@
 ---
-title: "Principio de BLAST"
+title: "Practica 8: Principio de BLAST"
 lang: es
 date: today
 execute: 
@@ -27,6 +27,12 @@ Es recomendable guardar los ejecutables en una carpeta del PATH, yo personalment
 BiocManager::install('Biostrings')
 ```
 
+:::{.callout-note icon=false}
+## Aclaración
+Como estamos trabajando con 
+
+:::
+
 # Objetivos
 BLAST ejecuta alineamientos locales entre una secuencia “problema” o query, generalmente no muy larga, y un conjunto grande de secuencias (la base de datos) entre las que esperamos encontrar alguna secuencia homóloga a la query. Cada secuencia de la base de datos que pueda alinearse con la query se la llama subject en el alineamiento. Los objetivos de esta práctica son:
 
@@ -41,7 +47,7 @@ En el primer ejercicio, usaremos los proteomas de dos especies bacterianas endos
 Te dan el archivo comprimido, pero hay que descomprimirlo (o lo podemos leer comprimido también, pero es más incómodo). Para descomprimirlo, usamos:
 
 ```{bash}
-cd "$(git rev-parse --show-toplevel)"
+cd "$(p=$(pwd); while [ ! -f "$p"/*.Rproj ] && [ "$p" != "/" ]; do p=$(dirname "$p"); done; echo "$p")"
 
 if [ ! -e ./data/Practica_08/buchnera.fa ]; then
 gunzip -c ./data/Practica_08/UP000001806_107806.fasta.gz > ./data/Practica_08/buchnera.fa
@@ -55,8 +61,8 @@ fi
 Para el segundo ejercicio, necesitamos descargar la base de datos de Swissprot para BLAST. Podemos hacerlo de dos maneras. En cualquier caso, los archivos descargados y descomprimidos deben guardarse en la carpeta `data`. Por tanto, los comandos siguientes deberan de ejecutarse desde esa carpeta. Lo hacemos siguiendo el siguiente comando:
 
 ```{bash}
-#| eval: false
-cd "$(git rev-parse --show-toplevel)"
+#| output: false
+cd "$(p=$(pwd); while [ ! -f "$p"/*.Rproj ] && [ "$p" != "/" ]; do p=$(dirname "$p"); done; echo "$p")"
 
 if [ ! -e ./data/Practica_08/swissprot.tar.gz ]; then
 (cd ./data/Practica_08/ && update_blastdb --decompress swissprot)
@@ -77,7 +83,7 @@ Una estrategia habitual para identificar genes ortólogos es comprobar si cada u
 Lo primero que vamos a hacer es procesar nuestros proteomas para que BLAST los pueda leer, enmascarandolos e indexandolos:
 
 ```{bash}
-cd "$(git rev-parse --show-toplevel)"
+cd "$(p=$(pwd); while [ ! -f "$p"/*.Rproj ] && [ "$p" != "/" ]; do p=$(dirname "$p"); done; echo "$p")"
 
 
 if [ ! -e ./data/Practica_08/buchnera.paa ]; then
@@ -124,34 +130,37 @@ El objetivo es encontrar la proteína de *Blochmannia ocreatus* que más se pare
 ### De Buchnera aphidicola hacia Blochmannia ocreatus
 
 ```{bash}
-#| eval: false
-cd "$(git rev-parse --show-toplevel)"
+cd "$(p=$(pwd); while [ ! -f "$p"/*.Rproj ] && [ "$p" != "/" ]; do p=$(dirname "$p"); done; echo "$p")"
 
+if [ ! -e ./results/Practica_8/buc2blo.txt ]; then
 blastp -query ./data/Practica_08/buchnera.fa \
        -db ./data/Practica_08/blochmannia \
        -out ./results/Practica_8/buc2blo.txt \
        -outfmt '6 qseqid sseqid qlen slen length evalue bitscore' \
        -evalue 0.001 \
        -max_target_seqs 1
+fi
 ```
 
 ### De Blochmannia ocreatus hacia Buchnera aphidicola 
 
 ```{bash}
 #| eval: false
-cd "$(git rev-parse --show-toplevel)"
+cd "$(p=$(pwd); while [ ! -f "$p"/*.Rproj ] && [ "$p" != "/" ]; do p=$(dirname "$p"); done; echo "$p")"
 
+if [ ! -e ./results/Practica_8/blo2buc.txt ]; then
 blastp -query ./data/Practica_08/blochmannia.fa \
        -db ./data/Practica_08/buchnera \
        -out ./results/Practica_8/blo2buc.txt \
        -outfmt '6 qseqid sseqid qlen slen length evalue bitscore' \
        -evalue 0.001 \
        -max_target_seqs 1
+fi
 ```
 
 Una vez tenemos los resultados, podemos analizarlos de forma específica con R:
 ```{r}
-PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
+PBioinfo <- system("curr=$PWD; while [ \"$curr\" != \"/\" ] && [ -z \"$(ls \"$curr\"/*.Rproj 2>/dev/null)\" ]; do curr=$(dirname \"$curr\"); done; echo \"$curr\"", intern = TRUE)
 
 setwd(PBioinfo)
 
@@ -182,7 +191,6 @@ blo2buc <- read.table(
 Las parejas de proteinas que se parecen más la una a la otra deberán de ser aquellas que se representan a la vez en la tabla de blo2buc y buc2blo (es decir, que en el emparejamiento de blo hacia buc, se ha elegido la misma proteina pareja que en buc hacia blo). Para saberlo, solo tenemos que hacer un merge:
 
 ```{r}
-#| eval: false
 reciprocal_hits <- merge(buc2blo, blo2buc, 
                          by.x = c("query", "subject"), 
                          by.y = c("subject", "query"))
@@ -197,14 +205,15 @@ Y nos da una nueva tabla de las proteínas que son recíprocas.
 El PSI-BLAST nos permite identificar semejanzas sutiles, como las que existen entre miembros alejados de una superfamilia proteica. Para comprobarlo vamos a realizar una búsqueda a partir de cualquiera de las proteínas siguientes: Q9CC91, P39615, B1AJI8, P47343, Q5UPT2, Q6UDG6, A1AFY9, O59825 y P30314. Todas ellas están en Swissprot y pertenecen a una misma superfamilia. Sin embargo, un simple BLASTP con cualquiera de ellas no encuentra ninguna de las otras1. Comprobemos si con un PSI-BLAST lo conseguimos. A continuación lo intento a partir de P39615. Repite los pasos usando otra proteína de la lista como query y compara los resultados.
 
 ```{bash}
-#| eval: false
-cd "$(git rev-parse --show-toplevel)"
+cd "$(p=$(pwd); while [ ! -f "$p"/*.Rproj ] && [ "$p" != "/" ]; do p=$(dirname "$p"); done; echo "$p")"
 
 # Como Swissprot debería estar ya descargada en `./data/Practica_08`, podemos sacar
 # de ahí la secuencia de la proteína escogida:
+if [ ! -e ./results/Practica_8/P39615.fa ]; then
 blastdbcmd -db ./data/Practica_08/swissprot -entry P39615 -out ./results/Practica_8/P39615.fa
-
+fi
 # Y ahora la usamos como query en psi-blast:
+if [ ! -e ./results/Practica_8/P39615.blastout.txt ]; then
 psiblast -db ./data/Practica_08/swissprot \
          -query ./results/Practica_8/P39615.fa \
          -out ./results/Practica_8/P39615.blastout.txt \
@@ -213,6 +222,7 @@ psiblast -db ./data/Practica_08/swissprot \
          -inclusion_ethresh 0.001 \
          -num_iterations 7 \
          -matrix BLOSUM62
+fi
 ```
 
 :::{.callout-note icon=false}
@@ -241,7 +251,7 @@ Si enviamos 33174 queries a los servidores del NCBI, o bien tardarán muchas hor
 
 ```{R}
 #| eval: false
-PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
+PBioinfo <- system("curr=$PWD; while [ \"$curr\" != \"/\" ] && [ -z \"$(ls \"$curr\"/*.Rproj 2>/dev/null)\" ]; do curr=$(dirname \"$curr\"); done; echo \"$curr\"", intern = TRUE)
 
 setwd(PBioinfo)
 
@@ -250,6 +260,8 @@ unmapped <- readDNAStringSet('./data/Practica_08/contaminacion.fa.gz')
 n <- length(unmapped)
 muestra <- unmapped[sample(1:n, 20)]
 writeXStringSet(muestra, './results/Practica_8/muestra.fa')
+
+# He puesto eval: false porque le costaba demasiado compilar 
 ```
 
 ## BLASTN remoto
@@ -257,7 +269,7 @@ La orden siguiente pide una sola secuencia (la más parecida) y alguna informaci
 
 ```{bash}
 #| eval: false
-cd "$(git rev-parse --show-toplevel)"
+cd "$(p=$(pwd); while [ ! -f "$p"/*.Rproj ] && [ "$p" != "/" ]; do p=$(dirname "$p"); done; echo "$p")"
 
 if [ ! -e ./results/Practica_8/resultado.txt ]; then
    blastn -query ./results/Practica_8/muestra.fa \
@@ -283,3 +295,5 @@ cut -f 9 ./results/Practica_8/resultado.txt | sort | uniq | paste -sd ',' > ./re
 datasets summary taxonomy taxon $(cat ./results/Practica_8/taxids.txt) --as-json-lines | \
 dataformat tsv taxonomy --template tax-summary > ./results/Practica_8/taxreport.txt
 ```
+
+*Como no temenos resultados.txt, no podemos hacerlo*

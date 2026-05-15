@@ -1,9 +1,9 @@
 ---
-title: "Búsquedas programáticas en Interpro"
+title: "Practica 6: Búsquedas programáticas en Interpro"
 lang: es
 date: today
 execute: 
-  output: false
+  output: true
   error: true
 engine: knitr
 bibliography: ../../doc/references.bib
@@ -28,6 +28,7 @@ Todas las consultas a InterPro [@Paysan-Lafosse2022] deben empezar con la direcc
 `https://www.ebi.ac.uk/interpro/api/` [@interproAPI]. Por tanto, guardo esta URL básica como cadena de caracteres en la variable `API`:
 
 ```{r}
+#| output: false
 API <- 'https://www.ebi.ac.uk/interpro/api/'
 ```
 
@@ -36,6 +37,7 @@ Necesitamos un paquete que nos ayude a leer los archivos JSON. Por ejemplo,
 `jsonlite` [@jsonlite]:
 
 ```{r}
+#| output: false
 library('jsonlite')
 ```
 
@@ -91,6 +93,7 @@ datos en una lista de listas. En R, podemos acceder a los elementos de una
 lista con la función *doble corchete* `[[`. 
 
 ```{r}
+#| output: false
 registros <- fromJSON(paste0(API, 'entry'))
 registros[[1]][['member_databases']]
 ```
@@ -106,6 +109,7 @@ fuentes de cada tipo de datos, e intenta guardar la información en variables de
 ## Solución
 Para hacerlo, vamos a seguir la misma estrcutura:
 ```{r}
+#| output: false
 proteinas <- fromJSON(paste0(API, 'protein'))
 
 estructura <- fromJSON(paste0(API, 'structure'))
@@ -135,6 +139,7 @@ o descargar los 20 siguientes.
 A continuación, usamos la función `fromJSON()` de `jsonlite` para descargar los 20 primeros registros de tipo Pfam y exploramos el resultado.
 
 ```{r}
+#| output: false
 pfam01 <- fromJSON(paste0(API, 'entry/pfam'))
 class(pfam01)
 length(pfam01)
@@ -150,6 +155,7 @@ Los siguientes 20 registros de Pfam se encuentran en `pfam01[['next']]`:
 `r pfam01[['next']]`. Y los podemos descargar igual.
 
 ```{r}
+#| output: false
 library('kableExtra')
 pfam02 <- fromJSON(pfam01[['next']])
 kable(pfam02[['results']][['metadata']]) %>% kable_styling()
@@ -165,6 +171,7 @@ de Pfam.
 ## Solución
 Copiamos la estrcutura de lo que hemos hecho antes:
 ```{r}
+#| output: false
 pfam03 <- fromJSON(pfam02[['next']])
 kable(pfam03[['results']][['metadata']]) %>% kable_styling()
 ```
@@ -175,6 +182,7 @@ kable(pfam03[['results']][['metadata']]) %>% kable_styling()
 El paquete `jsonlite` nos ofrece la función `rbind_pages()` para juntar una lista de *data frames* en uno solo:
 
 ```{r}
+#| output: false
 pfam <- rbind_pages(list(pfam01[['results']][['metadata']],
                          pfam02[['results']][['metadata']],
                          pfam03[['results']][['metadata']]))

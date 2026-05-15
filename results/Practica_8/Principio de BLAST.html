@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Principio de BLAST</title>
+<title>Practica 8: Principio de BLAST</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -2207,7 +2207,7 @@ vertical-align: -.125em;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Principio de BLAST</h1>
+<h1 class="title">Practica 8: Principio de BLAST</h1>
 </div>
 
 
@@ -2218,7 +2218,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Última actualización:</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">7 de mayo de 2026</p>
+      <p class="date">15 de mayo de 2026</p>
     </div>
   </div>
   
@@ -2238,6 +2238,19 @@ vertical-align: -.125em;
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&#39;Biostrings&#39;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Aclaración
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Como estamos trabajando con</p>
+</div>
+</div>
 </section>
 <section id="objetivos" class="level1">
 <h1>Objetivos</h1>
@@ -2255,7 +2268,7 @@ vertical-align: -.125em;
 <p>En el primer ejercicio, usaremos los proteomas de dos especies bacterianas endosimbiontes, con genomas reducidos (para facilitar las búsquedas): <em>Buchnera aphidicola</em> (107806) y <em>Blochmannia ocreatus</em> (251538). Los proteomas se pueden descargar desde uniprot (pones el ID, entras en la Entry ¡NO DESCARGAS!, y descargas el gene count). Los descargamos comprimidos en la carpeta de data.</p>
 <p>Te dan el archivo comprimido, pero hay que descomprimirlo (o lo podemos leer comprimido también, pero es más incómodo). Para descomprimirlo, usamos:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(p</span><span class="op">=</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="kw">;</span> <span class="cf">while</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span>/<span class="pp">*</span>.Rproj <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">[</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span> <span class="ot">!=</span> <span class="st">&quot;/&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">do</span> <span class="va">p</span><span class="op">=</span><span class="va">$(</span><span class="fu">dirname</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="kw">;</span> <span class="cf">done</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/Practica_08/buchnera.fa <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">gunzip</span> <span class="at">-c</span> ./data/Practica_08/UP000001806_107806.fasta.gz <span class="op">&gt;</span> ./data/Practica_08/buchnera.fa</span>
@@ -2269,7 +2282,7 @@ vertical-align: -.125em;
 <h2 class="anchored" data-anchor-id="datos-del-segundo-ejercicio">Datos del segundo ejercicio</h2>
 <p>Para el segundo ejercicio, necesitamos descargar la base de datos de Swissprot para BLAST. Podemos hacerlo de dos maneras. En cualquier caso, los archivos descargados y descomprimidos deben guardarse en la carpeta <code>data</code>. Por tanto, los comandos siguientes deberan de ejecutarse desde esa carpeta. Lo hacemos siguiendo el siguiente comando:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(p</span><span class="op">=</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="kw">;</span> <span class="cf">while</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span>/<span class="pp">*</span>.Rproj <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">[</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span> <span class="ot">!=</span> <span class="st">&quot;/&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">do</span> <span class="va">p</span><span class="op">=</span><span class="va">$(</span><span class="fu">dirname</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="kw">;</span> <span class="cf">done</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/Practica_08/swissprot.tar.gz <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="bu">cd</span> ./data/Practica_08/ <span class="kw">&amp;&amp;</span> <span class="ex">update_blastdb</span> <span class="at">--decompress</span> swissprot<span class="kw">)</span></span>
@@ -2289,7 +2302,7 @@ vertical-align: -.125em;
 <h2 class="anchored" data-anchor-id="enmascarar-e-indexar-los-proteomas">Enmascarar e indexar los proteomas</h2>
 <p>Lo primero que vamos a hacer es procesar nuestros proteomas para que BLAST los pueda leer, enmascarandolos e indexandolos:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(p</span><span class="op">=</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="kw">;</span> <span class="cf">while</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span>/<span class="pp">*</span>.Rproj <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">[</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span> <span class="ot">!=</span> <span class="st">&quot;/&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">do</span> <span class="va">p</span><span class="op">=</span><span class="va">$(</span><span class="fu">dirname</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="kw">;</span> <span class="cf">done</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/Practica_08/buchnera.paa <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
@@ -2337,31 +2350,35 @@ vertical-align: -.125em;
 <section id="de-buchnera-aphidicola-hacia-blochmannia-ocreatus" class="level3">
 <h3 class="anchored" data-anchor-id="de-buchnera-aphidicola-hacia-blochmannia-ocreatus">De Buchnera aphidicola hacia Blochmannia ocreatus</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(p</span><span class="op">=</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="kw">;</span> <span class="cf">while</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span>/<span class="pp">*</span>.Rproj <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">[</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span> <span class="ot">!=</span> <span class="st">&quot;/&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">do</span> <span class="va">p</span><span class="op">=</span><span class="va">$(</span><span class="fu">dirname</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="kw">;</span> <span class="cf">done</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">blastp</span> <span class="at">-query</span> ./data/Practica_08/buchnera.fa <span class="dt">\</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">-db</span> ./data/Practica_08/blochmannia <span class="dt">\</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">-out</span> ./results/Practica_8/buc2blo.txt <span class="dt">\</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">-outfmt</span> <span class="st">&#39;6 qseqid sseqid qlen slen length evalue bitscore&#39;</span> <span class="dt">\</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">-evalue</span> 0.001 <span class="dt">\</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">-max_target_seqs</span> 1</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./results/Practica_8/buc2blo.txt <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">blastp</span> <span class="at">-query</span> ./data/Practica_08/buchnera.fa <span class="dt">\</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">-db</span> ./data/Practica_08/blochmannia <span class="dt">\</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">-out</span> ./results/Practica_8/buc2blo.txt <span class="dt">\</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">-outfmt</span> <span class="st">&#39;6 qseqid sseqid qlen slen length evalue bitscore&#39;</span> <span class="dt">\</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">-evalue</span> 0.001 <span class="dt">\</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">-max_target_seqs</span> 1</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="de-blochmannia-ocreatus-hacia-buchnera-aphidicola" class="level3">
 <h3 class="anchored" data-anchor-id="de-blochmannia-ocreatus-hacia-buchnera-aphidicola">De Blochmannia ocreatus hacia Buchnera aphidicola</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(p</span><span class="op">=</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="kw">;</span> <span class="cf">while</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span>/<span class="pp">*</span>.Rproj <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">[</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span> <span class="ot">!=</span> <span class="st">&quot;/&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">do</span> <span class="va">p</span><span class="op">=</span><span class="va">$(</span><span class="fu">dirname</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="kw">;</span> <span class="cf">done</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">blastp</span> <span class="at">-query</span> ./data/Practica_08/blochmannia.fa <span class="dt">\</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">-db</span> ./data/Practica_08/buchnera <span class="dt">\</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">-out</span> ./results/Practica_8/blo2buc.txt <span class="dt">\</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">-outfmt</span> <span class="st">&#39;6 qseqid sseqid qlen slen length evalue bitscore&#39;</span> <span class="dt">\</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">-evalue</span> 0.001 <span class="dt">\</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">-max_target_seqs</span> 1</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./results/Practica_8/blo2buc.txt <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ex">blastp</span> <span class="at">-query</span> ./data/Practica_08/blochmannia.fa <span class="dt">\</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">-db</span> ./data/Practica_08/buchnera <span class="dt">\</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">-out</span> ./results/Practica_8/blo2buc.txt <span class="dt">\</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">-outfmt</span> <span class="st">&#39;6 qseqid sseqid qlen slen length evalue bitscore&#39;</span> <span class="dt">\</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">-evalue</span> 0.001 <span class="dt">\</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">-max_target_seqs</span> 1</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Una vez tenemos los resultados, podemos analizarlos de forma específica con R:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>PBioinfo <span class="ot">&lt;-</span> <span class="fu">system</span>(<span class="st">&quot;git rev-parse --show-toplevel&quot;</span>, <span class="at">intern =</span> <span class="cn">TRUE</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>PBioinfo <span class="ot">&lt;-</span> <span class="fu">system</span>(<span class="st">&quot;curr=$PWD; while [ </span><span class="sc">\&quot;</span><span class="st">$curr</span><span class="sc">\&quot;</span><span class="st"> != </span><span class="sc">\&quot;</span><span class="st">/</span><span class="sc">\&quot;</span><span class="st"> ] &amp;&amp; [ -z </span><span class="sc">\&quot;</span><span class="st">$(ls </span><span class="sc">\&quot;</span><span class="st">$curr</span><span class="sc">\&quot;</span><span class="st">/*.Rproj 2&gt;/dev/null)</span><span class="sc">\&quot;</span><span class="st"> ]; do curr=$(dirname </span><span class="sc">\&quot;</span><span class="st">$curr</span><span class="sc">\&quot;</span><span class="st">); done; echo </span><span class="sc">\&quot;</span><span class="st">$curr</span><span class="sc">\&quot;</span><span class="st">&quot;</span>, <span class="at">intern =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(PBioinfo)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -2422,21 +2439,24 @@ vertical-align: -.125em;
 <h1>Ejercicio 2. PSI-BLAST</h1>
 <p>El PSI-BLAST nos permite identificar semejanzas sutiles, como las que existen entre miembros alejados de una superfamilia proteica. Para comprobarlo vamos a realizar una búsqueda a partir de cualquiera de las proteínas siguientes: Q9CC91, P39615, B1AJI8, P47343, Q5UPT2, Q6UDG6, A1AFY9, O59825 y P30314. Todas ellas están en Swissprot y pertenecen a una misma superfamilia. Sin embargo, un simple BLASTP con cualquiera de ellas no encuentra ninguna de las otras1. Comprobemos si con un PSI-BLAST lo conseguimos. A continuación lo intento a partir de P39615. Repite los pasos usando otra proteína de la lista como query y compara los resultados.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(p</span><span class="op">=</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="kw">;</span> <span class="cf">while</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span>/<span class="pp">*</span>.Rproj <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">[</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span> <span class="ot">!=</span> <span class="st">&quot;/&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">do</span> <span class="va">p</span><span class="op">=</span><span class="va">$(</span><span class="fu">dirname</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="kw">;</span> <span class="cf">done</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Como Swissprot debería estar ya descargada en `./data/Practica_08`, podemos sacar</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># de ahí la secuencia de la proteína escogida:</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="ex">blastdbcmd</span> <span class="at">-db</span> ./data/Practica_08/swissprot <span class="at">-entry</span> P39615 <span class="at">-out</span> ./results/Practica_8/P39615.fa</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Y ahora la usamos como query en psi-blast:</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="ex">psiblast</span> <span class="at">-db</span> ./data/Practica_08/swissprot <span class="dt">\</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">-query</span> ./results/Practica_8/P39615.fa <span class="dt">\</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">-out</span> ./results/Practica_8/P39615.blastout.txt <span class="dt">\</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">-evalue</span> 0.1 <span class="dt">\</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">-outfmt</span> 7 <span class="dt">\</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">-inclusion_ethresh</span> 0.001 <span class="dt">\</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">-num_iterations</span> 7 <span class="dt">\</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">-matrix</span> BLOSUM62</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./results/Practica_8/P39615.fa <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="ex">blastdbcmd</span> <span class="at">-db</span> ./data/Practica_08/swissprot <span class="at">-entry</span> P39615 <span class="at">-out</span> ./results/Practica_8/P39615.fa</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Y ahora la usamos como query en psi-blast:</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./results/Practica_8/P39615.blastout.txt <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="ex">psiblast</span> <span class="at">-db</span> ./data/Practica_08/swissprot <span class="dt">\</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">-query</span> ./results/Practica_8/P39615.fa <span class="dt">\</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">-out</span> ./results/Practica_8/P39615.blastout.txt <span class="dt">\</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">-evalue</span> 0.1 <span class="dt">\</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">-outfmt</span> 7 <span class="dt">\</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">-inclusion_ethresh</span> 0.001 <span class="dt">\</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>         <span class="at">-num_iterations</span> 7 <span class="dt">\</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">-matrix</span> BLOSUM62</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2476,7 +2496,7 @@ vertical-align: -.125em;
 <h2 class="anchored" data-anchor-id="selección-aleatoria-de-20-queries">Selección aleatoria de 20 queries</h2>
 <p>Si enviamos 33174 queries a los servidores del NCBI, o bien tardarán muchas horas en devolver los resultados o simplemente interrumpirán el servicio. Cada persona escogerá 20 secuencias al azar mediante las órdenes siguientes, y después compartiremos los resultados para tener una muestra más representativa.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>PBioinfo <span class="ot">&lt;-</span> <span class="fu">system</span>(<span class="st">&quot;git rev-parse --show-toplevel&quot;</span>, <span class="at">intern =</span> <span class="cn">TRUE</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>PBioinfo <span class="ot">&lt;-</span> <span class="fu">system</span>(<span class="st">&quot;curr=$PWD; while [ </span><span class="sc">\&quot;</span><span class="st">$curr</span><span class="sc">\&quot;</span><span class="st"> != </span><span class="sc">\&quot;</span><span class="st">/</span><span class="sc">\&quot;</span><span class="st"> ] &amp;&amp; [ -z </span><span class="sc">\&quot;</span><span class="st">$(ls </span><span class="sc">\&quot;</span><span class="st">$curr</span><span class="sc">\&quot;</span><span class="st">/*.Rproj 2&gt;/dev/null)</span><span class="sc">\&quot;</span><span class="st"> ]; do curr=$(dirname </span><span class="sc">\&quot;</span><span class="st">$curr</span><span class="sc">\&quot;</span><span class="st">); done; echo </span><span class="sc">\&quot;</span><span class="st">$curr</span><span class="sc">\&quot;</span><span class="st">&quot;</span>, <span class="at">intern =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(PBioinfo)</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -2484,14 +2504,16 @@ vertical-align: -.125em;
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>unmapped <span class="ot">&lt;-</span> <span class="fu">readDNAStringSet</span>(<span class="st">&#39;./data/Practica_08/contaminacion.fa.gz&#39;</span>)</span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(unmapped)</span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>muestra <span class="ot">&lt;-</span> unmapped[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="dv">20</span>)]</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">writeXStringSet</span>(muestra, <span class="st">&#39;./results/Practica_8/muestra.fa&#39;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">writeXStringSet</span>(muestra, <span class="st">&#39;./results/Practica_8/muestra.fa&#39;</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># He puesto eval: false porque le costaba demasiado compilar </span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="blastn-remoto" class="level2">
 <h2 class="anchored" data-anchor-id="blastn-remoto">BLASTN remoto</h2>
 <p>La orden siguiente pide una sola secuencia (la más parecida) y alguna información sobre el alineamiento, para poder garantizar la calidad del resultado.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(p</span><span class="op">=</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="kw">;</span> <span class="cf">while</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span>/<span class="pp">*</span>.Rproj <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">[</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span> <span class="ot">!=</span> <span class="st">&quot;/&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">do</span> <span class="va">p</span><span class="op">=</span><span class="va">$(</span><span class="fu">dirname</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="kw">;</span> <span class="cf">done</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./results/Practica_8/resultado.txt <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>   <span class="ex">blastn</span> <span class="at">-query</span> ./results/Practica_8/muestra.fa <span class="dt">\</span></span>
@@ -2515,6 +2537,7 @@ vertical-align: -.125em;
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="ex">datasets</span> summary taxonomy taxon <span class="va">$(</span><span class="fu">cat</span> ./results/Practica_8/taxids.txt<span class="va">)</span> <span class="at">--as-json-lines</span> <span class="kw">|</span> <span class="dt">\</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="ex">dataformat</span> tsv taxonomy <span class="at">--template</span> tax-summary <span class="op">&gt;</span> ./results/Practica_8/taxreport.txt</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p><em>Como no temenos resultados.txt, no podemos hacerlo</em></p>
 </section>
 </section>
 

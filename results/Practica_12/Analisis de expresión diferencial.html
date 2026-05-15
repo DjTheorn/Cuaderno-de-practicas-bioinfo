@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Analisis de expresión diferencial</title>
+<title>Practica 12: Analisis de expresión diferencial</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -2227,7 +2227,7 @@ vertical-align: -.125em;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Analisis de expresión diferencial</h1>
+<h1 class="title">Practica 12: Analisis de expresión diferencial</h1>
 </div>
 
 
@@ -2238,7 +2238,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Última actualización:</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">5 de mayo de 2026</p>
+      <p class="date">15 de mayo de 2026</p>
     </div>
   </div>
   
@@ -2267,7 +2267,7 @@ vertical-align: -.125em;
 <h1>Exploración de los datos</h1>
 <p>Comenzaremos haciendo una exploración básica de nuestros datos a partir de este comando:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>PBioinfo <span class="ot">&lt;-</span> <span class="fu">system</span>(<span class="st">&quot;git rev-parse --show-toplevel&quot;</span>, <span class="at">intern =</span> <span class="cn">TRUE</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>PBioinfo <span class="ot">&lt;-</span> <span class="fu">system</span>(<span class="st">&quot;curr=$PWD; while [ </span><span class="sc">\&quot;</span><span class="st">$curr</span><span class="sc">\&quot;</span><span class="st"> != </span><span class="sc">\&quot;</span><span class="st">/</span><span class="sc">\&quot;</span><span class="st"> ] &amp;&amp; [ -z </span><span class="sc">\&quot;</span><span class="st">$(ls </span><span class="sc">\&quot;</span><span class="st">$curr</span><span class="sc">\&quot;</span><span class="st">/*.Rproj 2&gt;/dev/null)</span><span class="sc">\&quot;</span><span class="st"> ]; do curr=$(dirname </span><span class="sc">\&quot;</span><span class="st">$curr</span><span class="sc">\&quot;</span><span class="st">); done; echo </span><span class="sc">\&quot;</span><span class="st">$curr</span><span class="sc">\&quot;</span><span class="st">&quot;</span>, <span class="at">intern =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(PBioinfo)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>

@@ -1,5 +1,5 @@
 ---
-title: "Anotación de Ensamblajes"
+title: "Practica 11: Anotación de Ensamblajes"
 lang: es
 date: today
 execute: 
@@ -50,9 +50,9 @@ Sabiendo que una forma de hacerlo es la siguiente, incluye la orden en un bloque
 # Solución 1
 
 ```{bash}
-cd "$(git rev-parse --show-toplevel)"
+cd "$(p=$(pwd); while [ ! -f "$p"/*.Rproj ] && [ "$p" != "/" ]; do p=$(dirname "$p"); done; echo "$p")"
 
-if [ ! -e ./results/21-04-2026/At4_corregido.fasta ]; then
+if [ ! -e ./results/Practica_11/At4_corregido.fasta ]; then
 zcat "./data/14-04-2026/At4.10.fa.gz" | awk '(/^>/){split($1, A, /\|/); print ">" A[2]}(/^[^>]/){print $0}' > "./results/21-04-2026/At4_corregido.fasta"
 fi
 ```
@@ -117,15 +117,15 @@ Explora los resultados de RepeatModeler y trata de contestar las preguntas sigui
 1. Para ver cuantas familias de elementos transponibles hemos encontrado, podemos hacer un conteo en At4-families.fa (el archivo fasta final):
 
 ```{bash}
-cd "$(git rev-parse --show-toplevel)"
+cd "$(p=$(pwd); while [ ! -f "$p"/*.Rproj ] && [ "$p" != "/" ]; do p=$(dirname "$p"); done; echo "$p")"
 
-grep -c ">" ./data/21-04-2026/Modeler/At4-families.fa
+grep -c ">" ./data/Practica_11/Modeler/At4-families.fa
 ```
 y obtenemos que existen 24 familias diferentes. 
 
-**¡ATENCIÓN!**: en `At4-rmod.log` aparecen también nombradas las familias en un cuadro de texto que dice algo como "Number of families returned by RECON = 1609"; pero esto no osn familias definitivas. Posteriormente, Modeler hace un filtrado y nos deja con las 24 familias que hemos obtenido.
+**¡ATENCIÓN!**: en `At4-rmod.log` aparecen también nombradas las familias en un cuadro de texto que dice algo como "Number of families returned by RECON = 1609"; pero esto no son familias definitivas. Posteriormente, Modeler hace un filtrado y nos deja con las 24 familias que hemos obtenido.
 
-2. Para saber cuanto duró la ejecución del programa, tenemos que entrar en alguno de los .log; ya sea `At4-rmod.log` o `rmod.log`; e ir abajo del todo, dónde nos aparece un texto que dice: "Program Time: 01:02:16 (hh:mm:ss) Elapsed Time". Por tanto, asumimos que el programa se ha estado ejecutando por algo más que 1h.
+2. Para saber cuanto duró la ejecución del programa, tenemos que entrar en alguno de los `.log`; ya sea `At4-rmod.log` o `rmod.log`; e ir abajo del todo, dónde nos aparece un texto que dice: "Program Time: 01:02:16 (hh:mm:ss) Elapsed Time". Por tanto, asumimos que el programa se ha estado ejecutando por algo más que 1h.
 
 3. El archivo de salida más importante es `At4-families.fa`; puesto que es el archivo fasta con los resultados de nuestro análisis y que deberemos de usar para los procesados siguientes.
 :::
@@ -158,21 +158,21 @@ sudo apt-get install bedtools
 2. Es un poco complejo, pero lo intentamos:
 
 ```{bash}
-cd "$(git rev-parse --show-toplevel)"
+cd "$(p=$(pwd); while [ ! -f "$p"/*.Rproj ] && [ "$p" != "/" ]; do p=$(dirname "$p"); done; echo "$p")"
 
-if [ ! -e ./data/14-04-2026/At4.10.fa ]; then
-gunzip -c "./data/14-04-2026/At4.10.fa.gz" > "./data/14-04-2026/At4.10.fa"
+if [ ! -e ./data/Practica_10/At4.10.fa ]; then
+gunzip -c "./data/Practica_10/At4.10.fa.gz" > "./data/Practica_10/At4.10.fa"
 fi
 
-if [ ! -e ./results/21-04-2026/At4.soft.fa ]; then
-bedtools maskfasta -fi "./data/14-04-2026/At4.10.fa" \
-                   -bed "./data/21-04-2026/Masker/RM01/At4.fa.out.gff" \
+if [ ! -e ./results/Practica_11/At4.soft.fa ]; then
+bedtools maskfasta -fi "./data/Practica_10/At4.10.fa" \
+                   -bed "./data/Practica_11/Masker/RM01/At4.fa.out.gff" \
                    -soft \
-                   -fo "./results/21-04-2026/At4.soft.fa" 
+                   -fo "./results/Practica_11/At4.soft.fa" 
 fi
 
-if [ -e ./data/14-04-2026/At4.10.fa ]; then
-rm "./data/14-04-2026/At4.10.fa"
+if [ -e ./data/Practica_11/At4.10.fa ]; then
+rm "./data/Practica_11/At4.10.fa"
 fi
 
 ```

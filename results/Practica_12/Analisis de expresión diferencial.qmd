@@ -1,5 +1,5 @@
 ---
-title: "Analisis de expresión diferencial"
+title: "Practica 12: Analisis de expresión diferencial"
 lang: es
 date: today
 execute: 
@@ -33,7 +33,7 @@ Los dos archivos deben estar guardados en la carpeta de datos.
 # Exploración de los datos
 Comenzaremos haciendo una exploración básica de nuestros datos a partir de este comando: 
 ```{r}
-PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
+PBioinfo <- system("curr=$PWD; while [ \"$curr\" != \"/\" ] && [ -z \"$(ls \"$curr\"/*.Rproj 2>/dev/null)\" ]; do curr=$(dirname \"$curr\"); done; echo \"$curr\"", intern = TRUE)
 
 setwd(PBioinfo)
 

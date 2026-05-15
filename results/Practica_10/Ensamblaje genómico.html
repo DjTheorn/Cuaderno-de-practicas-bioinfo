@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Ensamblaje genómico</title>
+<title>Practica 10: Ensamblaje genómico</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -2227,7 +2227,7 @@ vertical-align: -.125em;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Ensamblaje genómico</h1>
+<h1 class="title">Practica 10: Ensamblaje genómico</h1>
 </div>
 
 
@@ -2238,7 +2238,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Última actualización:</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">6 de mayo de 2026</p>
+      <p class="date">15 de mayo de 2026</p>
     </div>
   </div>
   
@@ -2271,7 +2271,11 @@ vertical-align: -.125em;
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> cp hifiasm /usr/local/bin</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>A partir de ahora, cada vez que inicies el terminal, hifiasm estará en el PATH. # Datos Vamos a usar lecturas HiFi generadas por (<span class="citation" data-cites="Rabanal2022">Rabanal et al. (<a href="#ref-Rabanal2022" role="doc-biblioref">2022</a>)</span>) de un único individuo de la planta Arabidopsis thaliana, ecotipo Columbia (Col-0), con la tecnología SMRT de PacBio (proyecto PRJEB50694). Los datos seleccionados son solo una parte de los originales y se encuentran en el archivo At4.10.fa.gz (46 Mb), disponible en el aula virtual. También está en el espacio de disco compartido de la Universidad de Valencia, dentro del grupo de bioinformática. Lo descargamos y lo guardamos en el PATH: ./data/14-04-2026/At4.10.fa.gz.</p>
+<p>A partir de ahora, cada vez que inicies el terminal, hifiasm estará en el PATH.</p>
+</section>
+<section id="datos" class="level1">
+<h1>Datos</h1>
+<p>Vamos a usar lecturas HiFi generadas por (<span class="citation" data-cites="Rabanal2022">Rabanal et al. (<a href="#ref-Rabanal2022" role="doc-biblioref">2022</a>)</span>) de un único individuo de la planta Arabidopsis thaliana, ecotipo Columbia (Col-0), con la tecnología SMRT de PacBio (proyecto PRJEB50694). Los datos seleccionados son solo una parte de los originales y se encuentran en el archivo At4.10.fa.gz (46 Mb), disponible en el aula virtual. También está en el espacio de disco compartido de la Universidad de Valencia, dentro del grupo de bioinformática. Lo descargamos y lo guardamos en el PATH: ./data/14-04-2026/At4.10.fa.gz.</p>
 </section>
 <section id="revisión-de-los-datos" class="level1">
 <h1>Revisión de los datos</h1>
@@ -2308,7 +2312,7 @@ vertical-align: -.125em;
 <li>Como ya vimos en la práctica 2, los archivos tipo .fa comienzan las secuencias con un &gt;. Por tanto, podemos ver la cantidad de secuencias ejecutando el comando:</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(p</span><span class="op">=</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="kw">;</span> <span class="cf">while</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span>/<span class="pp">*</span>.Rproj <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">[</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span> <span class="ot">!=</span> <span class="st">&quot;/&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">do</span> <span class="va">p</span><span class="op">=</span><span class="va">$(</span><span class="fu">dirname</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="kw">;</span> <span class="cf">done</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">gunzip</span> <span class="at">-c</span> ./data/Practica_10/At4.10.fa.gz <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-c</span> <span class="st">&quot;^&gt;&quot;</span> </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -2320,7 +2324,7 @@ vertical-align: -.125em;
 <li>Esta petición es un poco más compleja, pero se puede hacer de esta forma:</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(p</span><span class="op">=</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="kw">;</span> <span class="cf">while</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span>/<span class="pp">*</span>.Rproj <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">[</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span> <span class="ot">!=</span> <span class="st">&quot;/&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">do</span> <span class="va">p</span><span class="op">=</span><span class="va">$(</span><span class="fu">dirname</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="kw">;</span> <span class="cf">done</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="va">LC_ALL</span><span class="op">=</span>C <span class="fu">zcat</span> ./data/Practica_10/At4.10.fa.gz <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="st">/^&gt;/ {</span></span>
@@ -2358,7 +2362,7 @@ Máxima: 59075</code></pre>
 </div>
 <p>o también podemos hacer un comando:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(p</span><span class="op">=</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="kw">;</span> <span class="cf">while</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span>/<span class="pp">*</span>.Rproj <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">[</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span> <span class="ot">!=</span> <span class="st">&quot;/&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">do</span> <span class="va">p</span><span class="op">=</span><span class="va">$(</span><span class="fu">dirname</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="kw">;</span> <span class="cf">done</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="va">LC_ALL</span><span class="op">=</span>C <span class="fu">zcat</span> ./data/Practica_10/At4.10.fa.gz <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;!/^&gt;/ {total += length($0)} END {print &quot;Total de bases:&quot;, total}&#39;</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -2384,7 +2388,7 @@ Máxima: 59075</code></pre>
 <p>El programa hifiasm produce varios archivos de salida. Para tener la carpeta de trabajo ordenada, es recomendable crear un subcarpeta donde poder guardarlos. Si fuéramos a probar más de una estrategia de ensamblado, guardaríamos los resultados de cada intento en una carpeta diferente, que podríamos nombrar asm1, asm2, etc. Aunque sólo realicemos un ensamblaje, crearemos la carpeta asm1 para guardar los resultados en ella.</p>
 <p>El ensamblaje de estas lecturas puede durar unos minutos. No queremos tener que ejecutarlo cada vez que compilamos el documento de Quarto. Tenemos dos opciones: o bien usamos la directriz <code>#| cache: true</code> al principio del bloque de código o bien controlamos directamente la ejecución condicional con Bash. Si usamos el método que ofrece Quarto, aparecerá una nueva carpeta que guarda resultados previos y que estaría bien incluir en el repositorio de Git. Yo prefiero usar Bash:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(p</span><span class="op">=</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="kw">;</span> <span class="cf">while</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span>/<span class="pp">*</span>.Rproj <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">[</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span> <span class="ot">!=</span> <span class="st">&quot;/&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">do</span> <span class="va">p</span><span class="op">=</span><span class="va">$(</span><span class="fu">dirname</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="kw">;</span> <span class="cf">done</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./results/Practica_10/asm1/At4.bp.p_ctg.gfa <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>   <span class="ex">hifiasm</span> <span class="at">-o</span> ./results/Practica_10/asm1/At4 <span class="at">-t</span> 2 <span class="at">-f</span> 0 ./data/Practica_10/At4.10.fa.gz <span class="dv">2</span><span class="op">&gt;</span> ./results/Practica_10/asm1/hifiasm.log</span>

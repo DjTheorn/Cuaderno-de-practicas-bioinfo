@@ -102,7 +102,7 @@ debería guardarse en un archivo en formato de texto.
 #Vamos a descargar las secuencias que necesiataremos:
 
 ```{bash}
-cd "$(git rev-parse --show-toplevel)"
+cd "$(p=$(pwd); while [ ! -f "$p"/*.Rproj ] && [ "$p" != "/" ]; do p=$(dirname "$p"); done; echo "$p")"
 
 if [ ! -e ./results/Practica_1/aln1.txt ]; then 
          if [ ! -e ./data/Practica_01/HumanSMARCD2.fa ]; then wget -O ./data/Practica_01/HumanSMARCD2.fa https://www.ebi.ac.uk/ena/browser/api/fasta/AAI36323.1
@@ -146,10 +146,10 @@ En el bloque siguiente repetimos el mismo alineamiento que antes, con `exonerate
 
 ```{bash}
 #| eval: true
-#| output: false
+#| output: true
 #| error: true
 
-cd "$(git rev-parse --show-toplevel)"
+cd "$(p=$(pwd); while [ ! -f "$p"/*.Rproj ] && [ "$p" != "/" ]; do p=$(dirname "$p"); done; echo "$p")"
 
 
 if [ ! -e ./data/Practica_01/HumanSMARCD2.fa ]; then
@@ -162,7 +162,7 @@ fi
 
 exonerate --model est2genome data/Practica_01/HumanSMARCD2.fa data/Practica_01/HumanChr17.fa
 
-#He eliminado el output porque me generaba problemas de visualización
+
 ```
 
 En este caso, el alineamiento resultante no se ha enviado a un archivo, sino al*standard output*, que Quarto recoge y presenta en este mismo documento. Por eso, no hemos condicionado la ejecución.
@@ -177,7 +177,7 @@ En este caso, el alineamiento resultante no se ha enviado a un archivo, sino al*
 Como nos interesa tener el alineamineto en txt y yo he decidio poner los archivos fasta originales en la carpeta data para tenerlo todo bien ordenado, usamos este código para crear nuestro archivo:
 ```{bash}
 
-cd "$(git rev-parse --show-toplevel)"
+cd "$(p=$(pwd); while [ ! -f "$p"/*.Rproj ] && [ "$p" != "/" ]; do p=$(dirname "$p"); done; echo "$p")"
 
 if [ ! -e results/Practica_1/alineamiento_exonerate.txt ]; then 
 exonerate --model est2genome data/Practica_01/HumanSMARCD2.fa data/Practica_01/HumanChr17.fa > results/Practica_1/alineamiento_exonerate.txt
@@ -193,7 +193,7 @@ a la familia [PF00009](https://www.ebi.ac.uk/interpro/entry/pfam/PF00009/):
 
 ```{bash}
 
-cd "$(git rev-parse --show-toplevel)"
+cd "$(p=$(pwd); while [ ! -f "$p"/*.Rproj ] && [ "$p" != "/" ]; do p=$(dirname "$p"); done; echo "$p")"
 
 if [ ! -e ./data/Practica_01/PF00009.fa ]; then
    wget -O ./data/Practica_01/PF00009.fa https://raw.githubusercontent.com/rcedgar/balifam/refs/heads/main/balifam100/in/PF00009.100
@@ -221,6 +221,7 @@ PF00009 <- readAAStringSet('alineamientomultiple.afa')
 BrowseSeqs(PF00009, htmlFile = 'PF00009.html', openURL = FALSE)
 includeHTML('./PF00009.html')
 #El aumento de tamaño era tan grande que no me cargaba bien, por lo que lo he desactivado
+#En su lugar, está adjuntado en la carpeta de git
 ```
 
 

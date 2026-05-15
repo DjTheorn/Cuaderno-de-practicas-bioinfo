@@ -1,5 +1,5 @@
 ---
-title: "Reconstrucción Filogenética"
+title: "Practica 9: Reconstrucción Filogenética"
 lang: es
 date: today
 execute: 
@@ -26,7 +26,7 @@ Pinchando aquí: https://aulavirtual.uv.es/pluginfile.php/6009204/mod_resource/c
 
 Guardamos el archivo mtDNA.fasta en la carpeta de datos. Una vez hecho, la analizamos con la librería phangorn: 
 ```{r}
-PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
+PBioinfo <- system("curr=$PWD; while [ \"$curr\" != \"/\" ] && [ -z \"$(ls \"$curr\"/*.Rproj 2>/dev/null)\" ]; do curr=$(dirname \"$curr\"); done; echo \"$curr\"", intern = TRUE)
 
 setwd(PBioinfo)
 

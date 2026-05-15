@@ -1,5 +1,5 @@
 ---
-title: "Ensamblaje genómico"
+title: "Practica 10: Ensamblaje genómico"
 lang: es
 date: today
 execute: 
@@ -41,6 +41,7 @@ sudo cp hifiasm /usr/local/bin
 ```
 
 A partir de ahora, cada vez que inicies el terminal, hifiasm estará en el PATH. 
+
 # Datos
 Vamos a usar lecturas HiFi generadas por (@Rabanal2022) de un único individuo de la planta Arabidopsis thaliana, ecotipo Columbia (Col-0), con la tecnología SMRT de PacBio (proyecto PRJEB50694). Los datos seleccionados son solo una parte de los originales y se encuentran en el archivo At4.10.fa.gz (46 Mb), disponible en el aula virtual. También está en el espacio de disco compartido de la Universidad de Valencia, dentro del grupo de bioinformática. Lo descargamos y lo guardamos en el PATH: ./data/14-04-2026/At4.10.fa.gz.
 
@@ -60,7 +61,7 @@ Los datos están en formato FASTA porque contienen sólo lecturas de alta calida
 1. Como ya vimos en la práctica 2, los archivos tipo .fa comienzan las secuencias con un >. Por tanto, podemos ver la cantidad de secuencias ejecutando el comando:
 
 ```{bash}
-cd "$(git rev-parse --show-toplevel)"
+cd "$(p=$(pwd); while [ ! -f "$p"/*.Rproj ] && [ "$p" != "/" ]; do p=$(dirname "$p"); done; echo "$p")"
 
 gunzip -c ./data/Practica_10/At4.10.fa.gz | grep -c "^>" 
 ```
@@ -69,7 +70,7 @@ Obtenemos que hay un total de 13812 secuencias diferentes.
 2. Esta petición es un poco más compleja, pero se puede hacer de esta forma:
 
 ```{bash}
-cd "$(git rev-parse --show-toplevel)"
+cd "$(p=$(pwd); while [ ! -f "$p"/*.Rproj ] && [ "$p" != "/" ]; do p=$(dirname "$p"); done; echo "$p")"
 
 LC_ALL=C zcat ./data/Practica_10/At4.10.fa.gz | awk '
 /^>/ {
@@ -102,7 +103,7 @@ Y obtenemos que la mínima tiene 2942 pb; la máxima 59075pb; y que la media de 
 o también podemos hacer un comando:
 
 ```{bash}
-cd "$(git rev-parse --show-toplevel)"
+cd "$(p=$(pwd); while [ ! -f "$p"/*.Rproj ] && [ "$p" != "/" ]; do p=$(dirname "$p"); done; echo "$p")"
 
 LC_ALL=C zcat ./data/Practica_10/At4.10.fa.gz | awk '!/^>/ {total += length($0)} END {print "Total de bases:", total}'
 ```
@@ -124,7 +125,7 @@ El programa hifiasm produce varios archivos de salida. Para tener la carpeta de 
 El ensamblaje de estas lecturas puede durar unos minutos. No queremos tener que ejecutarlo cada vez que compilamos el documento de Quarto. Tenemos dos opciones: o bien usamos la directriz `#| cache: true` al principio del bloque de código o bien controlamos directamente la ejecución condicional con Bash. Si usamos el método que ofrece Quarto, aparecerá una nueva carpeta que guarda resultados previos y que estaría bien incluir en el repositorio de Git. Yo prefiero usar Bash:
 
 ```{bash}
-cd "$(git rev-parse --show-toplevel)"
+cd "$(p=$(pwd); while [ ! -f "$p"/*.Rproj ] && [ "$p" != "/" ]; do p=$(dirname "$p"); done; echo "$p")"
 
 if [ ! -e ./results/Practica_10/asm1/At4.bp.p_ctg.gfa ]; then
    hifiasm -o ./results/Practica_10/asm1/At4 -t 2 -f 0 ./data/Practica_10/At4.10.fa.gz 2> ./results/Practica_10/asm1/hifiasm.log

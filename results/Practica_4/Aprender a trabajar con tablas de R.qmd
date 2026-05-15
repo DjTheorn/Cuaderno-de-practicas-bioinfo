@@ -35,7 +35,7 @@ Supón que tenemos interés en descargar un genoma de referencia de cualquier es
 Veamos primero de qué opciones disponemos:
 
 ```{bash}
-cd "$(git rev-parse --show-toplevel)"
+cd "$(p=$(pwd); while [ ! -f "$p"/*.Rproj ] && [ "$p" != "/" ]; do p=$(dirname "$p"); done; echo "$p")"
 
 if [ ! -e  ./data/Practica_04/trypanosoma_annotated.txt ]; then
    ./data/Practica_04/datasets summary genome taxon Trypanosoma --annotated --as-json-lines | \
@@ -50,7 +50,7 @@ La línea larga que sigue a `--fields` especifica qué información sobre los ge
 #| output: false
 #| messages: false
 
-PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
+PBioinfo <- system("curr=$PWD; while [ \"$curr\" != \"/\" ] && [ -z \"$(ls \"$curr\"/*.Rproj 2>/dev/null)\" ]; do curr=$(dirname \"$curr\"); done; echo \"$curr\"", intern = TRUE)
 
 setwd(PBioinfo)
 
@@ -136,7 +136,7 @@ plot(x = genomas$Assembly.Release.Date,
 Habiendo visto las opciones, decidimos descargar el genoma y la anotación funcional de una de ellas, por ejemplo GCA_022059095.1.
 
 ```{bash}
-cd "$(git rev-parse --show-toplevel)"
+cd "$(p=$(pwd); while [ ! -f "$p"/*.Rproj ] && [ "$p" != "/" ]; do p=$(dirname "$p"); done; echo "$p")"
 
 if [ ! -e ./data/Practica_04/ncbi_dataset/data/GCA_022059095.1/genomic.gff ]; then
    if [ ! -e ./data/Practica_04/ncbi_dataset.zip ]; then
@@ -153,7 +153,7 @@ El formato "jsonlines" es una versión de JSON en la que cada registro ocupa una
 ```{r}
 #| eval: false
 #| message: false
-PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
+PBioinfo <- system("curr=$PWD; while [ \"$curr\" != \"/\" ] && [ -z \"$(ls \"$curr\"/*.Rproj 2>/dev/null)\" ]; do curr=$(dirname \"$curr\"); done; echo \"$curr\"", intern = TRUE)
 
 setwd(PBioinfo)
 
@@ -166,7 +166,7 @@ sesión de R la anotación funcional del genoma escogido. Aunque existen funcion
 
 ```{r}
 # Como no tiene cabecera, le damos los nombres de las columnas:
-PBioinfo <- system("git rev-parse --show-toplevel", intern = TRUE)
+PBioinfo <- system("curr=$PWD; while [ \"$curr\" != \"/\" ] && [ -z \"$(ls \"$curr\"/*.Rproj 2>/dev/null)\" ]; do curr=$(dirname \"$curr\"); done; echo \"$curr\"", intern = TRUE)
 
 setwd(PBioinfo)
 

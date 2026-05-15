@@ -1,5 +1,5 @@
 ---
-title: "Control de versiones con Git"
+title: "Practica 2: Control de versiones con Git"
 lang: es
 date: today
 execute: 
@@ -87,19 +87,19 @@ Para ignorar ciertos archivos, podemos crear el archivo `.gitignore`, directamen
 
 ```
 .gitignore
-data/**/* !data/**/.gitkeep
-*.fa
-*.afa
-*.bam
-*.fasta
+!data/**/
+!**/.gitkeep
+!**/*/.gitkeep
+.RData
+.Rhistory
 .Rproj.user
 ```
 
 Estas líneas indican:
 
 1. Ignora el archivo `.gitignore` (en general, recomendable).
-2. Ignora el contenido de la carpeta local `data` excepto en las subcarpetas que contengan el archivo .gitkeep.
-3. Ignora todos los archivos que terminen en `.bam`, `.fa`, `.afa` y `.fasta`, ya que pueden llegar a ser bastante grandes y no nos interesa que se suban a git. Observa el uso del asterisco, "*", como comodín: representa cualquier cadena de caracteres.
+2. Ignora el contenido de la carpeta local `data`, excepto el archivo `.gitkeep` en la propia carpeta y en todas sus subcarpetas
+3. Ignora la carpeta `.RData` y `.Rhistory`, recomendación de gemini. El archivo `.RData` guarda información sobre archivos que se encuentra en mi memoria del ordenador pero que en muchos casos no están en git, siendo efectviamente inútiles. Por otro lado, `.Rhistory` guarda absolutamente todo lo que escribo en la consola, por lo que si en cualquier momento escribí algo de información confidencial, una contraseña, o algo similar, podría ser arriesgado ponerlo a la vista de todo el mundo. Este cambio fue impuesto al hacer esta práctica, por lo que no ha afectado a la práctica 1 que si tiene el `..Rhistory`
 4. Ignora la carpeta `.Rproj.user`, que suele dar problemas cuando otra persona descarga tu git, además de que ensucia el regstro de commits.
    
 # Crear un repositorio en Github

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Anotación de Ensamblajes</title>
+<title>Practica 11: Anotación de Ensamblajes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -2227,7 +2227,7 @@ vertical-align: -.125em;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Anotación de Ensamblajes</h1>
+<h1 class="title">Practica 11: Anotación de Ensamblajes</h1>
 </div>
 
 
@@ -2238,7 +2238,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Última actualización:</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">5 de mayo de 2026</p>
+      <p class="date">15 de mayo de 2026</p>
     </div>
   </div>
   
@@ -2305,9 +2305,9 @@ vertical-align: -.125em;
 </div>
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(p</span><span class="op">=</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="kw">;</span> <span class="cf">while</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span>/<span class="pp">*</span>.Rproj <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">[</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span> <span class="ot">!=</span> <span class="st">&quot;/&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">do</span> <span class="va">p</span><span class="op">=</span><span class="va">$(</span><span class="fu">dirname</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="kw">;</span> <span class="cf">done</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./results/21-04-2026/At4_corregido.fasta <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./results/Practica_11/At4_corregido.fasta <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">zcat</span> <span class="st">&quot;./data/14-04-2026/At4.10.fa.gz&quot;</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;(/^&gt;/){split($1, A, /\|/); print &quot;&gt;&quot; A[2]}(/^[^&gt;]/){print $0}&#39;</span> <span class="op">&gt;</span> <span class="st">&quot;./results/21-04-2026/At4_corregido.fasta&quot;</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -2391,17 +2391,17 @@ Advertencia
 <li>Para ver cuantas familias de elementos transponibles hemos encontrado, podemos hacer un conteo en At4-families.fa (el archivo fasta final):</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(p</span><span class="op">=</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="kw">;</span> <span class="cf">while</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span>/<span class="pp">*</span>.Rproj <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">[</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span> <span class="ot">!=</span> <span class="st">&quot;/&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">do</span> <span class="va">p</span><span class="op">=</span><span class="va">$(</span><span class="fu">dirname</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="kw">;</span> <span class="cf">done</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&quot;&gt;&quot;</span> ./data/21-04-2026/Modeler/At4-families.fa</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&quot;&gt;&quot;</span> ./data/Practica_11/Modeler/At4-families.fa</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>24</code></pre>
 </div>
 </div>
 <p>y obtenemos que existen 24 familias diferentes.</p>
-<p><strong>¡ATENCIÓN!</strong>: en <code>At4-rmod.log</code> aparecen también nombradas las familias en un cuadro de texto que dice algo como “Number of families returned by RECON = 1609”; pero esto no osn familias definitivas. Posteriormente, Modeler hace un filtrado y nos deja con las 24 familias que hemos obtenido.</p>
+<p><strong>¡ATENCIÓN!</strong>: en <code>At4-rmod.log</code> aparecen también nombradas las familias en un cuadro de texto que dice algo como “Number of families returned by RECON = 1609”; pero esto no son familias definitivas. Posteriormente, Modeler hace un filtrado y nos deja con las 24 familias que hemos obtenido.</p>
 <ol start="2" type="1">
-<li><p>Para saber cuanto duró la ejecución del programa, tenemos que entrar en alguno de los .log; ya sea <code>At4-rmod.log</code> o <code>rmod.log</code>; e ir abajo del todo, dónde nos aparece un texto que dice: “Program Time: 01:02:16 (hh:mm:ss) Elapsed Time”. Por tanto, asumimos que el programa se ha estado ejecutando por algo más que 1h.</p></li>
+<li><p>Para saber cuanto duró la ejecución del programa, tenemos que entrar en alguno de los <code>.log</code>; ya sea <code>At4-rmod.log</code> o <code>rmod.log</code>; e ir abajo del todo, dónde nos aparece un texto que dice: “Program Time: 01:02:16 (hh:mm:ss) Elapsed Time”. Por tanto, asumimos que el programa se ha estado ejecutando por algo más que 1h.</p></li>
 <li><p>El archivo de salida más importante es <code>At4-families.fa</code>; puesto que es el archivo fasta con los resultados de nuestro análisis y que deberemos de usar para los procesados siguientes.</p></li>
 </ol>
 </div>
@@ -2450,21 +2450,21 @@ Advertencia
 <li>Es un poco complejo, pero lo intentamos:</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--show-toplevel</span><span class="va">)</span><span class="st">&quot;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$(p</span><span class="op">=</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="kw">;</span> <span class="cf">while</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span>/<span class="pp">*</span>.Rproj <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">[</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span> <span class="ot">!=</span> <span class="st">&quot;/&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">do</span> <span class="va">p</span><span class="op">=</span><span class="va">$(</span><span class="fu">dirname</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="kw">;</span> <span class="cf">done</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/14-04-2026/At4.10.fa <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">gunzip</span> <span class="at">-c</span> <span class="st">&quot;./data/14-04-2026/At4.10.fa.gz&quot;</span> <span class="op">&gt;</span> <span class="st">&quot;./data/14-04-2026/At4.10.fa&quot;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./data/Practica_10/At4.10.fa <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">gunzip</span> <span class="at">-c</span> <span class="st">&quot;./data/Practica_10/At4.10.fa.gz&quot;</span> <span class="op">&gt;</span> <span class="st">&quot;./data/Practica_10/At4.10.fa&quot;</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./results/21-04-2026/At4.soft.fa <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="ex">bedtools</span> maskfasta <span class="at">-fi</span> <span class="st">&quot;./data/14-04-2026/At4.10.fa&quot;</span> <span class="dt">\</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">-bed</span> <span class="st">&quot;./data/21-04-2026/Masker/RM01/At4.fa.out.gff&quot;</span> <span class="dt">\</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> ./results/Practica_11/At4.soft.fa <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="ex">bedtools</span> maskfasta <span class="at">-fi</span> <span class="st">&quot;./data/Practica_10/At4.10.fa&quot;</span> <span class="dt">\</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">-bed</span> <span class="st">&quot;./data/Practica_11/Masker/RM01/At4.fa.out.gff&quot;</span> <span class="dt">\</span></span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                   <span class="at">-soft</span> <span class="dt">\</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>                   <span class="at">-fo</span> <span class="st">&quot;./results/21-04-2026/At4.soft.fa&quot;</span> </span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>                   <span class="at">-fo</span> <span class="st">&quot;./results/Practica_11/At4.soft.fa&quot;</span> </span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">-e</span> ./data/14-04-2026/At4.10.fa <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="st">&quot;./data/14-04-2026/At4.10.fa&quot;</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">-e</span> ./data/Practica_11/At4.10.fa <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="st">&quot;./data/Practica_11/At4.10.fa&quot;</span></span>
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
